@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "description": "Glimmer UI WebGL components for React",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cnaallotey/glimmerui.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/cnaallotey/glimmerui#readme",
+  "bugs": {
+    "url": "https://github.com/cnaallotey/glimmerui/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

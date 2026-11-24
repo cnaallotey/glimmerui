@@ -152,9 +152,8 @@ Versions and changelogs are managed with [Changesets](https://changesets.dev). T
 npm only lets you add a trusted publisher to a package that already exists, so the first release is published by hand.
 
 1. Create the `glimmerui` organization on npmjs.com.
-2. Add a `repository` field pointing at the GitHub repository to each `packages/*/package.json`. npm checks it against the workflow when it adds provenance.
-3. In the GitHub repository, under Settings, Actions, General, enable "Allow GitHub Actions to create and approve pull requests".
-4. Publish the first version from your machine:
+2. In the GitHub repository, under Settings, Actions, General, enable "Allow GitHub Actions to create and approve pull requests".
+3. Publish the first version from your machine:
 
    ```bash
    npm login
@@ -164,7 +163,7 @@ npm only lets you add a trusted publisher to a package that already exists, so t
    git push --follow-tags
    ```
 
-5. On npmjs.com, open each package's settings and add a GitHub Actions trusted publisher with your repository and the workflow file `release.yml`. Then, under "Publishing access", disallow tokens.
+4. On npmjs.com, open each package's settings and add a GitHub Actions trusted publisher with the repository `cnaallotey/glimmerui` and the workflow file `release.yml`. Then, under "Publishing access", disallow tokens.
 
 From then on, releases go out through the workflow.
 
