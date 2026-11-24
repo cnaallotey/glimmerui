@@ -120,7 +120,7 @@ The returned controller has `setPointer`, `setHover`, `update` and `destroy`, li
 
 ## Your own image effects
 
-`createImageEffect(el, options, spec)` does the same for effects on an image. It loads `options.src`, fades it in, and handles the pointer, hover, resizing and the plain-image fallback. Your shader gets `uTex`, `uImgAspect`, `uLoaded`, `uTime`, `uRes`, `uPointer` and `uHover`. To crop the image like `object-fit: cover`, paste the `coverChunk` string from `@glimmerui/core` into your shader and call `coverUv(vUv, uRes.x / uRes.y, uImgAspect)`. `noiseChunk` adds `hash`, `hash2`, `noise` and `fbm` the same way.
+`createImageEffect(el, options, spec)` does the same for effects on an image. It loads `options.src`, fades it in, and handles the pointer, hover, resizing and the plain-image fallback. Your shader gets `uTex`, `uImgAspect`, `uLoaded`, `uTime`, `uRes`, `uPointer` and `uHover`. To crop the image like `object-fit: cover`, paste the `coverChunk` string from `@glimmerui/core` into your shader and call `coverUv(vUv, uRes.x / uRes.y, uImgAspect)`. `noiseChunk` adds `hash`, `hash2`, `noise`, `fbm` and `gridPoint` the same way. If you hash grid points yourself, write `hash(gridPoint(i + offset))`, so neighboring cells agree on the points they share.
 
 ```ts
 import { createImageEffect } from "@glimmerui/core";

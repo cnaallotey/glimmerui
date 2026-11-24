@@ -37,7 +37,7 @@ ${noiseChunk}
 // quintic curve. Unlike value noise, it has no flat patches lined up with the
 // grid, so contour lines drawn from it never show the grid.
 vec2 gradientAt(vec2 i) {
-  float a = hash(i) * 6.2831853;
+  float a = hash(gridPoint(i)) * 6.2831853;
   return vec2(cos(a), sin(a));
 }
 float smoothNoise(vec2 p) {

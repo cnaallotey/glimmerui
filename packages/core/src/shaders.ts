@@ -167,10 +167,8 @@ void main() {
 
 // Value noise and fractal noise, shared by the shaders below.
 export const noiseChunk = /* glsl */ `
-// "Hash without Sine" by Dave Hoskins (MIT). Its small multipliers keep
-// rounding differences tiny, so neighbouring grid cells always agree on the
-// value at their shared corners. Hashes built on large multipliers can turn the
-// GPU's last-bit rounding differences into visible seams along the grid.
+// "Hash without Sine" by Dave Hoskins (MIT). Pass it grid points through
+// gridPoint() when they come from adding an offset to a cell: see below.
 float hash(vec2 p) {
   vec3 p3 = fract(vec3(p.xyx) * 0.1031);
   p3 += dot(p3, p3.yzx + 33.33);
@@ -181,13 +179,20 @@ vec2 hash2(vec2 p) {
   p3 += dot(p3, p3.yzx + 33.33);
   return fract((p3.xx + p3.yz) * p3.zy);
 }
+// Neighbouring cells must get the same hash for a point they share, or a seam
+// shows along the grid. Drivers may fold an offset such as i + 1.0 into the
+// hash's own multiplication, which rounds differently from each side, and the
+// hash magnifies that. Rounding to the whole number first stops the folding.
+vec2 gridPoint(vec2 i) {
+  return floor(i + 0.5);
+}
 float noise(vec2 p) {
   vec2 i = floor(p);
   vec2 f = fract(p);
   vec2 u = f * f * (3.0 - 2.0 * f);
   return mix(
-    mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+    mix(hash(gridPoint(i)), hash(gridPoint(i + vec2(1.0, 0.0))), u.x),
+    mix(hash(gridPoint(i + vec2(0.0, 1.0))), hash(gridPoint(i + vec2(1.0, 1.0))), u.x),
     u.y
   );
 }

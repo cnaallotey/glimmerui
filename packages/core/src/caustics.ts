@@ -32,7 +32,7 @@ uniform vec3 uLight;
 varying vec2 vUv;
 ${noiseChunk}
 vec2 cellPoint(vec2 cell, float t) {
-  return 0.5 + 0.42 * sin(t + 6.2831 * hash2(cell));
+  return 0.5 + 0.42 * sin(t + 6.2831 * hash2(gridPoint(cell)));
 }
 // Distance to the nearest border between cells: 0 on a border.
 float border(vec2 p, float t) {

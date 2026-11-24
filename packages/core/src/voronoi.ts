@@ -45,12 +45,12 @@ void main() {
   for (int y = -1; y <= 1; y++) {
     for (int x = -1; x <= 1; x++) {
       vec2 g = vec2(float(x), float(y));
-      vec2 o = 0.5 + 0.4 * sin(t + 6.2831 * hash2(i + g));
+      vec2 o = 0.5 + 0.4 * sin(t + 6.2831 * hash2(gridPoint(i + g)));
       float d = length(g + o - f);
       if (d < d1) {
         d2 = d1;
         d1 = d;
-        nearest = i + g;
+        nearest = gridPoint(i + g);
         nearestPoint = g + o;
       } else if (d < d2) {
         d2 = d;
