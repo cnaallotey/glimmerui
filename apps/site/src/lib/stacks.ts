@@ -1,0 +1,249 @@
+// The stacks a visitor can pick on the landing page. Every stack-specific
+// piece of the page (install command, guide link, code) comes from here.
+
+/** Logo paths from Simple Icons (CC0), drawn on a 24px grid. */
+const logoPaths: Record<StackId, string> = {
+  react: "M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z",
+  next: "M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z",
+  vue: "M24,1.61H14.06L12,5.16,9.94,1.61H0L12,22.39ZM12,14.08,5.16,2.23H9.59L12,6.41l2.41-4.18h4.43Z",
+  nuxt: "M13.4642 19.8295h8.9218c.2834 0 .5618-.0723.8072-.2098a1.5899 1.5899 0 0 0 .5908-.5732 1.5293 1.5293 0 0 0 .216-.783 1.529 1.529 0 0 0-.2167-.7828L17.7916 7.4142a1.5904 1.5904 0 0 0-.5907-.573 1.6524 1.6524 0 0 0-.807-.2099c-.2833 0-.5616.0724-.807.2098a1.5904 1.5904 0 0 0-.5907.5731L13.4642 9.99l-2.9954-5.0366a1.5913 1.5913 0 0 0-.591-.573 1.6533 1.6533 0 0 0-.8071-.2098c-.2834 0-.5617.0723-.8072.2097a1.5913 1.5913 0 0 0-.591.573L.2168 17.4808A1.5292 1.5292 0 0 0 0 18.2635c-.0001.2749.0744.545.216.783a1.59 1.59 0 0 0 .5908.5732c.2454.1375.5238.2098.8072.2098h5.6003c2.219 0 3.8554-.9454 4.9813-2.7899l2.7337-4.5922L16.3935 9.99l4.3944 7.382h-5.8586ZM7.123 17.3694l-3.9083-.0009 5.8586-9.8421 2.9232 4.921-1.9572 3.2892c-.7478 1.1967-1.5972 1.6328-2.9163 1.6328z",
+  astro: "M8.358 20.162c-1.186-1.07-1.532-3.316-1.038-4.944.856 1.026 2.043 1.352 3.272 1.535 1.897.283 3.76.177 5.522-.678.202-.098.388-.229.608-.36.166.473.209.95.151 1.437-.14 1.185-.738 2.1-1.688 2.794-.38.277-.782.525-1.175.787-1.205.804-1.531 1.747-1.078 3.119l.044.148a3.158 3.158 0 0 1-1.407-1.188 3.31 3.31 0 0 1-.544-1.815c-.004-.32-.004-.642-.048-.958-.106-.769-.472-1.113-1.161-1.133-.707-.02-1.267.411-1.415 1.09-.012.053-.028.104-.045.165h.002zm-5.961-4.445s3.24-1.575 6.49-1.575l2.451-7.565c.092-.366.36-.614.662-.614.302 0 .57.248.662.614l2.45 7.565c3.85 0 6.491 1.575 6.491 1.575L16.088.727C15.93.285 15.663 0 15.303 0H8.697c-.36 0-.615.285-.784.727l-5.516 14.99z",
+  js: "M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z",
+};
+
+export type StackId = "react" | "next" | "vue" | "nuxt" | "astro" | "js";
+
+export interface Step {
+  title: string;
+  code: string;
+  lang: string;
+}
+
+export interface Stack {
+  id: StackId;
+  name: string;
+  /** Brand color, shown when the stack is picked. */
+  color: string;
+  install: string;
+  /** Where "Get started" leads. */
+  guide: string;
+  /** The label of the matching tab on docs pages, so they open on it. */
+  docsTab?: "React" | "Vue";
+  /** File name shown over the live demo in the hero. */
+  file: string;
+  /** "Props" or "Options". */
+  inputs: string;
+  /** How the stack handles server rendering. */
+  server: string;
+  steps: [Step, Step, Step];
+}
+
+const reactSteps = (title: string, add: string): [Step, Step, Step] => [
+  { title: "Install the package", code: "npm install @glimmerui/react", lang: "bash" },
+  { title, code: add, lang: "tsx" },
+  {
+    title: "Tune it with props",
+    code: `<Aurora
+  background="#0b1026"
+  speed={0.6}
+  intensity={0.3}
+/>`,
+    lang: "tsx",
+  },
+];
+
+export const stacks: Stack[] = [
+  {
+    id: "react",
+    name: "React",
+    color: "#58c4dc",
+    install: "npm install @glimmerui/react",
+    guide: "/docs/react/",
+    docsTab: "React",
+    file: "TiltCard.tsx",
+    inputs: "Props",
+    server: "Marked \"use client\", so the components render on the server and start in the browser.",
+    steps: reactSteps(
+      "Add a component",
+      `import { Aurora } from "@glimmerui/react";
+
+export function Hero() {
+  return (
+    <Aurora className="h-96">
+      <h1>Night shift</h1>
+    </Aurora>
+  );
+}`
+    ),
+  },
+  {
+    id: "next",
+    name: "Next.js",
+    color: "#0e0d12",
+    install: "npm install @glimmerui/react",
+    guide: "/docs/react/#nextjs",
+    docsTab: "React",
+    file: "app/page.tsx",
+    inputs: "Props",
+    server: "Import the components straight into App Router server components. No wrapper needed.",
+    steps: reactSteps(
+      "Use it in a server component",
+      `// app/page.tsx
+import { Aurora } from "@glimmerui/react";
+
+export default function Page() {
+  return (
+    <Aurora className="h-96">
+      <h1>Night shift</h1>
+    </Aurora>
+  );
+}`
+    ),
+  },
+  {
+    id: "vue",
+    name: "Vue",
+    color: "#42b883",
+    install: "npm install @glimmerui/vue",
+    guide: "/docs/vue/",
+    docsTab: "Vue",
+    file: "TiltCard.vue",
+    inputs: "Props",
+    server: "With server rendering, each component renders its element and starts in the browser.",
+    steps: [
+      { title: "Install the package", code: "npm install @glimmerui/vue", lang: "bash" },
+      {
+        title: "Add a component",
+        code: `<script setup lang="ts">
+import { Aurora } from "@glimmerui/vue";
+</script>
+
+<template>
+  <Aurora class="h-96">
+    <h1>Night shift</h1>
+  </Aurora>
+</template>`,
+        lang: "vue",
+      },
+      {
+        title: "Tune it with props",
+        code: `<Aurora
+  background="#0b1026"
+  :speed="0.6"
+  :intensity="0.3"
+/>`,
+        lang: "vue",
+      },
+    ],
+  },
+  {
+    id: "nuxt",
+    name: "Nuxt",
+    color: "#00dc82",
+    install: "npm install @glimmerui/nuxt",
+    guide: "/docs/nuxt/",
+    docsTab: "Vue",
+    file: "pages/index.vue",
+    inputs: "Props",
+    server: "The module renders the components in the browser only. No <ClientOnly> needed.",
+    steps: [
+      { title: "Install the module", code: "npm install @glimmerui/nuxt", lang: "bash" },
+      {
+        title: "Register it",
+        code: `// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ["@glimmerui/nuxt"],
+});`,
+        lang: "ts",
+      },
+      {
+        title: "Use any component, no imports",
+        code: `<template>
+  <Aurora class="h-96" :speed="0.6">
+    <h1>Night shift</h1>
+  </Aurora>
+</template>`,
+        lang: "vue",
+      },
+    ],
+  },
+  {
+    id: "astro",
+    name: "Astro",
+    color: "#bc52ee",
+    install: "npm install @glimmerui/react",
+    guide: "/docs/guides/server-rendering/#astro",
+    docsTab: "React",
+    file: "index.astro",
+    inputs: "Props",
+    server: "Render any component as an island. client:visible starts it as it scrolls into view.",
+    steps: [
+      {
+        title: "Install the package",
+        code: `npx astro add react
+npm install @glimmerui/react`,
+        lang: "bash",
+      },
+      {
+        title: "Add an island",
+        code: `---
+import { Aurora } from "@glimmerui/react";
+---
+
+<Aurora client:visible className="h-96">
+  <h1>Night shift</h1>
+</Aurora>`,
+        lang: "astro",
+      },
+      {
+        title: "Tune it with props",
+        code: `<Aurora
+  client:visible
+  background="#0b1026"
+  speed={0.6}
+  intensity={0.3}
+/>`,
+        lang: "astro",
+      },
+    ],
+  },
+  {
+    id: "js",
+    name: "JavaScript",
+    color: "#f7df1e",
+    install: "npm install @glimmerui/core",
+    guide: "/docs/guides/core-api/",
+    file: "main.js",
+    inputs: "Options",
+    server: "Nothing runs until you call a create function, so it's safe to import on the server.",
+    steps: [
+      { title: "Install the core", code: "npm install @glimmerui/core", lang: "bash" },
+      {
+        title: "Start an effect on an element",
+        code: `import { createAurora } from "@glimmerui/core";
+
+const el = document.querySelector("#hero");
+const aurora = createAurora(el);`,
+        lang: "js",
+      },
+      {
+        title: "Tune it with options",
+        code: `aurora.update({
+  background: "#0b1026",
+  speed: 0.6,
+  intensity: 0.3,
+});`,
+        lang: "js",
+      },
+    ],
+  },
+];
+
+
+/** An inline SVG of the stack's logo, in the current text color. */
+export function stackLogo(id: StackId): string {
+  // The JavaScript mark is a square with the letters cut out; a dark square
+  // behind it fills the letters in once the logo turns yellow.
+  const under = id === "js" ? `<rect class="mk-logo-under" x="2" y="2" width="20" height="20"/>` : "";
+  return `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">${under}<path d="${logoPaths[id]}"/></svg>`;
+}

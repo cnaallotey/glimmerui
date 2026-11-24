@@ -378,29 +378,131 @@
   color: var(--gl-tone);
 }
 
-/* Frameworks strip */
+/* Stack picker */
 
-.mk-strip-list {
+/* Every stack's code is on the page; only the picked stack's shows. */
+:root:not([data-stack]) [data-for]:not([data-for~="react"]),
+:root[data-stack="react"] [data-for]:not([data-for~="react"]),
+:root[data-stack="next"] [data-for]:not([data-for~="next"]),
+:root[data-stack="vue"] [data-for]:not([data-for~="vue"]),
+:root[data-stack="nuxt"] [data-for]:not([data-for~="nuxt"]),
+:root[data-stack="astro"] [data-for]:not([data-for~="astro"]),
+:root[data-stack="js"] [data-for]:not([data-for~="js"]) {
+  display: none !important;
+}
+
+.mk-stack {
+  min-width: 0;
+  margin: 2.25rem 0 0;
+  padding: 0;
+  border: 0;
+}
+.mk-stack-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--gl-tone);
+}
+.mk-stack-legend .mk-mono {
+  color: var(--gl-ink);
+}
+.mk-stack-options {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  max-width: 46rem;
+  overflow: hidden;
+  border: 1px solid var(--gl-line);
+  border-radius: 10px;
+  background: var(--gl-surface);
+  box-shadow: 0 1px 0 rgba(14, 13, 18, 0.04);
 }
-.mk-strip-list li {
-  display: grid;
-  place-items: center;
-  min-height: 5.5rem;
-  padding: 1rem;
+.mk-stack-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 1rem 0.5rem 0.85rem;
   border-right: 1px solid var(--gl-line);
   color: var(--gl-ink-soft);
-  font-size: 1.05rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
 }
-.mk-strip-list li:last-child {
+.mk-stack-option:last-child {
   border-right: 0;
+}
+/* The radio stays focusable and keeps arrow-key navigation; the tile shows its state. */
+.mk-stack-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.mk-stack-option:hover {
+  color: var(--gl-ink);
+}
+.mk-stack-option:has(:checked) {
+  background: var(--gl-soft);
+  color: var(--gl-ink);
+  box-shadow: inset 0 -2px 0 var(--brand);
+}
+.mk-stack-option:has(:focus-visible) {
+  outline: 2px solid var(--gl-ink);
+  outline-offset: -5px;
+  border-radius: 10px;
+}
+.mk-stack-logo {
+  display: inline-flex;
+  color: var(--gl-tone);
+  transition: color 0.2s;
+}
+.mk-stack-logo svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.mk-logo-under {
+  fill: transparent;
+}
+.mk-stack-option:hover .mk-stack-logo,
+.mk-stack-option:has(:checked) .mk-stack-logo,
+.mk-steps-for .mk-stack-logo {
+  color: var(--brand);
+}
+.mk-stack-option:hover .mk-logo-under,
+.mk-stack-option:has(:checked) .mk-logo-under,
+.mk-steps-for .mk-logo-under {
+  fill: var(--gl-ink);
+}
+.mk-steps-for {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.9rem;
+  color: #a9a8b3;
+}
+.mk-steps-for > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.mk-steps-for .mk-stack-logo svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+/* The Next.js mark is black; on dark sections it turns white. */
+.mk-dark [data-logo="next"] {
+  color: #fafafa;
+}
+.mk-steps-for a {
+  color: #e9e8ee;
+  text-underline-offset: 3px;
 }
 
 /* Section intros */
@@ -752,15 +854,6 @@
   .mk-spy {
     display: none;
   }
-  .mk-strip-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .mk-strip-list li:nth-child(3n) {
-    border-right: 0;
-  }
-  .mk-strip-list li:nth-child(-n + 3) {
-    border-bottom: 1px solid var(--gl-line);
-  }
   .mk-cells--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -807,19 +900,14 @@
   .mk-props {
     display: none;
   }
-  .mk-strip-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .mk-stack-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .mk-strip-list li,
-  .mk-strip-list li:nth-child(3n) {
-    border-right: 1px solid var(--gl-line);
-    border-bottom: 1px solid var(--gl-line);
-  }
-  .mk-strip-list li:nth-child(2n) {
+  .mk-stack-option:nth-child(3n) {
     border-right: 0;
   }
-  .mk-strip-list li:nth-last-child(-n + 2) {
-    border-bottom: 0;
+  .mk-stack-option:nth-child(-n + 3) {
+    border-bottom: 1px solid var(--gl-line);
   }
   .mk-cells--4 {
     grid-template-columns: minmax(0, 1fr);

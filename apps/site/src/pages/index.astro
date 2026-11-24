@@ -41,8 +41,7 @@ import { TrailToggle } from "../components/marketing/TrailToggle";
 import logo from "../assets/logo.svg?raw";
 import { nightTheme } from "../styles/code-theme";
 import { withBase } from "../lib/url";
-
-const install = "npm install @glimmerui/react";
+import { stackLogo, stacks } from "../lib/stacks";
 
 // Small line icons, drawn on a 20px grid in the current text color.
 const icon = {
@@ -122,42 +121,12 @@ const components = [
   { id: "cursor-trail", name: "CursorTrail", icon: icon.trail, lead: "A glowing trail behind the cursor.", rest: "It fades and stops drawing when the mouse rests." },
 ];
 
-const steps = [
-  {
-    label: "Step 1",
-    title: "Install the package",
-    code: `npm install @glimmerui/react
-# or @glimmerui/vue, @glimmerui/nuxt`,
-    lang: "bash",
-  },
-  {
-    label: "Step 2",
-    title: "Add a component",
-    code: `import { Aurora } from "@glimmerui/react";
-
-<Aurora className="h-96">
-  <h1>Night shift</h1>
-</Aurora>`,
-    lang: "tsx",
-  },
-  {
-    label: "Step 3",
-    title: "Tune it with props",
-    code: `<Aurora
-  background="#0b1026"
-  speed={0.6}
-  intensity={0.3}
-/>`,
-    lang: "tsx",
-  },
-];
-
 const behaviours = [
   { icon: icon.fallback, title: "Falls back to CSS", text: "Without WebGL, gradients become CSS gradients and images stay visible." },
   { icon: icon.pause, title: "Pauses offscreen", text: "An effect stops drawing when it scrolls out of view." },
   { icon: icon.motion, title: "Respects reduced motion", text: "Effects hold a still frame and follow the pointer without animating." },
   { icon: icon.update, title: "Updates in place", text: "Changing a prop updates the running effect. Nothing is torn down or reloaded." },
-  { icon: icon.server, title: "Works with server rendering", text: "Marked \"use client\" for Next.js. The Nuxt module renders in the browser only." },
+  { icon: icon.server, title: "Works with server rendering", text: "", server: true },
   { icon: icon.access, title: "Accessible by default", text: "Image effects read as images, and canvases are hidden from screen readers." },
 ];
 
@@ -200,6 +169,13 @@ const footerLinks = [
       content="Thirty WebGL components for React, Vue and Nuxt: shader backgrounds, image effects and tilting cards."
     />
     <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <script is:inline define:vars={{ ids: stacks.map((st) => st.id) }}>
+      // Apply the visitor's stack before the first paint, so code never flickers.
+      try {
+        const saved = localStorage.getItem("glimmer-stack");
+        if (ids.includes(saved)) document.documentElement.dataset.stack = saved;
+      } catch {}
+    </script>
   </head>
   <body class="mk">
     <a class="mk-skip" href="#main">Skip to content</a>
@@ -216,7 +192,9 @@ const footerLinks = [
           <a class="mk-nav-wide" href={withBase("/docs/guides/performance/")}>Guides</a>
           <a class="mk-nav-wide" href="https://www.npmjs.com/org/glimmerui">npm</a>
         </nav>
-        <a class="mk-btn mk-btn--dark mk-header-cta" href={withBase("/docs/installation/")}>Get started</a>
+        {stacks.map((st) => (
+          <a class="mk-btn mk-btn--dark mk-header-cta" data-for={st.id} href={withBase(st.guide)}>Get started</a>
+        ))}
       </div>
     </header>
 
@@ -228,12 +206,31 @@ const footerLinks = [
             Thirty shader effects for React, Vue and Nuxt.{" "}
             <span class="mk-tone">Each one is a component you drop into a page.</span>
           </h1>
+          <fieldset id="stack" class="mk-stack">
+            <legend class="mk-stack-legend">
+              <span class="mk-mono">Your stack</span>
+              <span class="mk-stack-hint" data-stack-hint>Pick one and the code on this page follows it.</span>
+            </legend>
+            <div class="mk-stack-options">
+              {
+                stacks.map((st) => (
+                  <label class="mk-stack-option" style={`--brand: ${st.color}`}>
+                    <input type="radio" name="stack" value={st.id} />
+                    <span class="mk-stack-logo" set:html={stackLogo(st.id)} />
+                    <span>{st.name}</span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
           <div class="mk-actions">
+            {stacks.map((st) => (
+              <a class="mk-btn mk-btn--dark" data-for={st.id} href={withBase(st.guide)}>Get started with {st.name}</a>
+            ))}
             <a class="mk-btn" href={withBase("/docs/")}>Read the docs</a>
-            <a class="mk-btn mk-btn--dark" href={withBase("/docs/installation/")}>Get started</a>
             <div class="mk-install">
-              <code>{install}</code>
-              <button type="button" class="mk-copy" data-copy={install}>Copy</button>
+              {stacks.map((st) => <code data-for={st.id}>{st.install}</code>)}
+              <button type="button" class="mk-copy">Copy</button>
             </div>
           </div>
         </div>
@@ -250,7 +247,7 @@ const footerLinks = [
             <div class="mk-window">
               <div class="mk-window-bar">
                 <span class="mk-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="mk-mono">TiltCard.tsx</span>
+                {stacks.map((st) => <span class="mk-mono" data-for={st.id}>{st.file}</span>)}
                 <span class="mk-live">Live</span>
               </div>
               <div class="mk-window-body">
@@ -264,7 +261,7 @@ const footerLinks = [
                   />
                 </div>
                 <div class="mk-props">
-                  <span class="mk-mono mk-props-title">Props</span>
+                  {stacks.map((st) => <span class="mk-mono mk-props-title" data-for={st.id}>{st.inputs}</span>)}
                   <dl>
                     <div><dt>src</dt><dd>"/demo.png"</dd></div>
                     <div><dt>maxTilt</dt><dd>0.4</dd></div>
@@ -276,19 +273,6 @@ const footerLinks = [
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section class="mk-section mk-strip" aria-label="Works with">
-        <div class="mk-wrap mk-wrap--flush">
-          <ul class="mk-strip-list">
-            <li>React</li>
-            <li>Vue</li>
-            <li>Nuxt</li>
-            <li>Next.js</li>
-            <li>Astro</li>
-            <li>Plain JavaScript</li>
-          </ul>
         </div>
       </section>
 
@@ -625,19 +609,32 @@ const footerLinks = [
             From install to a live effect{" "}
             <span class="mk-tone">in three steps.</span>
           </h2>
+          <p class="mk-steps-for">
+            {stacks.map((st) => (
+              <span data-for={st.id}>
+                <span class="mk-stack-logo" data-logo={st.id} style={`--brand: ${st.color}`} set:html={stackLogo(st.id)} />
+                Shown for {st.name}.
+              </span>
+            ))}
+            <a href="#stack">Change stack</a>
+          </p>
         </div>
         <div class="mk-wrap mk-wrap--flush">
-          <ol class="mk-cells mk-cells--3">
-            {
-              steps.map((s) => (
-                <li class="mk-cell mk-step">
-                  <span class="mk-mono mk-step-label">{s.label}</span>
-                  <h3>{s.title}</h3>
-                  <Code code={s.code} lang={s.lang} theme={nightTheme} />
-                </li>
-              ))
-            }
-          </ol>
+          {
+            stacks.map((st) => (
+              <div data-for={st.id}>
+                <ol class="mk-cells mk-cells--3">
+                {st.steps.map((step, i) => (
+                  <li class="mk-cell mk-step">
+                    <span class="mk-mono mk-step-label">Step {i + 1}</span>
+                    <h3>{step.title}</h3>
+                    <Code code={step.code} lang={step.lang as any} theme={nightTheme} />
+                  </li>
+                ))}
+                </ol>
+              </div>
+            ))
+          }
         </div>
       </section>
 
@@ -677,7 +674,16 @@ const footerLinks = [
                 <li class="mk-cell">
                   <span class="mk-icon" set:html={svg(b.icon)} />
                   <p>
-                    <strong>{b.title}.</strong> <span class="mk-tone-text">{b.text}</span>
+                    <strong>{b.title}.</strong>{" "}
+                    {b.server ? (
+                      stacks.map((st) => (
+                        <span class="mk-tone-text" data-for={st.id}>
+                          {st.server}
+                        </span>
+                      ))
+                    ) : (
+                      <span class="mk-tone-text">{b.text}</span>
+                    )}
                   </p>
                 </li>
               ))
@@ -696,10 +702,12 @@ const footerLinks = [
               </h2>
               <div class="mk-actions">
                 <div class="mk-install mk-install--dark">
-                  <code>{install}</code>
-                  <button type="button" class="mk-copy" data-copy={install}>Copy</button>
+                  {stacks.map((st) => <code data-for={st.id}>{st.install}</code>)}
+                  <button type="button" class="mk-copy">Copy</button>
                 </div>
-                <a class="mk-btn mk-btn--light" href={withBase("/docs/installation/")}>Get started</a>
+                {stacks.map((st) => (
+                  <a class="mk-btn mk-btn--light" data-for={st.id} href={withBase(st.guide)}>Get started</a>
+                ))}
               </div>
             </div>
           </Aurora>
@@ -739,13 +747,41 @@ const footerLinks = [
     </footer>
 
     <script>
+      import { stacks } from "../lib/stacks";
+
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      // Copy buttons.
-      for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
-        button.addEventListener("click", async () => {
+      // The stack picker. The page renders every stack's code; CSS shows the
+      // one named by <html data-stack>, which the head script sets on load.
+      const root = document.documentElement;
+      const hint = document.querySelector<HTMLElement>("[data-stack-hint]");
+      const docsTabs = Object.fromEntries(stacks.map((st) => [st.id, st.docsTab]));
+      const showStack = (id: string) => {
+        const radio = document.querySelector<HTMLInputElement>(`input[name="stack"][value="${id}"]`);
+        if (radio) radio.checked = true;
+        if (hint) hint.textContent = "Code on this page and in the docs follows your pick.";
+      };
+      if (root.dataset.stack) showStack(root.dataset.stack);
+      for (const radio of document.querySelectorAll<HTMLInputElement>('input[name="stack"]')) {
+        radio.addEventListener("change", () => {
+          root.dataset.stack = radio.value;
+          showStack(radio.value);
           try {
-            await navigator.clipboard.writeText(button.dataset.copy ?? "");
+            localStorage.setItem("glimmer-stack", radio.value);
+            // Docs pages open their React and Vue tabs on the matching one.
+            const tab = docsTabs[radio.value];
+            if (tab) localStorage.setItem("starlight-synced-tabs__framework", tab);
+          } catch {}
+        });
+      }
+
+      // Copy buttons copy the command that's showing.
+      for (const button of document.querySelectorAll<HTMLButtonElement>(".mk-copy")) {
+        button.addEventListener("click", async () => {
+          const codes = [...(button.parentElement?.querySelectorAll("code") ?? [])];
+          const shown = codes.find((code) => code.getClientRects().length > 0);
+          try {
+            await navigator.clipboard.writeText(shown?.textContent ?? "");
             button.textContent = "Copied";
           } catch {
             button.textContent = "Press Ctrl+C";
