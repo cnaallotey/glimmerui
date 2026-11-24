@@ -122,11 +122,11 @@ pnpm --filter react-playground dev
 pnpm --filter vue-playground dev
 pnpm --filter nuxt-playground dev
 
-# Marketing site and docs (Astro + Starlight), at http://localhost:4321
+# Marketing site and docs (Astro + Starlight), at http://localhost:4321/glimmerui/
 pnpm --filter site dev
 ```
 
-The site lives in `apps/site`. The landing page is `src/pages/index.astro`, and the docs are MDX files in `src/content/docs/docs/`. Live demos in the docs are React islands in `src/components/demos/`.
+The site is live at https://cnaallotey.github.io/glimmerui/ and redeploys on every push to `main` that touches it (`.github/workflows/pages.yml`). It lives in `apps/site`, served under the `/glimmerui` base path: write internal links as `/docs/...` in Markdown, and wrap them with `withBase()` from `src/lib/url.ts` in `.astro` and `.tsx` files. The landing page is `src/pages/index.astro`, and the docs are MDX files in `src/content/docs/docs/`. Live demos in the docs are React islands in `src/components/demos/`.
 
 ## Adding an effect
 

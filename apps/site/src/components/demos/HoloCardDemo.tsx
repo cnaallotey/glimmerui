@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { HoloCard } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -10,7 +11,7 @@ export function HoloCardDemo() {
     <div className="demo not-content">
       <div className="demo-stage demo-stage--card">
         <HoloCard
-          src="/demo-spheres.png"
+          src={withBase("/demo-spheres.png")}
           alt="Four glossy colored spheres on a holographic card"
           foil={foil}
           maxTilt={maxTilt}

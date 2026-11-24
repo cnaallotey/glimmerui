@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { KaleidoscopeImage } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -9,7 +10,7 @@ export function KaleidoscopeImageDemo() {
     <div className="demo not-content">
       <KaleidoscopeImage
         className="demo-stage"
-        src="/demo.png"
+        src={withBase("/demo.png")}
         alt="A kaleidoscope pattern made from a grid-and-rings test image"
         segments={segments}
         speed={speed}

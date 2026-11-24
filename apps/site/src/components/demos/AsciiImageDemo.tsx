@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { AsciiImage } from "@glimmerui/react";
 import { ColorInput } from "./ColorInput";
 import { Range } from "./Range";
@@ -12,7 +13,7 @@ export function AsciiImageDemo() {
     <div className="demo not-content">
       <AsciiImage
         className="demo-stage"
-        src="/demo-spheres.png"
+        src={withBase("/demo-spheres.png")}
         alt="Four glossy colored spheres on a studio floor"
         cell={cell}
         color={color}

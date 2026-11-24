@@ -2,8 +2,15 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
+import { remarkBaseLinks } from "./remark-base-links.mjs";
+
+// GitHub Pages serves the site from a subfolder named after the repository.
+const base = "/glimmerui";
 
 export default defineConfig({
+  site: "https://cnaallotey.github.io",
+  base,
+  markdown: { remarkPlugins: [remarkBaseLinks(base)] },
   integrations: [
     react(),
     starlight({

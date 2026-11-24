@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { PixelImage } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -9,7 +10,7 @@ export function PixelImageDemo() {
     <div className="demo not-content">
       <PixelImage
         className="demo-stage"
-        src="/demo-spheres.png"
+        src={withBase("/demo-spheres.png")}
         alt="Four glossy colored spheres on a studio floor"
         block={block}
         radius={radius}

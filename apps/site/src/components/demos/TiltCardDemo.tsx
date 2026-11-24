@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { TiltCard } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -10,7 +11,7 @@ export function TiltCardDemo() {
     <div className="demo not-content">
       <div className="demo-stage demo-stage--card">
         <TiltCard
-          src="/demo.png"
+          src={withBase("/demo.png")}
           alt="Test pattern of a grid and rings"
           maxTilt={maxTilt}
           radius={radius}

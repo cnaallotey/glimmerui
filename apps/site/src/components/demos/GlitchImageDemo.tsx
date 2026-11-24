@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { GlitchImage } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -8,7 +9,7 @@ export function GlitchImageDemo() {
     <div className="demo not-content">
       <GlitchImage
         className="demo-stage"
-        src="/demo-spheres.png"
+        src={withBase("/demo-spheres.png")}
         alt="Four glossy colored spheres on a studio floor"
         strength={strength}
       />

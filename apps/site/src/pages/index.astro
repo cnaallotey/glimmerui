@@ -40,6 +40,7 @@ import PanelCaption from "../components/marketing/PanelCaption.astro";
 import { TrailToggle } from "../components/marketing/TrailToggle";
 import logo from "../assets/logo.svg?raw";
 import { nightTheme } from "../styles/code-theme";
+import { withBase } from "../lib/url";
 
 const install = "npm install @glimmerui/react";
 
@@ -198,24 +199,24 @@ const footerLinks = [
       name="description"
       content="Thirty WebGL components for React, Vue and Nuxt: shader backgrounds, image effects and tilting cards."
     />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
   </head>
   <body class="mk">
     <a class="mk-skip" href="#main">Skip to content</a>
 
     <header class="mk-header">
       <div class="mk-wrap mk-header-row">
-        <a class="mk-brand" href="/" aria-label="Glimmer UI home">
+        <a class="mk-brand" href={withBase("/")} aria-label="Glimmer UI home">
           <Fragment set:html={logo} />
           <span>Glimmer UI</span>
         </a>
         <nav class="mk-nav" aria-label="Main">
-          <a href="/docs/">Docs</a>
+          <a href={withBase("/docs/")}>Docs</a>
           <a href="#components">Components</a>
-          <a class="mk-nav-wide" href="/docs/guides/performance/">Guides</a>
+          <a class="mk-nav-wide" href={withBase("/docs/guides/performance/")}>Guides</a>
           <a class="mk-nav-wide" href="https://www.npmjs.com/org/glimmerui">npm</a>
         </nav>
-        <a class="mk-btn mk-btn--dark mk-header-cta" href="/docs/installation/">Get started</a>
+        <a class="mk-btn mk-btn--dark mk-header-cta" href={withBase("/docs/installation/")}>Get started</a>
       </div>
     </header>
 
@@ -228,8 +229,8 @@ const footerLinks = [
             <span class="mk-tone">Each one is a component you drop into a page.</span>
           </h1>
           <div class="mk-actions">
-            <a class="mk-btn" href="/docs/">Read the docs</a>
-            <a class="mk-btn mk-btn--dark" href="/docs/installation/">Get started</a>
+            <a class="mk-btn" href={withBase("/docs/")}>Read the docs</a>
+            <a class="mk-btn mk-btn--dark" href={withBase("/docs/installation/")}>Get started</a>
             <div class="mk-install">
               <code>{install}</code>
               <button type="button" class="mk-copy" data-copy={install}>Copy</button>
@@ -256,7 +257,7 @@ const footerLinks = [
                 <div class="mk-window-stage">
                   <TiltCard
                     client:load
-                    src="/demo.png"
+                    src={withBase("/demo.png")}
                     alt="Test pattern of a grid and rings, tilting toward the pointer"
                     style={{ width: "100%", aspectRatio: "4 / 3" }}
                     data-glimmer=""
@@ -328,7 +329,7 @@ const footerLinks = [
                 <ImageDistortion
                   client:visible
                   className="mk-panel-media"
-                  src="/demo.png"
+                  src={withBase("/demo.png")}
                   alt="Test pattern of a grid and rings, rippling from the pointer"
                   data-glimmer=""
                 />
@@ -340,7 +341,7 @@ const footerLinks = [
               <div class="mk-panel-stage mk-panel-stage--center">
                 <TiltCard
                   client:visible
-                  src="/demo-alt.png"
+                  src={withBase("/demo-alt.png")}
                   alt="Warm test pattern on a tilting card"
                   style={{ width: "min(100%, 28rem)", aspectRatio: "3 / 2" }}
                   data-glimmer=""
@@ -354,8 +355,8 @@ const footerLinks = [
                 <ImageReveal
                   client:visible
                   className="mk-panel-media"
-                  src="/demo.png"
-                  revealSrc="/demo-alt.png"
+                  src={withBase("/demo.png")}
+                  revealSrc={withBase("/demo-alt.png")}
                   alt="A cool test pattern that dissolves into a warm one"
                   data-glimmer=""
                 />
@@ -368,7 +369,7 @@ const footerLinks = [
                 <LensImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-alt.png"
+                  src={withBase("/demo-alt.png")}
                   alt="A warm dotted test pattern under a magnifying lens"
                   data-glimmer=""
                 />
@@ -409,7 +410,7 @@ const footerLinks = [
                 <HalftoneImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres printed as a halftone"
                   data-glimmer=""
                 />
@@ -422,7 +423,7 @@ const footerLinks = [
                 <PixelImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres as a pixel mosaic"
                   data-glimmer=""
                 />
@@ -491,7 +492,7 @@ const footerLinks = [
                 <GlitchImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres, glitching on hover"
                   data-glimmer=""
                 />
@@ -504,7 +505,7 @@ const footerLinks = [
                 <DitherImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres in one-bit dither"
                   data-glimmer=""
                 />
@@ -517,7 +518,7 @@ const footerLinks = [
                 <AsciiImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres drawn in text characters"
                   colored
                   data-glimmer=""
@@ -531,7 +532,7 @@ const footerLinks = [
                 <DuotoneImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres as a two-color print"
                   data-glimmer=""
                 />
@@ -544,7 +545,7 @@ const footerLinks = [
                 <FogImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres behind frosted glass"
                   data-glimmer=""
                 />
@@ -557,7 +558,7 @@ const footerLinks = [
                 <KaleidoscopeImage
                   client:visible
                   className="mk-panel-media"
-                  src="/demo.png"
+                  src={withBase("/demo.png")}
                   alt="A turning kaleidoscope pattern of rings and grid lines"
                   data-glimmer=""
                 />
@@ -569,7 +570,7 @@ const footerLinks = [
               <div class="mk-panel-stage mk-panel-stage--center">
                 <HoloCard
                   client:visible
-                  src="/demo-spheres.png"
+                  src={withBase("/demo-spheres.png")}
                   alt="Glossy colored spheres on a holographic card"
                   style={{ width: "min(100%, 28rem)", aspectRatio: "3 / 2" }}
                   data-glimmer=""
@@ -698,7 +699,7 @@ const footerLinks = [
                   <code>{install}</code>
                   <button type="button" class="mk-copy" data-copy={install}>Copy</button>
                 </div>
-                <a class="mk-btn mk-btn--light" href="/docs/installation/">Get started</a>
+                <a class="mk-btn mk-btn--light" href={withBase("/docs/installation/")}>Get started</a>
               </div>
             </div>
           </Aurora>
@@ -709,7 +710,7 @@ const footerLinks = [
     <footer class="mk-footer">
       <div class="mk-wrap mk-footer-top">
         <div class="mk-footer-brand">
-          <a class="mk-brand" href="/" aria-label="Glimmer UI home">
+          <a class="mk-brand" href={withBase("/")} aria-label="Glimmer UI home">
             <Fragment set:html={logo} />
             <span>Glimmer UI</span>
           </a>
@@ -722,7 +723,7 @@ const footerLinks = [
               <ul>
                 {group.links.map(([label, href]) => (
                   <li>
-                    <a href={href}>{label}</a>
+                    <a href={withBase(href)}>{label}</a>
                   </li>
                 ))}
               </ul>

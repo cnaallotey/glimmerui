@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { LensImage } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -10,7 +11,7 @@ export function LensImageDemo() {
     <div className="demo not-content">
       <LensImage
         className="demo-stage"
-        src="/demo-alt.png"
+        src={withBase("/demo-alt.png")}
         alt="A warm dotted test pattern with a violet disc"
         zoom={zoom}
         size={size}

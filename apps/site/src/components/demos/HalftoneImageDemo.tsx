@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { HalftoneImage } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -11,7 +12,7 @@ export function HalftoneImageDemo() {
     <div className="demo not-content">
       <HalftoneImage
         className="demo-stage"
-        src="/demo-spheres.png"
+        src={withBase("/demo-spheres.png")}
         alt="Four glossy colored spheres on a studio floor"
         cell={cell}
         ink={ink}

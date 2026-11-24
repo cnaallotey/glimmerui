@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { DitherImage } from "@glimmerui/react";
 import { ColorInput } from "./ColorInput";
 import { Range } from "./Range";
@@ -12,7 +13,7 @@ export function DitherImageDemo() {
     <div className="demo not-content">
       <DitherImage
         className="demo-stage"
-        src="/demo-spheres.png"
+        src={withBase("/demo-spheres.png")}
         alt="Four glossy colored spheres on a studio floor"
         pixel={pixel}
         ink={ink}

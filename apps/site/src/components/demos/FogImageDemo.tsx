@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { FogImage } from "@glimmerui/react";
 import { ColorInput } from "./ColorInput";
 import { Range } from "./Range";
@@ -11,7 +12,7 @@ export function FogImageDemo() {
     <div className="demo not-content">
       <FogImage
         className="demo-stage"
-        src="/demo-spheres.png"
+        src={withBase("/demo-spheres.png")}
         alt="Four glossy colored spheres on a studio floor"
         frost={frost}
         tint={tint}

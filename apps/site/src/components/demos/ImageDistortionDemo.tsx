@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "@/lib/url";
 import { ImageDistortion } from "@glimmerui/react";
 import { Range } from "./Range";
 
@@ -8,7 +9,7 @@ export function ImageDistortionDemo() {
     <div className="demo not-content">
       <ImageDistortion
         className="demo-stage"
-        src="/demo.png"
+        src={withBase("/demo.png")}
         alt="Test pattern of a grid and rings"
         strength={strength}
       />
