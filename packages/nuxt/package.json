@@ -1,6 +1,6 @@
 {
   "name": "@glimmerui/nuxt",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Nuxt module that auto-imports Glimmer UI WebGL components as client-only",
   "license": "MIT",
   "type": "module",
