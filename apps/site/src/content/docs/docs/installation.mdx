@@ -1,0 +1,83 @@
+---
+title: Installation
+description: Add Glimmer UI to a React, Vue or Nuxt project.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+Install the package for your framework. Each one brings in `@glimmerui/core`, which holds the effects.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```bash
+    npm install @glimmerui/react
+    ```
+    Needs React 18 or later.
+  </TabItem>
+  <TabItem label="Vue">
+    ```bash
+    npm install @glimmerui/vue
+    ```
+    Needs Vue 3.4 or later.
+  </TabItem>
+  <TabItem label="Nuxt">
+    ```bash
+    npm install @glimmerui/nuxt
+    ```
+    Needs Nuxt 3.16 or later. Then add the module to `nuxt.config.ts`:
+    ```ts
+    export default defineNuxtConfig({
+      modules: ["@glimmerui/nuxt"],
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+pnpm, Yarn and Bun work the same way: swap `npm install` for `pnpm add`, `yarn add` or `bun add`.
+
+## Your first effect
+
+Give the component a size. Effects fill their element, and an element with no height shows nothing.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ShaderGradient } from "@glimmerui/react";
+
+    export function Hero() {
+      return (
+        <ShaderGradient style={{ height: 320 }}>
+          <h1>Hello</h1>
+        </ShaderGradient>
+      );
+    }
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <script setup>
+    import { ShaderGradient } from "@glimmerui/vue";
+    </script>
+
+    <template>
+      <ShaderGradient style="height: 320px">
+        <h1>Hello</h1>
+      </ShaderGradient>
+    </template>
+    ```
+  </TabItem>
+  <TabItem label="Nuxt">
+    ```vue
+    <template>
+      <!-- Auto-imported by the module. -->
+      <ShaderGradient style="height: 320px">
+        <h1>Hello</h1>
+      </ShaderGradient>
+    </template>
+    ```
+  </TabItem>
+</Tabs>
+
+## Images
+
+The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage` and `KaleidoscopeImage`) read image pixels on the GPU, so the image must come from your own site or be served with CORS headers. See [Images and CORS](/docs/guides/images/).

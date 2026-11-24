@@ -1,0 +1,55 @@
+---
+title: Particles
+description: A background of drifting points that gather and swirl around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ParticlesDemo } from "@/components/demos/ParticlesDemo";
+
+Thousands of small points drift slowly across the element. Near the pointer they're pulled into a turning swirl and take on an accent color. When the pointer leaves, they scatter back to their paths.
+
+<ParticlesDemo client:visible />
+
+## Usage
+
+The particles draw on a transparent background, so set the element's own background with CSS.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Particles } from "@glimmerui/react";
+
+    <Particles count={3000} color="#8b8a94" style={{ background: "#fafafa", height: 400 }}>
+      <h2>Join the waitlist</h2>
+    </Particles>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Particles :count="3000" color="#8b8a94" style="background: #fafafa; height: 400px">
+      <h2>Join the waitlist</h2>
+    </Particles>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `count` | `number` | `2500` | Number of particles, from 1 to 20000. |
+| `color` | `string` | `"#8b8a94"` | Particle color, as a hex value. |
+| `accent` | `string` | `"#e0457b"` | Color particles take on near the pointer, as a hex value. |
+| `size` | `number` | `2` | Average particle diameter, in CSS pixels. Each particle is between 0.6 and 1.4 times this. |
+| `radius` | `number` | `160` | How far the pointer's pull reaches, in CSS pixels. |
+| `speed` | `number` | `1` | How fast the particles drift. `0` holds them still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Particles that drift off one edge come back in at the opposite edge.
+- Changing `count` scatters a new set of particles. Every other prop updates the running effect.
+- Tens of thousands of particles stay cheap, because their positions are worked out on the GPU each frame.
+- Without WebGL, the element gets a sparse CSS scatter of dots in the particle color.
+- The canvas is hidden from assistive technology. Children stay accessible.

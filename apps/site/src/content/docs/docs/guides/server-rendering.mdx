@@ -1,0 +1,38 @@
+---
+title: Server rendering
+description: Using Glimmer UI with Next.js, Nuxt, Astro and other server-rendered pages.
+---
+
+WebGL only exists in the browser. The components handle that for you: on the server they render their element (or, in Nuxt, nothing), and the effect starts once the page runs in the browser.
+
+## Next.js
+
+`@glimmerui/react` is marked `"use client"`, so you can use the components in App Router server components with no wrapper. Their children render on the server as usual.
+
+## Nuxt
+
+Use [the Nuxt module](/docs/nuxt/). It renders the components in the browser only, so slot content inside them isn't in the server HTML.
+
+## Astro
+
+Render the React or Vue components as islands. `client:visible` waits until the effect scrolls into view:
+
+```astro
+---
+import { TiltCard } from "@glimmerui/react";
+---
+
+<TiltCard client:visible src="/cover.jpg" alt="Album cover" class="cover" />
+```
+
+This site is built this way.
+
+## Avoiding layout shift
+
+Give each component its size in CSS, with a height or `aspect-ratio`, so the space is reserved before the effect starts. Effects fill their element and never change its size.
+
+```css
+.cover {
+  aspect-ratio: 4 / 3;
+}
+```

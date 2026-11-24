@@ -1,0 +1,50 @@
+---
+title: Aurora
+description: A night-sky background of slowly flowing curtains of light that the pointer stirs.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { AuroraDemo } from "@/components/demos/AuroraDemo";
+
+Three curtains of light drift across a dark sky, each brightest along its lower edge with fine vertical rays. Moving the pointer pulls the light nearby toward it. Use it as a background: children sit above it.
+
+<AuroraDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Aurora } from "@glimmerui/react";
+
+    <Aurora colors={["#2dd4bf", "#a3e635", "#a855f7"]} background="#0b1026" className="h-96">
+      <h1>Night shift</h1>
+    </Aurora>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Aurora :colors="['#2dd4bf', '#a3e635', '#a855f7']" background="#0b1026" class="h-96">
+      <h1>Night shift</h1>
+    </Aurora>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `colors` | `[string, string, string]` | `["#2dd4bf", "#a3e635", "#a855f7"]` | One hex color for each curtain, from lowest to highest. |
+| `background` | `string` | `"#0b1026"` | Sky color behind the light, as a hex value. Dark colors look most like a night sky. |
+| `speed` | `number` | `1` | How fast the light moves. `0` holds it still. |
+| `intensity` | `number` | `0` | How strongly the pointer pulls the light before the first hover, from 0 to 1. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Hovering raises the pointer's pull to full strength. Leaving lowers it back to 0.
+- Where curtains overlap, their light adds up and rolls off softly instead of clipping to white.
+- Without WebGL, the element gets soft CSS glows of the three colors over the background color.
+- The canvas is hidden from assistive technology. Children stay accessible.

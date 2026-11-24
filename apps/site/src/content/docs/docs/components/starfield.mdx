@@ -1,0 +1,51 @@
+---
+title: Starfield
+description: Flying through stars that streak past; hovering moves the vanishing point and speeds up.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { StarfieldDemo } from "@/components/demos/StarfieldDemo";
+
+A flight through deep space: stars come out of the distance, grow and streak past the edges. Hovering shifts the vanishing point toward the pointer and doubles the speed. Use it as a background: children sit above it.
+
+<StarfieldDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Starfield } from "@glimmerui/react";
+
+    <Starfield background="#05040a" className="h-96">
+      <h1>Launch day</h1>
+    </Starfield>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Starfield background="#05040a" class="h-96">
+      <h1>Launch day</h1>
+    </Starfield>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#ffffff"` | Star color, as a hex value. |
+| `background` | `string` | `"#05040a"` | Sky color, as a hex value. |
+| `density` | `number` | `1` | How many stars, as a multiplier. |
+| `speed` | `number` | `1` | Flight speed. Hovering doubles it. `0` holds the stars still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Stars stretch into short streaks as they pass, longer the closer they are.
+- The speed eases up and down with hover, so the jump to warp is never sudden.
+- With reduced motion, the stars hold still.
+- Without WebGL, the element gets a few CSS stars over the sky color.
+- The canvas is hidden from assistive technology. Children stay accessible.

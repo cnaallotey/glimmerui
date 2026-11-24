@@ -1,0 +1,45 @@
+---
+title: GlitchImage
+description: An image that breaks into a digital glitch on hover, strongest around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { GlitchImageDemo } from "@/components/demos/GlitchImageDemo";
+
+Shows an image that looks normal at rest. On hover it glitches: horizontal bands jump sideways, the color channels split apart and faint scanlines appear. The glitch re-rolls about twelve times a second and is strongest in the rows around the pointer.
+
+<GlitchImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { GlitchImage } from "@glimmerui/react";
+
+    <GlitchImage src="/album.jpg" alt="Album artwork for Static" className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <GlitchImage src="/album.jpg" alt="Album artwork for Static" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `strength` | `number` | `1` | How hard the image glitches, from 0 to 2. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The glitch starts and stops quickly, in about a fifth of a second.
+- On touch screens, a tap starts the glitch and another tap stops it.
+- With reduced motion, the glitch doesn't flicker on its own. It only changes as the pointer moves.
+- Without WebGL, the element shows the plain image as a `background-image`.

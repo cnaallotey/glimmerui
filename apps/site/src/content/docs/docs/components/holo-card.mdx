@@ -1,0 +1,44 @@
+---
+title: HoloCard
+description: A tilt card with a holographic foil whose rainbow bands and glints shift as it tilts.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { HoloCardDemo } from "@/components/demos/HoloCardDemo";
+
+A [TiltCard](/docs/components/tilt-card/) with a holographic foil over the image, like a rare trading card. The foil's rainbow bands shift as the card tilts, and a scatter of glints flashes at particular angles. The foil shows faintly at rest and fully on hover.
+
+<HoloCardDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { HoloCard } from "@glimmerui/react";
+
+    <HoloCard src="/card-art.jpg" alt="Limited edition member card" foil={0.8} className="h-80" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <HoloCard src="/card-art.jpg" alt="Limited edition member card" :foil="0.8" class="h-80" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+`HoloCard` takes every [TiltCard prop](/docs/components/tilt-card/#props), plus:
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `foil` | `number` | `0.8` | Strength of the holographic foil, from 0 to 1. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Like `TiltCard`, the card is drawn at about 70% of the element's height so its edges stay inside the element at full tilt.
+- The foil's colors depend on the tilt, so they move with the card rather than on their own.
+- Without WebGL, the element shows the image as a `background-image` with the same corner radius, without the foil.

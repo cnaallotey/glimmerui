@@ -1,0 +1,49 @@
+---
+title: MeshGradient
+description: Four colors blended across a softly warping surface, with film grain.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { MeshGradientDemo } from "@/components/demos/MeshGradientDemo";
+
+Four colors, each anchored to a point that wanders slowly around its corner, blend smoothly across a gently warping surface. A touch of film grain keeps large areas from banding. The pointer drags the surface toward it. Use it as a background: children sit above it.
+
+<MeshGradientDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { MeshGradient } from "@glimmerui/react";
+
+    <MeshGradient colors={["#3b1d8f", "#e0457b", "#f9b44c", "#22d3ee"]} className="h-96">
+      <h1>Summer sale</h1>
+    </MeshGradient>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <MeshGradient :colors="['#3b1d8f', '#e0457b', '#f9b44c', '#22d3ee']" class="h-96">
+      <h1>Summer sale</h1>
+    </MeshGradient>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `colors` | `[string, string, string, string]` | `["#3b1d8f", "#e0457b", "#f9b44c", "#22d3ee"]` | Four hex colors, starting top left and going clockwise. |
+| `grain` | `number` | `0.5` | Film grain strength, from 0 to 1. Grain hides banding in large, smooth areas. |
+| `speed` | `number` | `1` | How fast the colors wander. `0` holds them still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Hovering pulls the surface toward the pointer. Leaving lets it settle back.
+- `colors` is compared by value, so passing a new array with the same colors does nothing.
+- Without WebGL, the element gets four CSS radial gradients in the same colors, one from each corner.
+- The canvas is hidden from assistive technology. Children stay accessible.

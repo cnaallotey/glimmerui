@@ -1,0 +1,49 @@
+---
+title: Voronoi
+description: Stained glass of slowly drifting cells; cells near the pointer light up.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { VoronoiDemo } from "@/components/demos/VoronoiDemo";
+
+A stained-glass window of drifting cells, each tinted from your three colors and a little brighter toward its center, joined by dark leading. Hovering lights the cells around the pointer, as if light were shining through behind it.
+
+<VoronoiDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Voronoi } from "@glimmerui/react";
+
+    <Voronoi colors={["#3b1d8f", "#e0457b", "#f9b44c"]} scale={6} className="h-96">
+      <h1>Open studio</h1>
+    </Voronoi>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Voronoi :colors="['#3b1d8f', '#e0457b', '#f9b44c']" :scale="6" class="h-96">
+      <h1>Open studio</h1>
+    </Voronoi>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `colors` | `[string, string, string]` | `["#3b1d8f", "#e0457b", "#f9b44c"]` | Three hex colors the cells are tinted from. |
+| `line` | `string` | `"#0e0d12"` | Color of the leading between cells, as a hex value. |
+| `scale` | `number` | `6` | Roughly how many cells fit across the element's height. |
+| `speed` | `number` | `1` | How fast the cells drift. `0` holds them still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The leading stays about 2.5 pixels wide at any `scale`.
+- Without WebGL, the element gets a CSS conic gradient of the three colors.
+- The canvas is hidden from assistive technology. Children stay accessible.

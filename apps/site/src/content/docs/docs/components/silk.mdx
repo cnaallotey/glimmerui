@@ -1,0 +1,49 @@
+---
+title: Silk
+description: Flowing folds of satin with a sheen along each crest; the pointer pinches the fabric.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { SilkDemo } from "@/components/demos/SilkDemo";
+
+A sheet of satin ripples in slow, soft folds, lit from the upper left so a sheen runs along each crest. The pointer pinches the fabric up into a small peak that follows it. Use it as a background: children sit above it.
+
+<SilkDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Silk } from "@glimmerui/react";
+
+    <Silk color="#3b1d8f" sheen="#f4f4f6" className="h-96">
+      <h1>The evening collection</h1>
+    </Silk>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Silk color="#3b1d8f" sheen="#f4f4f6" class="h-96">
+      <h1>The evening collection</h1>
+    </Silk>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#3b1d8f"` | Fabric color, as a hex value. Deep, saturated colors look most like satin. |
+| `sheen` | `string` | `"#f4f4f6"` | Color of the sheen along the folds, as a hex value. |
+| `folds` | `number` | `1` | How many folds cross the surface. Lower is broader and calmer. |
+| `speed` | `number` | `1` | How fast the fabric moves. `0` holds it still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The pinch grows in on hover and smooths back out when the pointer leaves.
+- Without WebGL, the element gets a diagonal CSS gradient with a soft highlight band in the same colors.
+- The canvas is hidden from assistive technology. Children stay accessible.

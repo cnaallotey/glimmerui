@@ -1,0 +1,41 @@
+{
+  "name": "@glimmerui/core",
+  "version": "0.0.0",
+  "description": "Framework agnostic WebGL effects driven by Motion",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "webgl",
+    "shader",
+    "ogl",
+    "motion",
+    "animation",
+    "gradient",
+    "framework-agnostic"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "motion": "^12.0.0",
+    "ogl": "^1.0.11"
+  }
+}

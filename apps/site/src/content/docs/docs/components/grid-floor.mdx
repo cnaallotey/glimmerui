@@ -1,0 +1,50 @@
+---
+title: GridFloor
+description: A glowing perspective grid rolling toward you under a horizon glow; the pointer presses a dip into it.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { GridFloorDemo } from "@/components/demos/GridFloorDemo";
+
+A glowing grid floor stretches to the horizon in perspective and rolls toward you, fading into a warm horizon glow. Hovering presses a dip into the floor under the pointer. Use it as a background: children sit above it.
+
+<GridFloorDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { GridFloor } from "@glimmerui/react";
+
+    <GridFloor color="#e0457b" glow="#f9b44c" className="h-96">
+      <h1>Night drive</h1>
+    </GridFloor>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <GridFloor color="#e0457b" glow="#f9b44c" class="h-96">
+      <h1>Night drive</h1>
+    </GridFloor>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#e0457b"` | Grid line color, as a hex value. |
+| `glow` | `string` | `"#f9b44c"` | Color of the glow along the horizon, as a hex value. |
+| `background` | `string` | `"#0e0d12"` | Sky and floor color, as a hex value. |
+| `speed` | `number` | `1` | How fast the grid rolls toward you. `0` holds it still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Grid lines stay the same width in pixels from the foreground to the horizon, and fade with distance.
+- The horizon sits just below the middle of the element.
+- Without WebGL, the element gets a CSS horizon glow and vertical lines in the same colors.
+- The canvas is hidden from assistive technology. Children stay accessible.

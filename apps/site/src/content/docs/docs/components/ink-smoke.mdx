@@ -1,0 +1,48 @@
+---
+title: InkSmoke
+description: A plume of smoke rising and curling; on hover it rises from the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { InkSmokeDemo } from "@/components/demos/InkSmokeDemo";
+
+A plume of smoke rises from the bottom of the element, widening and curling as it climbs. Hovering moves its source to the pointer, and it drifts after the pointer the way real smoke lags behind a moving source. Use it as a background: children sit above it.
+
+<InkSmokeDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { InkSmoke } from "@glimmerui/react";
+
+    <InkSmoke color="#e9e8ee" background="#0e0d12" className="h-96">
+      <h1>Incense &amp; Co.</h1>
+    </InkSmoke>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <InkSmoke color="#e9e8ee" background="#0e0d12" class="h-96">
+      <h1>Incense &amp; Co.</h1>
+    </InkSmoke>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#e9e8ee"` | Smoke color, as a hex value. For ink in water, try a dark color on a light background. |
+| `background` | `string` | `"#0e0d12"` | Color behind the smoke, as a hex value. |
+| `speed` | `number` | `1` | How fast the smoke rises. `0` holds it still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The source eases over to the pointer on hover and back to the bottom center when the pointer leaves.
+- Without WebGL, the element gets a soft CSS glow of the smoke color rising from the bottom.
+- The canvas is hidden from assistive technology. Children stay accessible.

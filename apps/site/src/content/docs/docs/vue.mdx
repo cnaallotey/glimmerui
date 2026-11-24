@@ -1,0 +1,51 @@
+---
+title: Vue
+description: Using Glimmer UI components in Vue.
+---
+
+```vue
+<script setup>
+import { ShaderGradient, ImageDistortion, TiltCard } from "@glimmerui/vue";
+</script>
+```
+
+The components render a `div` with the effect behind the default slot. For Nuxt, use [the Nuxt module](/docs/nuxt/) instead of importing them yourself.
+
+## Attributes and listeners
+
+Attributes you don't declare as props, such as `class`, `style`, `id`, `data-*` and listeners, fall through to the root element as usual in Vue. Your listeners run alongside the component's own.
+
+```vue
+<TiltCard
+  src="/cover.jpg"
+  alt="Album cover"
+  class="cover"
+  @pointermove="onMove"
+/>
+```
+
+Props work in camelCase or kebab-case: `:max-tilt="0.3"` and `:maxTilt="0.3"` are the same.
+
+## Updating props
+
+Changing a prop updates the running effect without rebuilding it or reloading images:
+
+```vue
+<script setup>
+import { ref } from "vue";
+import { ShaderGradient } from "@glimmerui/vue";
+
+const speed = ref(1);
+</script>
+
+<template>
+  <ShaderGradient :speed="speed" style="height: 240px" />
+  <input v-model.number="speed" type="range" min="0" max="3" step="0.1" />
+</template>
+```
+
+`colors` is compared by value, so a new array with the same colors does nothing.
+
+## Server rendering
+
+With Vue's own server rendering, the components render their element on the server and start the effect once mounted in the browser. See [Server rendering](/docs/guides/server-rendering/).

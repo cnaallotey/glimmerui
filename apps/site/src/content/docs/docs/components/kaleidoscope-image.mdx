@@ -1,0 +1,46 @@
+---
+title: KaleidoscopeImage
+description: An image folded into mirrored wedges that turn slowly; the pointer turns and zooms it.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { KaleidoscopeImageDemo } from "@/components/demos/KaleidoscopeImageDemo";
+
+Folds an image into mirrored wedges around the center, like a kaleidoscope, turning slowly on its own. On hover, moving the pointer left and right turns it further, and up and down zooms in and out.
+
+<KaleidoscopeImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { KaleidoscopeImage } from "@glimmerui/react";
+
+    <KaleidoscopeImage src="/flowers.jpg" alt="A kaleidoscope of spring flowers" segments={8} className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <KaleidoscopeImage src="/flowers.jpg" alt="A kaleidoscope of spring flowers" :segments="8" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the pattern for screen readers. The image itself isn't recognizable, so describe what people see. |
+| `segments` | `number` | `8` | Number of mirrored wedges around the center, at least 2. |
+| `speed` | `number` | `1` | How fast the pattern turns on its own. `0` holds it still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Colorful, detailed images make the richest patterns. The wedges sample the middle of the image.
+- On touch screens, a tap turns on the pointer's control from the tapped point, and another tap turns it off.
+- With reduced motion, the pattern holds still until the pointer moves.
+- Without WebGL, the element shows the plain image as a `background-image`.

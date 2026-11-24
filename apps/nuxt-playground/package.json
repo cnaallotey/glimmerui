@@ -1,0 +1,16 @@
+{
+  "name": "nuxt-playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter \"@glimmerui/nuxt...\" build && nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@glimmerui/nuxt": "workspace:*",
+    "nuxt": "^3.16.0",
+    "vue": "^3.5.0"
+  }
+}

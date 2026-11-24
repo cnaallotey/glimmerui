@@ -1,0 +1,47 @@
+---
+title: DitherImage
+description: An image in one-bit ordered dither, like an early computer screen, with full color around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { DitherImageDemo } from "@/components/demos/DitherImageDemo";
+
+Draws an image in just two colors, like an early computer screen: every dot is ink or paper, chosen by comparing the image's brightness against a repeating 8×8 pattern of thresholds. Around the pointer, the full-color image shows through.
+
+<DitherImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { DitherImage } from "@glimmerui/react";
+
+    <DitherImage src="/office.jpg" alt="Our first office, 1987" pixel={2} className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <DitherImage src="/office.jpg" alt="Our first office, 1987" :pixel="2" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `pixel` | `number` | `2` | Size of each dither dot, in CSS pixels. |
+| `ink` | `string` | `"#0e0d12"` | Dark color, as a hex value. |
+| `paper` | `string` | `"#fafafa"` | Light color, as a hex value. |
+| `radius` | `number` | `140` | Radius of the full-color area around the pointer, in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Photos with smooth gradients dither best. Large flat areas turn into even patterns.
+- On touch screens, a tap opens the full-color area around the tapped point, and another tap closes it.
+- Without WebGL, the element shows the plain image as a `background-image`.

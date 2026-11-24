@@ -1,0 +1,51 @@
+---
+title: ShaderText
+description: Text filled with flowing color that stays real, selectable text for screen readers.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ShaderTextDemo } from "@/components/demos/ShaderTextDemo";
+
+Fills text with three colors flowing through each other, with a highlight that follows the pointer. The text itself stays in the page as real text: it sizes the element, can be selected and copied, and is read by screen readers. The effect draws a matching copy behind it.
+
+<ShaderTextDemo client:visible />
+
+## Usage
+
+`ShaderText` renders a `<span>`, so put it inside a heading for headlines. It uses the font, size and weight it inherits.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ShaderText } from "@glimmerui/react";
+
+    <h1 className="text-7xl font-semibold">
+      <ShaderText text="Ship faster" />
+    </h1>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <h1 class="text-7xl font-semibold">
+      <ShaderText text="Ship faster" />
+    </h1>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `text` | `string` | required | The text. Use `\n` for line breaks; lines don't wrap on their own. |
+| `colors` | `[string, string, string]` | `["#3b1d8f", "#e0457b", "#f9b44c"]` | Three hex colors that flow through the letters. |
+| `speed` | `number` | `1` | How fast the colors flow. `0` holds them still. |
+
+The component also takes any `span` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Lines don't wrap, so the text keeps one shape on every screen. Use `\n` to break lines, and size the text with `clamp()` so it fits narrow screens.
+- Web fonts are picked up once they load.
+- Selected text shows the browser's selection highlight over the effect.
+- Without WebGL, the text gets a CSS gradient clipped to the letters.

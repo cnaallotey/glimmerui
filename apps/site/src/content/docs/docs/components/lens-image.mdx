@@ -1,0 +1,47 @@
+---
+title: LensImage
+description: An image with a round glass lens that follows the pointer and magnifies what's under it.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { LensImageDemo } from "@/components/demos/LensImageDemo";
+
+Shows an image that fills its element. On hover, a round lens opens under the pointer and follows it, magnifying the image beneath. Like real glass, it magnifies most at the center, fringes color toward the rim and casts a faint shadow.
+
+<LensImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { LensImage } from "@glimmerui/react";
+
+    <LensImage src="/map.jpg" alt="Trail map of the national park" zoom={2} className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <LensImage src="/map.jpg" alt="Trail map of the national park" :zoom="2" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `zoom` | `number` | `1.75` | Magnification at the center of the lens. Values below 1 are treated as 1. |
+| `size` | `number` | `96` | Lens radius, in CSS pixels. |
+| `fringe` | `number` | `1` | Strength of the color fringing toward the rim, from 0 to 1. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The lens opens where the pointer enters and closes when it leaves.
+- The image is cropped to cover the element, like `object-fit: cover`. For sharp magnification, use an image at least `zoom` times the displayed size.
+- Touch has no hover, so on touch screens the image is shown without the lens.
+- Without WebGL, the element shows the image as a `background-image`.

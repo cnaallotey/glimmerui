@@ -1,0 +1,804 @@
+---
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
+import "../styles/tokens.css";
+import "../styles/marketing.css";
+import { Code } from "astro:components";
+import {
+  AsciiImage,
+  Aurora,
+  Caustics,
+  ContourLines,
+  DitherImage,
+  DotGrid,
+  DuotoneImage,
+  FogImage,
+  GlitchImage,
+  GridFloor,
+  HalftoneImage,
+  HoloCard,
+  ImageDistortion,
+  ImageReveal,
+  InkSmoke,
+  KaleidoscopeImage,
+  LensImage,
+  LiquidMetal,
+  MeshGradient,
+  Particles,
+  PixelImage,
+  ShaderButton,
+  ShaderGradient,
+  ShaderText,
+  Silk,
+  SpotlightCard,
+  Starfield,
+  TiltCard,
+  Voronoi,
+} from "@glimmerui/react";
+import { SwatchGrid } from "../components/marketing/SwatchGrid";
+import PanelCaption from "../components/marketing/PanelCaption.astro";
+import { TrailToggle } from "../components/marketing/TrailToggle";
+import logo from "../assets/logo.svg?raw";
+import { nightTheme } from "../styles/code-theme";
+
+const install = "npm install @glimmerui/react";
+
+// Small line icons, drawn on a 20px grid in the current text color.
+const icon = {
+  spark: `<path d="M10 2.5v4M10 13.5v4M2.5 10h4M13.5 10h4M5 5l2.5 2.5M12.5 12.5 15 15M15 5l-2.5 2.5M7.5 12.5 5 15"/>`,
+  gradient: `<circle cx="10" cy="10" r="7"/><path d="M10 3a7 7 0 0 0 0 14"/>`,
+  ripple: `<circle cx="10" cy="10" r="2"/><path d="M5.5 10a4.5 4.5 0 0 1 9 0M3 10a7 7 0 0 1 14 0"/>`,
+  tilt: `<path d="M4 6.5 14 4v12L4 13.5z"/>`,
+  reveal: `<rect x="3" y="3" width="14" height="14" rx="2"/><path d="M3 13c3-1 5-4 7-10"/>`,
+  lens: `<circle cx="9" cy="9" r="5.5"/><path d="m13 13 4 4M7 7.2a2.5 2.5 0 0 1 2-1"/>`,
+  aurora: `<path d="M2.5 13c2-3 4-3 6 0s4 3 6 0 2.5-2 3-2M2.5 8.5c2-3 4-3 6 0s4 3 6 0"/>`,
+  dots: `<circle cx="6" cy="6" r="1"/><circle cx="14" cy="6" r="1"/><circle cx="6" cy="14" r="1"/><circle cx="14" cy="14" r="1"/><circle cx="10" cy="10" r="2"/>`,
+  context: `<rect x="3" y="3" width="14" height="14" rx="2"/><path d="M3 8h14M8 8v9"/>`,
+  fallback: `<path d="M4 10h12M10 4v12"/><rect x="3" y="3" width="14" height="14" rx="2"/>`,
+  pause: `<path d="M8 6v8M12 6v8"/><circle cx="10" cy="10" r="7"/>`,
+  motion: `<path d="M3 10h4l2-4 2 8 2-4h4"/>`,
+  update: `<path d="M15.5 8A6 6 0 0 0 4.6 6.5M4.5 12a6 6 0 0 0 10.9 1.5M15.5 4v4h-4M4.5 16v-4h4"/>`,
+  server: `<rect x="3" y="4" width="14" height="5" rx="1.5"/><rect x="3" y="11" width="14" height="5" rx="1.5"/><path d="M6 6.5h.01M6 13.5h.01"/>`,
+  liquid: `<path d="M6 13.5a3.5 3.5 0 1 1 3.2-5 3 3 0 1 1 3.3 4.3A3.5 3.5 0 0 1 6 13.5z"/>`,
+  particles: `<circle cx="5" cy="6" r=".8"/><circle cx="14" cy="4.5" r=".8"/><circle cx="9" cy="10" r="1.3"/><circle cx="15" cy="13" r=".8"/><circle cx="5.5" cy="15" r=".8"/><circle cx="11.5" cy="16" r=".8"/>`,
+  halftone: `<circle cx="5" cy="5" r="2"/><circle cx="11" cy="5" r="1.3"/><circle cx="16" cy="5" r=".6"/><circle cx="5" cy="11" r="1.3"/><circle cx="11" cy="11" r=".7"/><circle cx="5" cy="16" r=".6"/>`,
+  pixel: `<rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/>`,
+  mesh: `<rect x="3" y="3" width="14" height="14" rx="3"/><path d="M3 10c4-3 10 3 14 0M10 3c-3 4 3 10 0 14"/>`,
+  silk: `<path d="M3 6c3-2 5 2 8 0s4-2 6 0M3 10.5c3-2 5 2 8 0s4-2 6 0M3 15c3-2 5 2 8 0s4-2 6 0"/>`,
+  caustics: `<path d="M4 5l4 3-1 5 5 2 4-4M8 8l5-3M7 13l-3 2M12 15l1 2"/>`,
+  contours: `<path d="M10 4c4 0 6 3 6 6s-3 6-6 6-6-2-6-6 2-6 6-6z"/><path d="M10 7.5c2 0 3 1.2 3 2.5s-1.3 2.5-3 2.5-3-1-3-2.5 1-2.5 3-2.5z"/>`,
+  stars: `<path d="M10 3v3M10 14v3M3 10h3M14 10h3"/><circle cx="10" cy="10" r="1"/><path d="M5 5l1.5 1.5M13.5 13.5 15 15"/>`,
+  voronoi: `<path d="M3 8l5-1 3 4-2 6M8 7l2-4M11 11l6-2M9 17l-6-3"/><rect x="3" y="3" width="14" height="14" rx="2"/>`,
+  grid: `<path d="M2.5 16h15M5 12h10M7 9h6M10 9v7M7 9l-3 7M13 9l3 7"/><path d="M4 6h12"/>`,
+  smoke: `<path d="M10 17c0-3 3-4 3-7s-3-3-3-5M7 17c0-2 2-3 2-5"/>`,
+  glitch: `<rect x="3" y="4" width="14" height="3"/><rect x="5" y="9" width="12" height="3"/><rect x="2" y="14" width="13" height="3"/>`,
+  dither: `<path d="M4 4h2v2H4zM8 4h2v2H8zM12 4h2v2h-2zM6 8h2v2H6zM10 8h2v2h-2zM4 12h2v2H4zM8 12h2v2H8zM6 16h2v.01"/>`,
+  ascii: `<path d="M4 6h3M9 6h2M13 6h3M4 10h5M11 10h5M4 14h2M8 14h4M14 14h2"/>`,
+  duotone: `<circle cx="10" cy="10" r="7"/><path d="M10 3v14" /><path d="M10 3a7 7 0 0 1 0 14z" fill="currentColor" stroke="none"/>`,
+  fog: `<path d="M3 7h10M6 10h11M3 13h9M8 16h7"/><circle cx="14" cy="6" r="1.5"/>`,
+  kaleido: `<path d="M10 3v14M3 10h14M5 5l10 10M15 5 5 15"/><circle cx="10" cy="10" r="3"/>`,
+  holo: `<rect x="4" y="3" width="12" height="14" rx="2"/><path d="M6 13l8-8M8 15l6-6"/>`,
+  spotlight: `<rect x="3" y="4" width="14" height="12" rx="3"/><circle cx="13" cy="8" r="2"/>`,
+  button: `<rect x="2.5" y="6" width="15" height="8" rx="4"/><path d="M7 10h6"/>`,
+  text: `<path d="M4 5h12M10 5v11M7 16h6"/>`,
+  trail: `<path d="M3 16c3-1 4-5 7-7s5-2 7-5"/><circle cx="17" cy="4" r="1.5"/>`,
+  access: `<circle cx="10" cy="4.5" r="1.5"/><path d="M4 7.5 10 9l6-1.5M10 9v3.5M7 17l3-4.5 3 4.5"/>`,
+};
+
+const svg = (paths: string) =>
+  `<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
+const components = [
+  { id: "shader-gradient", name: "ShaderGradient", icon: icon.gradient, lead: "An animated gradient that bends around the pointer.", rest: "Any three colors, as a background with your content on top." },
+  { id: "image-distortion", name: "ImageDistortion", icon: icon.ripple, lead: "Ripples spread out from the pointer.", rest: "The image's colors split as each ripple passes." },
+  { id: "tilt-card", name: "TiltCard", icon: icon.tilt, lead: "A card that tilts in true perspective.", rest: "With a glare that follows the pointer and crisp rounded corners." },
+  { id: "image-reveal", name: "ImageReveal", icon: icon.reveal, lead: "One image dissolves into another.", rest: "The edge spreads from wherever the pointer enters. A tap toggles it on touch screens." },
+  { id: "lens-image", name: "LensImage", icon: icon.lens, lead: "A glass lens that follows the pointer.", rest: "It magnifies the image beneath, with color fringing toward the rim." },
+  { id: "aurora", name: "Aurora", icon: icon.aurora, lead: "Curtains of light over a night sky.", rest: "They drift on their own, and the pointer pulls them toward it." },
+  { id: "dot-grid", name: "DotGrid", icon: icon.dots, lead: "Dots that swell and part around the pointer.", rest: "Quiet enough to sit behind text and forms." },
+  { id: "liquid-metal", name: "LiquidMetal", icon: icon.liquid, lead: "Chrome blobs that drift, merge and split.", rest: "Hovering adds one more that trails the pointer and melts into the rest." },
+  { id: "particles", name: "Particles", icon: icon.particles, lead: "Thousands of points drifting across the page.", rest: "Near the pointer they gather into a turning swirl." },
+  { id: "halftone-image", name: "HalftoneImage", icon: icon.halftone, lead: "An image printed as a halftone of dots.", rest: "Around the pointer the dots open into the full-color image." },
+  { id: "pixel-image", name: "PixelImage", icon: icon.pixel, lead: "A coarse mosaic that sharpens as you look.", rest: "Blocks halve in size ring by ring toward the pointer." },
+  { id: "mesh-gradient", name: "MeshGradient", icon: icon.mesh, lead: "Four colors blended across a warping surface.", rest: "Film grain keeps it from banding; the pointer drags it." },
+  { id: "silk", name: "Silk", icon: icon.silk, lead: "Satin folds with a sheen along each crest.", rest: "The pointer pinches the fabric into a peak." },
+  { id: "caustics", name: "Caustics", icon: icon.caustics, lead: "The web of light on the floor of a pool.", rest: "Hovering sends rings out through the pattern." },
+  { id: "contour-lines", name: "ContourLines", icon: icon.contours, lead: "A topographic map that slowly shifts.", rest: "The pointer raises a hill the lines ring around." },
+  { id: "starfield", name: "Starfield", icon: icon.stars, lead: "A flight through stars streaking past.", rest: "Hovering moves the vanishing point and speeds up." },
+  { id: "voronoi", name: "Voronoi", icon: icon.voronoi, lead: "Stained glass of slowly drifting cells.", rest: "Cells near the pointer light up from behind." },
+  { id: "grid-floor", name: "GridFloor", icon: icon.grid, lead: "A glowing grid rolling toward the horizon.", rest: "The pointer presses a dip into the floor." },
+  { id: "ink-smoke", name: "InkSmoke", icon: icon.smoke, lead: "A plume of smoke rising and curling.", rest: "On hover it drifts after the pointer." },
+  { id: "glitch-image", name: "GlitchImage", icon: icon.glitch, lead: "An image that glitches on hover.", rest: "Bands jump and colors split, strongest at the pointer." },
+  { id: "dither-image", name: "DitherImage", icon: icon.dither, lead: "An image in one-bit dither.", rest: "Full color shows through around the pointer." },
+  { id: "ascii-image", name: "AsciiImage", icon: icon.ascii, lead: "An image drawn in text characters.", rest: "The real image shows through around the pointer." },
+  { id: "duotone-image", name: "DuotoneImage", icon: icon.duotone, lead: "A two-color print of an image.", rest: "On hover its real colors spread from the pointer." },
+  { id: "fog-image", name: "FogImage", icon: icon.fog, lead: "An image behind frosted glass.", rest: "The pointer wipes a clear patch that follows it." },
+  { id: "kaleidoscope-image", name: "KaleidoscopeImage", icon: icon.kaleido, lead: "An image folded into mirrored wedges.", rest: "The pointer turns and zooms the pattern." },
+  { id: "holo-card", name: "HoloCard", icon: icon.holo, lead: "A tilt card with a holographic foil.", rest: "Rainbow bands and glints shift as it tilts." },
+  { id: "spotlight-card", name: "SpotlightCard", icon: icon.spotlight, lead: "A card whose border lights up near you.", rest: "A soft spotlight follows the pointer across it." },
+  { id: "shader-button", name: "ShaderButton", icon: icon.button, lead: "A button with a live color fill.", rest: "It brightens on hover and on keyboard focus." },
+  { id: "shader-text", name: "ShaderText", icon: icon.text, lead: "Text filled with flowing color.", rest: "It stays real text: selectable and read aloud." },
+  { id: "cursor-trail", name: "CursorTrail", icon: icon.trail, lead: "A glowing trail behind the cursor.", rest: "It fades and stops drawing when the mouse rests." },
+];
+
+const steps = [
+  {
+    label: "Step 1",
+    title: "Install the package",
+    code: `npm install @glimmerui/react
+# or @glimmerui/vue, @glimmerui/nuxt`,
+    lang: "bash",
+  },
+  {
+    label: "Step 2",
+    title: "Add a component",
+    code: `import { Aurora } from "@glimmerui/react";
+
+<Aurora className="h-96">
+  <h1>Night shift</h1>
+</Aurora>`,
+    lang: "tsx",
+  },
+  {
+    label: "Step 3",
+    title: "Tune it with props",
+    code: `<Aurora
+  background="#0b1026"
+  speed={0.6}
+  intensity={0.3}
+/>`,
+    lang: "tsx",
+  },
+];
+
+const behaviours = [
+  { icon: icon.fallback, title: "Falls back to CSS", text: "Without WebGL, gradients become CSS gradients and images stay visible." },
+  { icon: icon.pause, title: "Pauses offscreen", text: "An effect stops drawing when it scrolls out of view." },
+  { icon: icon.motion, title: "Respects reduced motion", text: "Effects hold a still frame and follow the pointer without animating." },
+  { icon: icon.update, title: "Updates in place", text: "Changing a prop updates the running effect. Nothing is torn down or reloaded." },
+  { icon: icon.server, title: "Works with server rendering", text: "Marked \"use client\" for Next.js. The Nuxt module renders in the browser only." },
+  { icon: icon.access, title: "Accessible by default", text: "Image effects read as images, and canvases are hidden from screen readers." },
+];
+
+const footerLinks = [
+  {
+    title: "Docs",
+    links: [
+      ["Introduction", "/docs/"],
+      ["Installation", "/docs/installation/"],
+      ["React", "/docs/react/"],
+      ["Vue", "/docs/vue/"],
+      ["Nuxt", "/docs/nuxt/"],
+    ],
+  },
+  {
+    title: "Components",
+    links: components.map((c) => [c.name, `/docs/components/${c.id}/`]),
+  },
+  {
+    title: "Guides",
+    links: [
+      ["Accessibility", "/docs/guides/accessibility/"],
+      ["Performance", "/docs/guides/performance/"],
+      ["Server rendering", "/docs/guides/server-rendering/"],
+      ["Images and CORS", "/docs/guides/images/"],
+      ["Core API", "/docs/guides/core-api/"],
+    ],
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Glimmer UI</title>
+    <meta
+      name="description"
+      content="Thirty WebGL components for React, Vue and Nuxt: shader backgrounds, image effects and tilting cards."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="mk">
+    <a class="mk-skip" href="#main">Skip to content</a>
+
+    <header class="mk-header">
+      <div class="mk-wrap mk-header-row">
+        <a class="mk-brand" href="/" aria-label="Glimmer UI home">
+          <Fragment set:html={logo} />
+          <span>Glimmer UI</span>
+        </a>
+        <nav class="mk-nav" aria-label="Main">
+          <a href="/docs/">Docs</a>
+          <a href="#components">Components</a>
+          <a class="mk-nav-wide" href="/docs/guides/performance/">Guides</a>
+          <a class="mk-nav-wide" href="https://www.npmjs.com/org/glimmerui">npm</a>
+        </nav>
+        <a class="mk-btn mk-btn--dark mk-header-cta" href="/docs/installation/">Get started</a>
+      </div>
+    </header>
+
+    <main id="main" class="mk-page">
+      <section class="mk-section mk-hero" aria-labelledby="hero-title">
+        <div class="mk-wrap">
+          <span class="mk-badge"><Fragment set:html={svg(icon.spark)} />WebGL components</span>
+          <h1 id="hero-title" class="mk-display">
+            Thirty shader effects for React, Vue and Nuxt.{" "}
+            <span class="mk-tone">Each one is a component you drop into a page.</span>
+          </h1>
+          <div class="mk-actions">
+            <a class="mk-btn" href="/docs/">Read the docs</a>
+            <a class="mk-btn mk-btn--dark" href="/docs/installation/">Get started</a>
+            <div class="mk-install">
+              <code>{install}</code>
+              <button type="button" class="mk-copy" data-copy={install}>Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mk-wrap mk-wrap--flush">
+          <div class="mk-band">
+            <ShaderGradient
+              client:load
+              className="mk-band-effect"
+              colors={["#121117", "#9ea0a8", "#f4f4f6"]}
+              speed={0.7}
+              data-glimmer=""
+            />
+            <div class="mk-window">
+              <div class="mk-window-bar">
+                <span class="mk-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="mk-mono">TiltCard.tsx</span>
+                <span class="mk-live">Live</span>
+              </div>
+              <div class="mk-window-body">
+                <div class="mk-window-stage">
+                  <TiltCard
+                    client:load
+                    src="/demo.png"
+                    alt="Test pattern of a grid and rings, tilting toward the pointer"
+                    style={{ width: "100%", aspectRatio: "4 / 3" }}
+                    data-glimmer=""
+                  />
+                </div>
+                <div class="mk-props">
+                  <span class="mk-mono mk-props-title">Props</span>
+                  <dl>
+                    <div><dt>src</dt><dd>"/demo.png"</dd></div>
+                    <div><dt>maxTilt</dt><dd>0.4</dd></div>
+                    <div><dt>radius</dt><dd>20</dd></div>
+                    <div><dt>glare</dt><dd>1</dd></div>
+                  </dl>
+                  <p class="mk-props-note">Move the pointer over the card.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mk-section mk-strip" aria-label="Works with">
+        <div class="mk-wrap mk-wrap--flush">
+          <ul class="mk-strip-list">
+            <li>React</li>
+            <li>Vue</li>
+            <li>Nuxt</li>
+            <li>Next.js</li>
+            <li>Astro</li>
+            <li>Plain JavaScript</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="components" class="mk-section" aria-labelledby="components-title">
+        <div class="mk-wrap mk-intro">
+          <span class="mk-badge"><Fragment set:html={svg(icon.context)} />Components</span>
+          <h2 id="components-title" class="mk-heading">
+            Thirty effects, one shared WebGL context.{" "}
+            <span class="mk-tone">Every one is an ordinary component with props.</span>
+          </h2>
+        </div>
+
+        <div class="mk-wrap mk-wrap--flush mk-split">
+          <nav class="mk-spy" aria-label="Components">
+            <ul>
+              {
+                components.map((c, i) => (
+                  <li>
+                    <a href={`#c-${c.id}`} data-spy={c.id} aria-current={i === 0 ? "true" : undefined}>
+                      {c.name}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+
+          <div class="mk-panels">
+            <article id="c-shader-gradient" class="mk-panel" data-panel="shader-gradient">
+              <div class="mk-panel-stage">
+                <ShaderGradient client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[0]} svg={svg} />
+            </article>
+
+            <article id="c-image-distortion" class="mk-panel" data-panel="image-distortion">
+              <div class="mk-panel-stage">
+                <ImageDistortion
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo.png"
+                  alt="Test pattern of a grid and rings, rippling from the pointer"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[1]} svg={svg} />
+            </article>
+
+            <article id="c-tilt-card" class="mk-panel" data-panel="tilt-card">
+              <div class="mk-panel-stage mk-panel-stage--center">
+                <TiltCard
+                  client:visible
+                  src="/demo-alt.png"
+                  alt="Warm test pattern on a tilting card"
+                  style={{ width: "min(100%, 28rem)", aspectRatio: "3 / 2" }}
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[2]} svg={svg} />
+            </article>
+
+            <article id="c-image-reveal" class="mk-panel" data-panel="image-reveal">
+              <div class="mk-panel-stage">
+                <ImageReveal
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo.png"
+                  revealSrc="/demo-alt.png"
+                  alt="A cool test pattern that dissolves into a warm one"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[3]} svg={svg} />
+            </article>
+
+            <article id="c-lens-image" class="mk-panel" data-panel="lens-image">
+              <div class="mk-panel-stage">
+                <LensImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-alt.png"
+                  alt="A warm dotted test pattern under a magnifying lens"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[4]} svg={svg} />
+            </article>
+
+            <article id="c-aurora" class="mk-panel" data-panel="aurora">
+              <div class="mk-panel-stage">
+                <Aurora client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[5]} svg={svg} />
+            </article>
+
+            <article id="c-dot-grid" class="mk-panel" data-panel="dot-grid">
+              <div class="mk-panel-stage">
+                <DotGrid client:visible className="mk-panel-media mk-panel-media--paper" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[6]} svg={svg} />
+            </article>
+
+            <article id="c-liquid-metal" class="mk-panel" data-panel="liquid-metal">
+              <div class="mk-panel-stage">
+                <LiquidMetal client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[7]} svg={svg} />
+            </article>
+
+            <article id="c-particles" class="mk-panel" data-panel="particles">
+              <div class="mk-panel-stage">
+                <Particles client:visible className="mk-panel-media mk-panel-media--paper" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[8]} svg={svg} />
+            </article>
+
+            <article id="c-halftone-image" class="mk-panel" data-panel="halftone-image">
+              <div class="mk-panel-stage">
+                <HalftoneImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres printed as a halftone"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[9]} svg={svg} />
+            </article>
+
+            <article id="c-pixel-image" class="mk-panel" data-panel="pixel-image">
+              <div class="mk-panel-stage">
+                <PixelImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres as a pixel mosaic"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[10]} svg={svg} />
+            </article>
+
+            <article id="c-mesh-gradient" class="mk-panel" data-panel="mesh-gradient">
+              <div class="mk-panel-stage">
+                <MeshGradient client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[11]} svg={svg} />
+            </article>
+
+            <article id="c-silk" class="mk-panel" data-panel="silk">
+              <div class="mk-panel-stage">
+                <Silk client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[12]} svg={svg} />
+            </article>
+
+            <article id="c-caustics" class="mk-panel" data-panel="caustics">
+              <div class="mk-panel-stage">
+                <Caustics client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[13]} svg={svg} />
+            </article>
+
+            <article id="c-contour-lines" class="mk-panel" data-panel="contour-lines">
+              <div class="mk-panel-stage">
+                <ContourLines client:visible className="mk-panel-media mk-panel-media--paper" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[14]} svg={svg} />
+            </article>
+
+            <article id="c-starfield" class="mk-panel" data-panel="starfield">
+              <div class="mk-panel-stage">
+                <Starfield client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[15]} svg={svg} />
+            </article>
+
+            <article id="c-voronoi" class="mk-panel" data-panel="voronoi">
+              <div class="mk-panel-stage">
+                <Voronoi client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[16]} svg={svg} />
+            </article>
+
+            <article id="c-grid-floor" class="mk-panel" data-panel="grid-floor">
+              <div class="mk-panel-stage">
+                <GridFloor client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[17]} svg={svg} />
+            </article>
+
+            <article id="c-ink-smoke" class="mk-panel" data-panel="ink-smoke">
+              <div class="mk-panel-stage">
+                <InkSmoke client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[18]} svg={svg} />
+            </article>
+
+            <article id="c-glitch-image" class="mk-panel" data-panel="glitch-image">
+              <div class="mk-panel-stage">
+                <GlitchImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres, glitching on hover"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[19]} svg={svg} />
+            </article>
+
+            <article id="c-dither-image" class="mk-panel" data-panel="dither-image">
+              <div class="mk-panel-stage">
+                <DitherImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres in one-bit dither"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[20]} svg={svg} />
+            </article>
+
+            <article id="c-ascii-image" class="mk-panel" data-panel="ascii-image">
+              <div class="mk-panel-stage">
+                <AsciiImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres drawn in text characters"
+                  colored
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[21]} svg={svg} />
+            </article>
+
+            <article id="c-duotone-image" class="mk-panel" data-panel="duotone-image">
+              <div class="mk-panel-stage">
+                <DuotoneImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres as a two-color print"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[22]} svg={svg} />
+            </article>
+
+            <article id="c-fog-image" class="mk-panel" data-panel="fog-image">
+              <div class="mk-panel-stage">
+                <FogImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres behind frosted glass"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[23]} svg={svg} />
+            </article>
+
+            <article id="c-kaleidoscope-image" class="mk-panel" data-panel="kaleidoscope-image">
+              <div class="mk-panel-stage">
+                <KaleidoscopeImage
+                  client:visible
+                  className="mk-panel-media"
+                  src="/demo.png"
+                  alt="A turning kaleidoscope pattern of rings and grid lines"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[24]} svg={svg} />
+            </article>
+
+            <article id="c-holo-card" class="mk-panel" data-panel="holo-card">
+              <div class="mk-panel-stage mk-panel-stage--center">
+                <HoloCard
+                  client:visible
+                  src="/demo-spheres.png"
+                  alt="Glossy colored spheres on a holographic card"
+                  style={{ width: "min(100%, 28rem)", aspectRatio: "3 / 2" }}
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[25]} svg={svg} />
+            </article>
+
+            <article id="c-spotlight-card" class="mk-panel" data-panel="spotlight-card">
+              <div class="mk-panel-stage mk-panel-stage--center mk-panel-stage--night">
+                <SpotlightCard
+                  client:visible
+                  className="mk-demo-card"
+                  radius={16}
+                  data-glimmer=""
+                >
+                  <strong>Pro plan</strong>
+                  <span>Unlimited projects, priority support and early access to new effects.</span>
+                </SpotlightCard>
+              </div>
+              <PanelCaption c={components[26]} svg={svg} />
+            </article>
+
+            <article id="c-shader-button" class="mk-panel" data-panel="shader-button">
+              <div class="mk-panel-stage mk-panel-stage--center mk-panel-stage--night">
+                <ShaderButton client:visible data-glimmer="">Start free trial</ShaderButton>
+              </div>
+              <PanelCaption c={components[27]} svg={svg} />
+            </article>
+
+            <article id="c-shader-text" class="mk-panel" data-panel="shader-text">
+              <div class="mk-panel-stage mk-panel-stage--center mk-panel-stage--night">
+                <ShaderText client:visible text="Glimmer" className="mk-demo-text" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[28]} svg={svg} />
+            </article>
+
+            <article id="c-cursor-trail" class="mk-panel" data-panel="cursor-trail">
+              <div class="mk-panel-stage mk-panel-stage--center">
+                <TrailToggle client:visible />
+              </div>
+              <PanelCaption c={components[29]} svg={svg} />
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="mk-section mk-dark" aria-labelledby="steps-title">
+        <div class="mk-wrap mk-intro">
+          <span class="mk-badge mk-badge--dark"><Fragment set:html={svg(icon.spark)} />How it works</span>
+          <h2 id="steps-title" class="mk-heading">
+            From install to a live effect{" "}
+            <span class="mk-tone">in three steps.</span>
+          </h2>
+        </div>
+        <div class="mk-wrap mk-wrap--flush">
+          <ol class="mk-cells mk-cells--3">
+            {
+              steps.map((s) => (
+                <li class="mk-cell mk-step">
+                  <span class="mk-mono mk-step-label">{s.label}</span>
+                  <h3>{s.title}</h3>
+                  <Code code={s.code} lang={s.lang} theme={nightTheme} />
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </section>
+
+      <section class="mk-section" aria-labelledby="scale-title">
+        <div class="mk-wrap mk-intro mk-intro--split">
+          <div>
+            <span class="mk-badge"><Fragment set:html={svg(icon.context)} />Built for real pages</span>
+            <h2 id="scale-title" class="mk-heading">
+              Use as many as you like.{" "}
+              <span class="mk-tone">Every effect shares one WebGL context.</span>
+            </h2>
+          </div>
+          <SwatchGrid client:visible />
+        </div>
+        <div class="mk-wrap mk-wrap--flush">
+          <dl class="mk-cells mk-cells--4 mk-stats">
+            <div class="mk-cell">
+              <dt><span data-count="1">1</span></dt>
+              <dd>WebGL context for every effect on a page</dd>
+            </div>
+            <div class="mk-cell">
+              <dt><span data-count="30">30</span></dt>
+              <dd>components, each with a CSS fallback</dd>
+            </div>
+            <div class="mk-cell">
+              <dt><span data-count="3">3</span></dt>
+              <dd>frameworks: React, Vue and Nuxt</dd>
+            </div>
+            <div class="mk-cell">
+              <dt><span data-effect-count>44</span></dt>
+              <dd>effects running on this page right now</dd>
+            </div>
+          </dl>
+          <ul class="mk-cells mk-cells--3 mk-behaviours">
+            {
+              behaviours.map((b) => (
+                <li class="mk-cell">
+                  <span class="mk-icon" set:html={svg(b.icon)} />
+                  <p>
+                    <strong>{b.title}.</strong> <span class="mk-tone-text">{b.text}</span>
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <section class="mk-section mk-dark mk-cta" aria-labelledby="cta-title">
+        <div class="mk-wrap mk-wrap--flush">
+          <Aurora client:visible className="mk-cta-band" speed={0.8} data-glimmer="">
+            <div class="mk-cta-body">
+              <h2 id="cta-title" class="mk-display">
+                Add one to your page.{" "}
+                <span class="mk-tone">It takes a single install.</span>
+              </h2>
+              <div class="mk-actions">
+                <div class="mk-install mk-install--dark">
+                  <code>{install}</code>
+                  <button type="button" class="mk-copy" data-copy={install}>Copy</button>
+                </div>
+                <a class="mk-btn mk-btn--light" href="/docs/installation/">Get started</a>
+              </div>
+            </div>
+          </Aurora>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mk-footer">
+      <div class="mk-wrap mk-footer-top">
+        <div class="mk-footer-brand">
+          <a class="mk-brand" href="/" aria-label="Glimmer UI home">
+            <Fragment set:html={logo} />
+            <span>Glimmer UI</span>
+          </a>
+          <p>WebGL components for React, Vue and Nuxt. MIT licensed.</p>
+        </div>
+        {
+          footerLinks.map((group) => (
+            <nav class="mk-footer-col" aria-label={group.title}>
+              <span class="mk-mono">{group.title}</span>
+              <ul>
+                {group.links.map(([label, href]) => (
+                  <li>
+                    <a href={href}>{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+        }
+      </div>
+      <div class="mk-wrap mk-wordmark" aria-hidden="true">Glimmer</div>
+      <div class="mk-wrap mk-footer-bottom">
+        <span>© 2026 Glimmer UI</span>
+        <a href="https://www.npmjs.com/org/glimmerui">npm</a>
+      </div>
+    </footer>
+
+    <script>
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Copy buttons.
+      for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+        button.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(button.dataset.copy ?? "");
+            button.textContent = "Copied";
+          } catch {
+            button.textContent = "Press Ctrl+C";
+          }
+          setTimeout(() => (button.textContent = "Copy"), 1600);
+        });
+      }
+
+      // Mark the component whose panel is in the middle of the screen.
+      const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
+      const spy = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const id = (entry.target as HTMLElement).dataset.panel;
+            for (const link of links) {
+              if (link.dataset.spy === id) link.setAttribute("aria-current", "true");
+              else link.removeAttribute("aria-current");
+            }
+          }
+        },
+        { rootMargin: "-45% 0px -50% 0px" }
+      );
+      document.querySelectorAll("[data-panel]").forEach((panel) => spy.observe(panel));
+
+      // Count numbers up from zero the first time they scroll into view.
+      const counters = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          counters.unobserve(entry.target);
+          const el = entry.target as HTMLElement;
+          const target = Number(el.dataset.count);
+          if (reduceMotion || !target) continue;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const t = Math.min(1, (now - start) / 900);
+            el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          el.textContent = "0";
+          requestAnimationFrame(tick);
+        }
+      });
+      document.querySelectorAll("[data-count]").forEach((el) => counters.observe(el));
+
+      // Live count of the effects on this page.
+      const count = document.querySelector("[data-effect-count]");
+      const update = () => {
+        const n = String(document.querySelectorAll("[data-glimmer]").length);
+        // Writing the text is itself a mutation, so only write when it changes.
+        if (count && count.textContent !== n) count.textContent = n;
+      };
+      new MutationObserver(update).observe(document.body, { childList: true, subtree: true });
+      update();
+    </script>
+  </body>
+</html>

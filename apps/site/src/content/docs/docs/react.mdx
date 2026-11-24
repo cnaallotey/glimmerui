@@ -1,0 +1,57 @@
+---
+title: React
+description: Using Glimmer UI components in React and Next.js.
+---
+
+```tsx
+import { ShaderGradient, ImageDistortion, TiltCard } from "@glimmerui/react";
+```
+
+The components render a `div` with the effect behind any children you pass. They work in React 18 and 19.
+
+## Attributes and refs
+
+Every component accepts the usual `div` attributes, including `className`, `style`, `id`, `data-*`, `aria-*` and event handlers, and passes them to its root element. `ref` points at that element too.
+
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+
+<TiltCard
+  ref={ref}
+  src="/cover.jpg"
+  alt="Album cover"
+  className="cover"
+  onPointerMove={(e) => console.log(e.clientX)}
+/>;
+```
+
+Your pointer handlers run first, then the component's own. The `style` you pass is merged over the component's `position: relative` (and `overflow: hidden` on every component except `TiltCard`, whose card needs room to tilt).
+
+## Updating props
+
+Changing a prop updates the running effect. It doesn't rebuild the effect or reload images, so you can drive props from state:
+
+```tsx
+const [speed, setSpeed] = useState(1);
+
+<ShaderGradient speed={speed} style={{ height: 240 }} />
+<input type="range" min={0} max={3} step={0.1} value={speed}
+  onChange={(e) => setSpeed(Number(e.target.value))} />
+```
+
+`colors` is compared by value, so passing a new array with the same colors does nothing.
+
+## Next.js
+
+The bundle starts with `"use client"`, so you can import the components straight into App Router server components. They render their element on the server and start the effect in the browser.
+
+```tsx
+// app/page.tsx (a server component)
+import { ShaderGradient } from "@glimmerui/react";
+
+export default function Page() {
+  return <ShaderGradient className="h-96">…</ShaderGradient>;
+}
+```
+
+See [Server rendering](/docs/guides/server-rendering/) for how to avoid layout shift.

@@ -1,0 +1,47 @@
+{
+  "name": "@glimmerui/nuxt",
+  "version": "0.0.0",
+  "description": "Nuxt module that auto-imports Glimmer UI WebGL components as client-only",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/module.js",
+  "types": "./dist/module.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/module.d.ts",
+      "import": "./dist/module.js",
+      "default": "./dist/module.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "webgl",
+    "shader",
+    "vue",
+    "components",
+    "motion"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/module.ts --format esm --dts --clean --external @nuxt/kit --external @nuxt/schema --external @glimmerui/vue",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@glimmerui/vue": "workspace:*",
+    "@nuxt/kit": "^3.16.0 || ^4.0.0",
+    "@nuxt/schema": "^3.16.0 || ^4.0.0"
+  },
+  "peerDependencies": {
+    "nuxt": ">=3.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0"
+  }
+}

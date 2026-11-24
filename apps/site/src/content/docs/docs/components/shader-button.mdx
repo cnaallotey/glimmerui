@@ -1,0 +1,47 @@
+---
+title: ShaderButton
+description: A button with a live, flowing color fill that brightens on hover and keyboard focus.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ShaderButtonDemo } from "@/components/demos/ShaderButtonDemo";
+
+A real `<button>` filled with three colors flowing through each other. Hovering, or focusing it with the keyboard, brightens the fill, speeds it up and adds a highlight under the pointer.
+
+<ShaderButtonDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ShaderButton } from "@glimmerui/react";
+
+    <ShaderButton onClick={() => startTrial()}>Start free trial</ShaderButton>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <ShaderButton @click="startTrial">Start free trial</ShaderButton>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `colors` | `[string, string, string]` | `["#3b1d8f", "#e0457b", "#f9b44c"]` | Three hex colors that flow through the button. |
+| `speed` | `number` | `1` | How fast the colors flow. Hover and focus speed it up. |
+
+It also takes every `<button>` attribute, such as `onClick`, `type`, `disabled` and `aria-*`. It defaults to `type="button"`, so it won't submit a form unless you set `type="submit"`.
+
+## Styling
+
+The button comes with a pill shape, padding and white, semibold text. Override any of it with `className` or `style`. Keep your own focus outline, or add one: the effect brightens on keyboard focus but doesn't replace a visible focus ring.
+
+## Behavior
+
+- Keyboard focus lights it up the same way hover does. A mouse click alone doesn't.
+- Pick colors that keep the label readable: white text needs mid-to-dark colors.
+- Without WebGL, the button gets a CSS gradient of the three colors.

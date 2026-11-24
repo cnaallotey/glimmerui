@@ -1,0 +1,16 @@
+---
+interface Props {
+  c: { id: string; name: string; icon: string; lead: string; rest: string };
+  svg: (paths: string) => string;
+}
+
+const { c, svg } = Astro.props;
+---
+
+<div class="mk-panel-caption">
+  <span class="mk-icon" set:html={svg(c.icon)} />
+  <p>
+    <a href={`/docs/components/${c.id}/`}>{c.name}</a>
+    <strong>{c.lead}</strong> <span class="mk-tone-text">{c.rest}</span>
+  </p>
+</div>

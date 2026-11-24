@@ -1,0 +1,45 @@
+---
+title: ImageDistortion
+description: An image that ripples out from the pointer and splits color on hover.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ImageDistortionDemo } from "@/components/demos/ImageDistortionDemo";
+
+Shows an image that fills its element. On hover, ripples spread out from the pointer and split the image's color channels as they pass.
+
+<ImageDistortionDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ImageDistortion } from "@glimmerui/react";
+
+    <ImageDistortion src="/team.jpg" alt="The team at the summer offsite" className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <ImageDistortion src="/team.jpg" alt="The team at the summer offsite" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `strength` | `number` | `1` | Strength of the ripple and color split. `0` turns the effect off. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The image is cropped to cover the element, like `object-fit: cover`.
+- Changing `src` keeps the current image on screen until the new one has loaded.
+- Ripples only appear while a mouse or pen hovers. Touch has no hover, so on touch screens the image stays still.
+- Without WebGL, the image is shown as a plain `background-image` that covers the element.

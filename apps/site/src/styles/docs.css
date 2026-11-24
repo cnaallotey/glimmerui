@@ -1,0 +1,122 @@
+/* Starlight theme: paper and ink, Geist and Geist Mono, to match the landing page. */
+:root {
+  --sl-font: var(--gl-sans);
+  --sl-font-mono: var(--gl-mono);
+  --sl-color-accent-low: #26242e;
+  --sl-color-accent: #e9e8ee;
+  --sl-color-accent-high: #ffffff;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #eceaf0;
+  --sl-color-gray-2: #c5c3cc;
+  --sl-color-gray-3: #8f8d98;
+  --sl-color-gray-4: #5f5d68;
+  --sl-color-gray-5: #34323c;
+  --sl-color-gray-6: #1d1c23;
+  --sl-color-black: #0e0d12;
+}
+:root[data-theme="light"] {
+  --sl-color-accent-low: #ececef;
+  --sl-color-accent: #0e0d12;
+  --sl-color-accent-high: #0e0d12;
+  --sl-color-white: #0e0d12;
+  --sl-color-gray-1: #1d1c23;
+  --sl-color-gray-2: #34323c;
+  --sl-color-gray-3: #55535e;
+  --sl-color-gray-4: #8b8a94;
+  --sl-color-gray-5: #d9d8de;
+  --sl-color-gray-6: #f2f2f4;
+  --sl-color-gray-7: #fafafa;
+  --sl-color-black: #fafafa;
+}
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+h1#_top {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+h1#_top {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+}
+.site-title {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Sidebar group labels in mono caps, like the landing page labels. */
+.sidebar-content summary .large {
+  font-family: var(--gl-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+}
+
+/* Live demos inside the docs. */
+.demo {
+  margin-block: 1.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 14px;
+  background: var(--sl-color-gray-6);
+}
+.demo-stage {
+  height: 20rem;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.demo-stage--card {
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+.demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  padding: 0.9rem 0.4rem 0.2rem;
+  font-family: var(--gl-mono);
+  font-size: 0.75rem;
+}
+.demo-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--sl-color-gray-3);
+}
+.demo-controls input[type="range"] {
+  width: 7rem;
+  accent-color: var(--sl-color-white);
+}
+.demo-controls input[type="color"] {
+  width: 2rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.35rem;
+  background: none;
+}
+.demo-controls output {
+  min-width: 2.5rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--sl-color-white);
+}
+.sl-markdown-content .demo :is(h1, h2, h3, p) {
+  margin: 0;
+}
+.demo-toggle {
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 999px;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.demo-toggle[aria-pressed="true"] {
+  background: var(--sl-color-white);
+  color: var(--sl-color-black);
+}

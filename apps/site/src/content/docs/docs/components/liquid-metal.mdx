@@ -1,0 +1,50 @@
+---
+title: LiquidMetal
+description: A background of chrome blobs that drift, merge and split, with one that follows the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { LiquidMetalDemo } from "@/components/demos/LiquidMetalDemo";
+
+Blobs of liquid chrome drift on slow looping paths, merging when they meet and pulling apart again. Hovering adds one more blob that trails the pointer and melts into the others. Use it as a background: children sit above it.
+
+<LiquidMetalDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { LiquidMetal } from "@glimmerui/react";
+
+    <LiquidMetal count={6} background="#0e0d12" className="h-96">
+      <h1>Built to last</h1>
+    </LiquidMetal>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <LiquidMetal :count="6" background="#0e0d12" class="h-96">
+      <h1>Built to last</h1>
+    </LiquidMetal>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `count` | `number` | `6` | Number of blobs, from 1 to 12. |
+| `tint` | `string` | `"#ffffff"` | Color the chrome is tinted with, as a hex value. White gives plain chrome; try a pale gold or blue. |
+| `background` | `string` | `"#0e0d12"` | Color behind the blobs, as a hex value. |
+| `speed` | `number` | `1` | How fast the blobs drift. `0` holds them still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The pointer's blob grows in on hover and shrinks away when the pointer leaves. It follows on a loose spring, so it trails like something liquid.
+- The chrome reflects a simple studio of soft light bands and one sharp highlight, so it reads as metal on any background.
+- Without WebGL, the element gets two soft gray CSS highlights over the background color.
+- The canvas is hidden from assistive technology. Children stay accessible.

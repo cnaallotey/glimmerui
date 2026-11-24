@@ -1,0 +1,8 @@
+---
+"@glimmerui/core": minor
+"@glimmerui/react": minor
+"@glimmerui/vue": minor
+"@glimmerui/nuxt": minor
+---
+
+First release of Glimmer UI: `ShaderGradient`, `ImageDistortion`, `TiltCard`, `ImageReveal`, `LensImage`, `Aurora`, `DotGrid`, `LiquidMetal`, `Particles`, `HalftoneImage`, `PixelImage`, `MeshGradient`, `Silk`, `Caustics`, `ContourLines`, `Starfield`, `Voronoi`, `GridFloor`, `InkSmoke`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage`, `KaleidoscopeImage`, `HoloCard`, `SpotlightCard`, `ShaderButton`, `ShaderText` and `CursorTrail` for React, Vue and Nuxt, sharing one WebGL context per page.

@@ -1,0 +1,46 @@
+---
+title: DuotoneImage
+description: A two-color print of an image whose original colors spread from the pointer on hover.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { DuotoneImageDemo } from "@/components/demos/DuotoneImageDemo";
+
+Prints an image in two colors: shadows in one, highlights in the other. On hover, the image's original colors spread out from the pointer until they fill it. Leaving draws the duotone back in.
+
+<DuotoneImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { DuotoneImage } from "@glimmerui/react";
+
+    <DuotoneImage src="/team.jpg" alt="The team on the roof" dark="#1a1538" light="#e0457b" className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <DuotoneImage src="/team.jpg" alt="The team on the roof" dark="#1a1538" light="#e0457b" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `dark` | `string` | `"#3b1d8f"` | Color for the image's shadows, as a hex value. |
+| `light` | `string` | `"#f9b44c"` | Color for the image's highlights, as a hex value. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- A dark color with a light one gives the classic poster look. Two similar colors give a quieter tint.
+- On touch screens, a tap brings the colors in from the tapped point, and another tap returns the duotone.
+- With reduced motion, the colors swap without spreading.
+- Without WebGL, the element shows the plain image as a `background-image`.

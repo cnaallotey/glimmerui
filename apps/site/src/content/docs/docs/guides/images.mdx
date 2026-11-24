@@ -1,0 +1,33 @@
+---
+title: Images and CORS
+description: Where ImageDistortion and TiltCard images can come from, and how they're shown.
+---
+
+The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage` and `KaleidoscopeImage`) upload their images to the GPU. Browsers only allow that for images from your own site, or from another site that permits it with CORS headers.
+
+## Same origin
+
+Images served from your own domain, such as `/images/cover.jpg`, always work.
+
+## Another domain or a CDN
+
+The image server must send:
+
+```http
+Access-Control-Allow-Origin: *
+```
+
+(or your site's origin instead of `*`). Most image CDNs can turn this on. Glimmer UI requests images with `crossOrigin="anonymous"`, so no cookies are sent.
+
+If the header is missing, the browser refuses the image and the effect stays on its dark loading color. Check the browser console for a CORS error.
+
+## How images are shown
+
+- The image is cropped to cover the element (or the card, for `TiltCard`), like `object-fit: cover`.
+- It fades in once it has loaded.
+- Changing `src` keeps the current image until the new one has loaded, so there's no flash.
+- Without WebGL, the image is shown as a CSS `background-image`, which isn't affected by CORS.
+
+## Size
+
+Use images about the size they're displayed at, at 2x for high-density screens. Larger images take longer to load and upload but don't look sharper.

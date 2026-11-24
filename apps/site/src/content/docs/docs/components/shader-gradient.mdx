@@ -1,0 +1,49 @@
+---
+title: ShaderGradient
+description: An animated gradient background that bends around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ShaderGradientDemo } from "@/components/demos/ShaderGradientDemo";
+
+An animated gradient of three colors. Moving the pointer over it pulls the gradient toward the pointer. Use it as a background: children sit above it.
+
+<ShaderGradientDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ShaderGradient } from "@glimmerui/react";
+
+    <ShaderGradient colors={["#3b1d8f", "#e0457b", "#f9b44c"]} speed={1} className="h-80">
+      <h1>Hello</h1>
+    </ShaderGradient>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <ShaderGradient :colors="['#3b1d8f', '#e0457b', '#f9b44c']" :speed="1" class="h-80">
+      <h1>Hello</h1>
+    </ShaderGradient>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `colors` | `[string, string, string]` | `["#3b1d8f", "#e0457b", "#f9b44c"]` | The three colors the shader blends, as hex values. |
+| `speed` | `number` | `1` | How fast the gradient moves. `0` holds it still. |
+| `intensity` | `number` | `0` | How strongly the pointer pulls the gradient before the first hover, from 0 to 1. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Hovering raises the pointer pull to full strength. Leaving lowers it back to 0 and lets the gradient drift back to the center.
+- Children render above the effect in normal document flow.
+- Without WebGL, the element gets a CSS `linear-gradient` of the same three colors.
+- The canvas is hidden from assistive technology. Children stay accessible.

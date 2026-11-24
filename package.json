@@ -1,0 +1,19 @@
+{
+  "name": "glimmerui",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "build:packages": "pnpm --filter \"./packages/**\" build",
+    "typecheck": "pnpm -r typecheck",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build:packages && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0"
+  },
+  "packageManager": "pnpm@10.34.9"
+}

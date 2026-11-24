@@ -1,0 +1,50 @@
+---
+title: Caustics
+description: The shifting web of light on the floor of a pool, with ripples from the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { CausticsDemo } from "@/components/demos/CausticsDemo";
+
+The web of bright lines that sunlight makes on the bottom of a pool, shifting as the water moves. The water is deeper toward the bottom of the element and lighter toward the top. Hovering sends rings out from the pointer through the pattern.
+
+<CausticsDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Caustics } from "@glimmerui/react";
+
+    <Caustics deep="#06283d" shallow="#1b8fa6" className="h-96">
+      <h1>Dive in</h1>
+    </Caustics>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Caustics deep="#06283d" shallow="#1b8fa6" class="h-96">
+      <h1>Dive in</h1>
+    </Caustics>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `deep` | `string` | `"#06283d"` | Water color at the bottom of the element, as a hex value. |
+| `shallow` | `string` | `"#1b8fa6"` | Water color at the top of the element, as a hex value. |
+| `light` | `string` | `"#e6fbff"` | Color of the light lines, as a hex value. |
+| `speed` | `number` | `1` | How fast the water moves. `0` holds it still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The light lines are brighter toward the top, where the water is shallower.
+- Rings from the pointer fade in on hover and out when the pointer leaves.
+- Without WebGL, the element gets a CSS gradient from `deep` to `shallow`.
+- The canvas is hidden from assistive technology. Children stay accessible.

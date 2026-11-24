@@ -1,0 +1,57 @@
+---
+title: ImageReveal
+description: Two images; hovering dissolves from one to the other through an edge that spreads from the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ImageRevealDemo } from "@/components/demos/ImageRevealDemo";
+
+Shows one image at rest. On hover, a second image spreads out from the pointer through a soft, noisy edge until it fills the element. Leaving shrinks it back. Good for before and after, product variants, or a photo and its sketch.
+
+<ImageRevealDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ImageReveal } from "@glimmerui/react";
+
+    <ImageReveal
+      src="/room-before.jpg"
+      revealSrc="/room-after.jpg"
+      alt="The living room before and after the renovation"
+      className="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <ImageReveal
+      src="/room-before.jpg"
+      reveal-src="/room-after.jpg"
+      alt="The living room before and after the renovation"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image shown at rest. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `revealSrc` | `string` | required | Image revealed on hover. Same rules as `src`. |
+| `alt` | `string` | required | Describes both images for screen readers, since sighted users can see either. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The reveal starts where the pointer enters and follows it while spreading.
+- On touch screens, a tap toggles between the two images.
+- Both images are cropped to cover the element, like `object-fit: cover`. They don't need the same size or shape.
+- The second image only takes part once it has loaded, so the reveal never shows a blank.
+- With reduced motion, the images swap without the spreading animation.
+- Without WebGL, the element shows the first image and swaps to the second on hover.

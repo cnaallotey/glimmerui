@@ -1,0 +1,62 @@
+---
+title: Introduction
+description: What Glimmer UI is and how its components work.
+---
+
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+import { ShaderGradientDemo } from "@/components/demos/ShaderGradientDemo";
+
+Glimmer UI is a set of thirty WebGL components for React, Vue and Nuxt. Each one is a shader effect that reacts to the pointer, wrapped as an ordinary component you can drop into a page.
+
+<ShaderGradientDemo client:visible />
+
+## The components
+
+- **[ShaderGradient](/docs/components/shader-gradient/)**: an animated gradient background that bends around the pointer.
+- **[ImageDistortion](/docs/components/image-distortion/)**: an image that ripples out from the pointer and splits color on hover.
+- **[TiltCard](/docs/components/tilt-card/)**: an image card that tilts in true perspective toward the pointer, with glare and rounded corners.
+- **[ImageReveal](/docs/components/image-reveal/)**: two images; hovering dissolves from one to the other through an edge that spreads from the pointer.
+- **[LensImage](/docs/components/lens-image/)**: an image with a round glass lens that follows the pointer and magnifies what's under it.
+- **[Aurora](/docs/components/aurora/)**: a night-sky background of flowing curtains of light that the pointer stirs.
+- **[DotGrid](/docs/components/dot-grid/)**: a background of dots that swell and part around the pointer.
+- **[LiquidMetal](/docs/components/liquid-metal/)**: a background of chrome blobs that drift and merge, with one that follows the pointer.
+- **[Particles](/docs/components/particles/)**: a background of drifting points that gather and swirl around the pointer.
+- **[HalftoneImage](/docs/components/halftone-image/)**: an image printed as a halftone of dots that opens into full color around the pointer.
+- **[PixelImage](/docs/components/pixel-image/)**: an image shown as a coarse mosaic that sharpens around the pointer.
+- **[MeshGradient](/docs/components/mesh-gradient/)**: four colors blended across a softly warping surface, with film grain.
+- **[Silk](/docs/components/silk/)**: flowing folds of satin with a sheen along each crest.
+- **[Caustics](/docs/components/caustics/)**: the shifting web of light on the floor of a pool.
+- **[ContourLines](/docs/components/contour-lines/)**: a shifting topographic map whose lines ring around the pointer.
+- **[Starfield](/docs/components/starfield/)**: a flight through stars that streak past.
+- **[Voronoi](/docs/components/voronoi/)**: stained glass of drifting cells that light up near the pointer.
+- **[GridFloor](/docs/components/grid-floor/)**: a glowing perspective grid rolling toward you under a horizon glow.
+- **[InkSmoke](/docs/components/ink-smoke/)**: a plume of smoke that rises from the pointer.
+- **[GlitchImage](/docs/components/glitch-image/)**: an image that breaks into a digital glitch on hover.
+- **[DitherImage](/docs/components/dither-image/)**: an image in one-bit ordered dither with full color around the pointer.
+- **[AsciiImage](/docs/components/ascii-image/)**: an image drawn in text characters, with the real image around the pointer.
+- **[DuotoneImage](/docs/components/duotone-image/)**: a two-color print whose original colors spread from the pointer.
+- **[FogImage](/docs/components/fog-image/)**: an image behind frosted glass that the pointer wipes clear.
+- **[KaleidoscopeImage](/docs/components/kaleidoscope-image/)**: an image folded into turning mirrored wedges.
+- **[HoloCard](/docs/components/holo-card/)**: a tilt card with a holographic foil that shifts as it tilts.
+- **[SpotlightCard](/docs/components/spotlight-card/)**: a card whose border lights up near the pointer.
+- **[ShaderButton](/docs/components/shader-button/)**: a button with a live, flowing color fill.
+- **[ShaderText](/docs/components/shader-text/)**: text filled with flowing color that stays real, selectable text.
+- **[CursorTrail](/docs/components/cursor-trail/)**: a glowing trail that follows the mouse across the page.
+
+## How it works
+
+The effects live in `@glimmerui/core`, which has no framework code. It draws with [OGL](https://github.com/oframe/ogl), a small WebGL library, and smooths pointer input with [Motion](https://motion.dev). `@glimmerui/react` and `@glimmerui/vue` are thin wrappers around it, so React and Vue get identical effects.
+
+Every effect on a page draws through **one shared WebGL context** and copies its result into a plain canvas inside its component. Browsers only allow about 16 WebGL contexts per page, so this is what lets a page hold any number of effects. It also keeps normal DOM stacking: text and children you put inside a component sit above the effect.
+
+Each component also:
+
+- falls back to plain CSS when WebGL is unavailable,
+- stops drawing when it scrolls offscreen,
+- holds a still frame when the user prefers reduced motion,
+- applies prop changes to the running effect instead of rebuilding it.
+
+<CardGrid>
+  <LinkCard title="Install" href="/docs/installation/" description="Add Glimmer UI to a React, Vue or Nuxt project." />
+  <LinkCard title="Components" href="/docs/components/shader-gradient/" description="Live demos and every prop." />
+</CardGrid>

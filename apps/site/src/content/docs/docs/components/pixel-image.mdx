@@ -1,0 +1,46 @@
+---
+title: PixelImage
+description: An image shown as a coarse mosaic that sharpens into the real image around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { PixelImageDemo } from "@/components/demos/PixelImageDemo";
+
+Shows an image as a mosaic of large blocks. Around the pointer the blocks get finer in steps, halving in size each ring, until the image is sharp at the center.
+
+<PixelImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { PixelImage } from "@glimmerui/react";
+
+    <PixelImage src="/level-1.png" alt="Title screen of the game" block={32} className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <PixelImage src="/level-1.png" alt="Title screen of the game" :block="32" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `block` | `number` | `32` | Block size away from the pointer, in CSS pixels. Powers of two (8, 16, 32, 64) give the neatest steps. |
+| `radius` | `number` | `180` | Radius of the sharp area around the pointer, in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Block sizes snap to powers of two, so each ring of blocks lines up with the next.
+- The image is cropped to cover the element, like `object-fit: cover`.
+- On touch screens, a tap sharpens the image around the tapped point, and another tap returns it to a mosaic.
+- Without WebGL, the element shows the plain image as a `background-image`.

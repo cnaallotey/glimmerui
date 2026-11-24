@@ -1,0 +1,40 @@
+---
+title: Accessibility
+description: How Glimmer UI handles screen readers, reduced motion and touch.
+---
+
+## Screen readers
+
+- The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage` and `KaleidoscopeImage`) have `role="img"` and use your `alt` text as their label, so they read like an image. Write `alt` the way you would for an `<img>`. For `ImageReveal`, describe both images.
+- The canvas inside every component is hidden from assistive technology.
+- The backgrounds (`ShaderGradient`, `Aurora`, `DotGrid`, `LiquidMetal`, `Particles`, `MeshGradient`, `Silk`, `Caustics`, `ContourLines`, `Starfield`, `Voronoi`, `GridFloor`, `InkSmoke` and `SpotlightCard`) are decorative, so they have no role. Their children are read normally.
+
+Because the image components are images to assistive technology, anything you put inside them is treated as part of the image and isn't read out or reachable separately. Keep links, buttons and important text outside them, or use one of the backgrounds for content that sits over an effect.
+
+## Buttons, text and the cursor trail
+
+- `ShaderButton` is a real `<button>`: it takes focus, works with Enter and Space, and lights up on keyboard focus as well as hover. Keep a visible focus ring.
+- `ShaderText` keeps its text in the page as real text, so screen readers read it and people can select and copy it.
+- `CursorTrail` is hidden from assistive technology, ignores the pointer, and stays off when reduced motion is on.
+
+## Reduced motion
+
+When the user has turned on reduced motion in their system settings, every effect:
+
+- holds a still frame instead of animating continuously,
+- still follows the pointer, but jumps to each new position instead of easing there,
+- skips the fade when an image loads.
+
+The components watch the setting, so a change takes effect without a reload.
+
+## Touch
+
+Hover effects respond to a mouse or pen, not touch, the same as CSS `:hover`. On touch screens, `ImageDistortion` doesn't ripple, `TiltCard` shows no glare, `LensImage` shows no lens, and the backgrounds keep their pointer effect at its resting level.
+
+Most image components are the exceptions (all but `ImageDistortion`, `TiltCard`, `HoloCard` and `LensImage`), because what the pointer reveals is content: the second image, or the image itself. On touch screens a tap toggles the effect instead.
+
+Don't rely on an effect to show information that touch users would otherwise miss.
+
+## Contrast
+
+The moving backgrounds, such as `ShaderGradient`, `Aurora`, `LiquidMetal`, `MeshGradient`, `Silk` and `Caustics`, put text on changing colors. Check contrast against the lightest and darkest of your three colors, not just the average. Large text only needs a 3:1 ratio; body text needs 4.5:1.

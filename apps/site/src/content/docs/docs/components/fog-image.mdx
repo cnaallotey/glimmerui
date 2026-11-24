@@ -1,0 +1,46 @@
+---
+title: FogImage
+description: An image behind frosted glass; the pointer wipes a clear patch that follows it.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { FogImageDemo } from "@/components/demos/FogImageDemo";
+
+Shows an image through frosted glass: blurred, scattered a little by the glass's grain and washed with fog. Hovering wipes a clear patch that follows the pointer, with a faint bright rim where the glass has just been cleared.
+
+<FogImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { FogImage } from "@glimmerui/react";
+
+    <FogImage src="/cabin.jpg" alt="A cabin in the snow at dusk" className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <FogImage src="/cabin.jpg" alt="A cabin in the snow at dusk" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `frost` | `number` | `1` | How frosted the glass is, from 0 to 1. |
+| `tint` | `string` | `"#f4f4f6"` | Color of the fog, as a hex value. |
+| `radius` | `number` | `120` | Radius of the clear patch around the pointer, in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The clear patch follows the pointer; the glass fogs back over behind it.
+- On touch screens, a tap clears a patch at the tapped point, and another tap fogs it again.
+- Without WebGL, the element shows the plain image as a `background-image`.

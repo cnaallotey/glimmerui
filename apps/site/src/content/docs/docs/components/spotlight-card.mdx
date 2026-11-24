@@ -1,0 +1,54 @@
+---
+title: SpotlightCard
+description: A card whose border lights up near the pointer, with a soft spotlight on its fill.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { SpotlightCardDemo } from "@/components/demos/SpotlightCardDemo";
+
+A container for your content. Its border glows faintly at rest and lights up near the pointer, with a soft spotlight on the fill beneath it. Good for pricing plans, feature tiles and anything that should feel touchable.
+
+<SpotlightCardDemo client:visible />
+
+## Usage
+
+Give the element the same `border-radius` as the `radius` prop, and its own padding.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { SpotlightCard } from "@glimmerui/react";
+
+    <SpotlightCard radius={16} style={{ borderRadius: 16, padding: 28 }}>
+      <h3>Pro plan</h3>
+      <p>Unlimited projects and priority support.</p>
+    </SpotlightCard>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <SpotlightCard :radius="16" style="border-radius: 16px; padding: 28px">
+      <h3>Pro plan</h3>
+      <p>Unlimited projects and priority support.</p>
+    </SpotlightCard>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#e0457b"` | Color of the border light and spotlight, as a hex value. |
+| `background` | `string` | `"#16151c"` | Card fill color, as a hex value. |
+| `radius` | `number` | `16` | Corner radius in CSS pixels. Match it with the element's `border-radius`. |
+| `border` | `number` | `1.5` | Border width in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Children render above the effect, so links and buttons inside the card work normally and stay accessible.
+- The border stays crisp at any size, because it's measured in pixels.
+- Without WebGL, the element gets the fill color as its background.
+- The canvas is hidden from assistive technology.

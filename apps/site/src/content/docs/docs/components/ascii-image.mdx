@@ -1,0 +1,49 @@
+---
+title: AsciiImage
+description: An image drawn in text characters, with the real image showing through around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { AsciiImageDemo } from "@/components/demos/AsciiImageDemo";
+
+Draws an image in text characters, like ASCII art: each cell shows one of ten characters (` .:-=+*o#@`, from sparse to dense), picked by how bright the image is there. Characters can be one color or take the image's own colors. Around the pointer, the real image shows through.
+
+<AsciiImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { AsciiImage } from "@glimmerui/react";
+
+    <AsciiImage src="/portrait.jpg" alt="Portrait of the founder" cell={10} colored className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <AsciiImage src="/portrait.jpg" alt="Portrait of the founder" :cell="10" colored class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `cell` | `number` | `10` | Size of each character cell, in CSS pixels. |
+| `color` | `string` | `"#e9e8ee"` | Character color, as a hex value. |
+| `background` | `string` | `"#0e0d12"` | Background color, as a hex value. |
+| `colored` | `boolean` | `false` | Color each character with the image's own color there, instead of `color`, and tint each cell with a dim wash of that color. |
+| `radius` | `number` | `140` | Radius of the area around the pointer where the real image shows, in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Brighter parts of the image get denser characters, so it reads best on a dark `background`. For a light background, use a dark `color` and expect a negative.
+- The characters are drawn with your system's monospace font, so they look slightly different on each platform.
+- On touch screens, a tap shows the real image around the tapped point, and another tap hides it.
+- Without WebGL, the element shows the plain image as a `background-image`.

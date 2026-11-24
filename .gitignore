@@ -1,0 +1,7 @@
+node_modules
+dist
+.nuxt
+.output
+.DS_Store
+*.log
+.astro

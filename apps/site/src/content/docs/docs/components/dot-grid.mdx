@@ -1,0 +1,53 @@
+---
+title: DotGrid
+description: A background of evenly spaced dots that swell and part around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { DotGridDemo } from "@/components/demos/DotGridDemo";
+
+A grid of small dots that breathe slowly. Near the pointer they grow, take on an accent color and move aside. It's quieter than [ShaderGradient](/docs/components/shader-gradient/), so it works behind text and forms.
+
+<DotGridDemo client:visible />
+
+## Usage
+
+The dots draw on a transparent background, so set the element's own background with CSS.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { DotGrid } from "@glimmerui/react";
+
+    <DotGrid color="#8f8bab" accent="#e0457b" style={{ background: "#f1f3f7", height: 400 }}>
+      <h2>Sign up for the beta</h2>
+    </DotGrid>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <DotGrid color="#8f8bab" accent="#e0457b" style="background: #f1f3f7; height: 400px">
+      <h2>Sign up for the beta</h2>
+    </DotGrid>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#8f8bab"` | Dot color, as a hex value. |
+| `accent` | `string` | `"#e0457b"` | Color the dots take on near the pointer, as a hex value. |
+| `spacing` | `number` | `24` | Distance between dot centers, in CSS pixels. |
+| `size` | `number` | `1.5` | Dot radius, in CSS pixels. Dots near the pointer grow to about 3 times this. |
+| `radius` | `number` | `140` | How far the pointer's influence reaches, in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The grid is centered in the element, so the margins on each side match.
+- Children render above the dots in normal document flow.
+- Without WebGL, the element gets the same grid as a CSS `radial-gradient` pattern, without the pointer effect.
+- The canvas is hidden from assistive technology. Children stay accessible.

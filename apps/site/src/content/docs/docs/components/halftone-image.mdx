@@ -1,0 +1,48 @@
+---
+title: HalftoneImage
+description: An image printed as a halftone of dots that opens into full color around the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { HalftoneImageDemo } from "@/components/demos/HalftoneImageDemo";
+
+Draws an image the way a newspaper prints it: one dot per cell on a 45 degree grid, larger where the image is darker. Around the pointer, the dots give way to the full-color image.
+
+<HalftoneImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { HalftoneImage } from "@glimmerui/react";
+
+    <HalftoneImage src="/portrait.jpg" alt="Portrait of the founder" cell={6} className="h-96" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <HalftoneImage src="/portrait.jpg" alt="Portrait of the founder" :cell="6" class="h-96" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `cell` | `number` | `8` | Distance between dot centers, in CSS pixels. Smaller cells keep more detail. |
+| `ink` | `string` | `"#0e0d12"` | Dot color, as a hex value. |
+| `paper` | `string` | `"#fafafa"` | Color behind the dots, as a hex value. |
+| `radius` | `number` | `140` | Radius of the full-color area around the pointer, in CSS pixels. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Images with a wide range of light and dark, such as photos, make the best halftones. Flat graphics turn into even fields of dots.
+- The image is cropped to cover the element, like `object-fit: cover`.
+- On touch screens, a tap opens the full-color area around the tapped point, and another tap closes it.
+- Without WebGL, the element shows the plain image as a `background-image`.

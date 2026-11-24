@@ -1,0 +1,47 @@
+---
+title: TiltCard
+description: An image card that tilts in true perspective toward the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { TiltCardDemo } from "@/components/demos/TiltCardDemo";
+
+An image card that tilts toward the pointer in real 3D perspective, with a glare that follows the pointer and anti-aliased rounded corners.
+
+<TiltCardDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { TiltCard } from "@glimmerui/react";
+
+    <TiltCard src="/cover.jpg" alt="Album cover" maxTilt={0.3} radius={16} className="h-80" />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <TiltCard src="/cover.jpg" alt="Album cover" :max-tilt="0.3" :radius="16" class="h-80" />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `maxTilt` | `number` | `0.4` | Largest tilt, in radians. `0.4` is about 23 degrees. |
+| `radius` | `number` | `20` | Corner radius in CSS pixels. |
+| `glare` | `number` | `1` | Strength of the glare, from 0 to 1. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- The card is drawn at about 70% of the element's height so its edges stay inside the element at full tilt. Make the element a little larger than the card you want to see.
+- The image is cropped to cover the card.
+- Leaving the card lets it settle back to flat.
+- Without WebGL, the element shows the image as a `background-image` with the same corner radius.

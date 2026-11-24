@@ -1,0 +1,149 @@
+---
+title: Core API
+description: Use the effects from @glimmerui/core directly, without React or Vue.
+---
+
+`@glimmerui/core` holds the effects with no framework code. The React and Vue components are thin wrappers around it. Use it directly for another framework, or for plain JavaScript.
+
+```bash
+npm install @glimmerui/core
+```
+
+## Creating an effect
+
+Each function takes an element and options, appends a canvas to the element, and returns a controller.
+
+```ts
+import { createTiltCard } from "@glimmerui/core";
+
+const el = document.querySelector<HTMLElement>("#cover")!;
+const card = createTiltCard(el, { src: "/cover.jpg", radius: 16 });
+
+el.addEventListener("pointermove", (e) => {
+  const r = el.getBoundingClientRect();
+  card.setPointer((e.clientX - r.left) / r.width, 1 - (e.clientY - r.top) / r.height);
+});
+el.addEventListener("pointerenter", (e) => {
+  if (e.pointerType !== "touch") card.setHover(1);
+});
+el.addEventListener("pointerleave", () => {
+  card.setHover(0);
+  card.setPointer(0.5, 0.5);
+});
+```
+
+The element needs a size, and should have `position: relative` if you place other content over the canvas.
+
+## Functions
+
+| Function | Options |
+| --- | --- |
+| `createShaderGradient(el, options?)` | `colors`, `speed`, `intensity`. See [ShaderGradient](/docs/components/shader-gradient/#props). |
+| `createImageDistortion(el, options)` | `src`, `strength`. See [ImageDistortion](/docs/components/image-distortion/#props). |
+| `createTiltCard(el, options)` | `src`, `maxTilt`, `radius`, `glare`. See [TiltCard](/docs/components/tilt-card/#props). |
+| `createImageReveal(el, options)` | `src`, `revealSrc`. See [ImageReveal](/docs/components/image-reveal/#props). |
+| `createLensImage(el, options)` | `src`, `zoom`, `size`, `fringe`. See [LensImage](/docs/components/lens-image/#props). |
+| `createAurora(el, options?)` | `colors`, `background`, `speed`, `intensity`. See [Aurora](/docs/components/aurora/#props). |
+| `createDotGrid(el, options?)` | `color`, `accent`, `spacing`, `size`, `radius`. See [DotGrid](/docs/components/dot-grid/#props). |
+| `createLiquidMetal(el, options?)` | `count`, `tint`, `background`, `speed`. See [LiquidMetal](/docs/components/liquid-metal/#props). |
+| `createParticles(el, options?)` | `count`, `color`, `accent`, `size`, `radius`, `speed`. See [Particles](/docs/components/particles/#props). |
+| `createHalftoneImage(el, options)` | `src`, `cell`, `ink`, `paper`, `radius`. See [HalftoneImage](/docs/components/halftone-image/#props). |
+| `createPixelImage(el, options)` | `src`, `block`, `radius`. See [PixelImage](/docs/components/pixel-image/#props). |
+| `createMeshGradient(el, options?)` | `colors`, `grain`, `speed`. See [MeshGradient](/docs/components/mesh-gradient/#props). |
+| `createSilk(el, options?)` | `color`, `sheen`, `folds`, `speed`. See [Silk](/docs/components/silk/#props). |
+| `createCaustics(el, options?)` | `deep`, `shallow`, `light`, `speed`. See [Caustics](/docs/components/caustics/#props). |
+| `createContourLines(el, options?)` | `color`, `accent`, `density`, `width`, `speed`. See [ContourLines](/docs/components/contour-lines/#props). |
+| `createStarfield(el, options?)` | `color`, `background`, `density`, `speed`. See [Starfield](/docs/components/starfield/#props). |
+| `createVoronoi(el, options?)` | `colors`, `line`, `scale`, `speed`. See [Voronoi](/docs/components/voronoi/#props). |
+| `createGridFloor(el, options?)` | `color`, `glow`, `background`, `speed`. See [GridFloor](/docs/components/grid-floor/#props). |
+| `createInkSmoke(el, options?)` | `color`, `background`, `speed`. See [InkSmoke](/docs/components/ink-smoke/#props). |
+| `createGlitchImage(el, options)` | `src`, `strength`. See [GlitchImage](/docs/components/glitch-image/#props). |
+| `createDitherImage(el, options)` | `src`, `pixel`, `ink`, `paper`, `radius`. See [DitherImage](/docs/components/dither-image/#props). |
+| `createAsciiImage(el, options)` | `src`, `cell`, `color`, `background`, `colored`, `radius`. See [AsciiImage](/docs/components/ascii-image/#props). |
+| `createDuotoneImage(el, options)` | `src`, `dark`, `light`. See [DuotoneImage](/docs/components/duotone-image/#props). |
+| `createFogImage(el, options)` | `src`, `frost`, `tint`, `radius`. See [FogImage](/docs/components/fog-image/#props). |
+| `createKaleidoscopeImage(el, options)` | `src`, `segments`, `speed`. See [KaleidoscopeImage](/docs/components/kaleidoscope-image/#props). |
+| `createHoloCard(el, options)` | `src`, `maxTilt`, `radius`, `glare`, `foil`. See [HoloCard](/docs/components/holo-card/#props). |
+| `createSpotlightCard(el, options?)` | `color`, `background`, `radius`, `border`. See [SpotlightCard](/docs/components/spotlight-card/#props). |
+| `createShaderButton(el, options?)` | `colors`, `speed`. See [ShaderButton](/docs/components/shader-button/#props). |
+| `createShaderText(el, options, textElement?)` | `text`, `colors`, `speed`. Pass the element holding the real text as `textElement`, and the effect draws its letters in that element's font and position. See [ShaderText](/docs/components/shader-text/#props). |
+| `createCursorTrail(el, options?)` | `color`, `tail`, `width`, `length`. `el` should be a fixed, full-viewport element that ignores the pointer; the trail listens to the window itself. See [CursorTrail](/docs/components/cursor-trail/#props). |
+
+## Controller methods
+
+| Method | Available on | What it does |
+| --- | --- | --- |
+| `setPointer(x, y)` | all | Moves the pointer, smoothed with a spring. `x` and `y` run from 0 to 1, with the origin at the **bottom left**. |
+| `setIntensity(value)` | `ShaderGradient`, `Aurora` | Animates the pointer's pull to a value from 0 to 1. |
+| `setHover(value)` | every component except `ShaderGradient` and `Aurora` | Animates the hover amount from 0 to 1: the ripple, glare, reveal, lens, pointer blob, or the dots' and particles' reaction. |
+| `update(options)` | all | Applies new options to the running effect. Pass the full options object: any option you leave out goes back to its default. |
+| `destroy()` | all | Stops the effect, frees its GPU resources and removes its canvas. |
+
+`CursorTrail`'s controller has only `update` and `destroy`, since it follows the window's pointer by itself.
+
+Without WebGL, the functions apply the CSS fallback to the element and return a controller whose pointer methods do nothing.
+
+## Your own backgrounds
+
+`createBackground(el, options, spec)` is what the newer backgrounds are built on. Give it a fragment shader and it handles the canvas, resizing, the pointer, hover, reduced motion, pausing offscreen and the CSS fallback. Your shader gets these uniforms for free:
+
+| Uniform | Type | Value |
+| --- | --- | --- |
+| `uTime` | `float` | Seconds, multiplied by the spec's `speed` |
+| `uRes` | `vec2` | Element size in CSS pixels |
+| `uPointer` | `vec2` | Pointer position, 0 to 1, origin at the bottom left |
+| `uHover` | `float` | Hover amount, 0 to 1 |
+| `vUv` | `vec2` (varying) | Position in the element, 0 to 1 |
+
+```ts
+import { createBackground } from "@glimmerui/core";
+
+const glow = createBackground(el, { color: [1, 0.3, 0.5] }, {
+  fragment: `
+    precision highp float;
+    uniform vec2 uPointer;
+    uniform float uHover;
+    uniform vec3 uColor;
+    varying vec2 vUv;
+    void main() {
+      float d = distance(vUv, uPointer);
+      gl_FragColor = vec4(uColor * (1.0 - d) * (0.5 + 0.5 * uHover), 1.0);
+    }
+  `,
+  resolve: (o) => o,
+  uniforms: (o) => ({ uColor: o.color }),
+  fallback: () => "#ff4d80",
+});
+```
+
+The returned controller has `setPointer`, `setHover`, `update` and `destroy`, like the built-in backgrounds.
+
+## Your own image effects
+
+`createImageEffect(el, options, spec)` does the same for effects on an image. It loads `options.src`, fades it in, and handles the pointer, hover, resizing and the plain-image fallback. Your shader gets `uTex`, `uImgAspect`, `uLoaded`, `uTime`, `uRes`, `uPointer` and `uHover`. To crop the image like `object-fit: cover`, paste the `coverChunk` string from `@glimmerui/core` into your shader and call `coverUv(vUv, uRes.x / uRes.y, uImgAspect)`. `noiseChunk` adds `hash`, `hash2`, `noise` and `fbm` the same way.
+
+```ts
+import { createImageEffect } from "@glimmerui/core";
+
+const sepia = createImageEffect(el, { src: "/photo.jpg" }, {
+  fragment: `
+    precision highp float;
+    uniform sampler2D uTex;
+    uniform float uHover;
+    varying vec2 vUv;
+    void main() {
+      vec3 c = texture2D(uTex, vUv).rgb;
+      float g = dot(c, vec3(0.299, 0.587, 0.114));
+      gl_FragColor = vec4(mix(vec3(g) * vec3(1.1, 0.95, 0.8), c, uHover), 1.0);
+    }
+  `,
+  resolve: (o) => o,
+  uniforms: () => ({}),
+});
+```
+
+Image effects can also create extra GPU resources once with a `setup(gl, options)` hook that returns more uniforms, such as a texture. Textures returned from `setup` are freed when the effect is destroyed. `AsciiImage` uses this for its texture of characters.
+
+## Effects on the tilt card
+
+`createTiltEffect(el, options, fragment, extraUniforms?)` is the engine behind `TiltCard` and `HoloCard`: perspective, rounded corners, glare and the image. Build the fragment with `tiltShader({ uniforms, functions, color })`, where `color` is GLSL that adjusts `col` before it's drawn. It can read the card's own coordinates in `uv`, its rotation in `uRot` and the hover amount in `uHover`.

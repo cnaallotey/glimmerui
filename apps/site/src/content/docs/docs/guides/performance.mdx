@@ -1,0 +1,28 @@
+---
+title: Performance
+description: How Glimmer UI keeps many effects cheap, and what each one costs.
+---
+
+## One WebGL context
+
+Browsers allow about 16 WebGL contexts per page, and drop the oldest when you go over. Glimmer UI uses one hidden WebGL context for every effect on the page. Each frame, it renders each effect there and copies the result into a plain 2D canvas inside that effect's component. A page can hold any number of effects, and each one still stacks like normal DOM.
+
+The shared context is released one second after the last effect on the page unmounts. Remounting within that second, as React StrictMode and many route changes do, reuses it instead of starting over.
+
+## What runs when
+
+- **Offscreen:** an effect that has scrolled out of view stops drawing. When nothing is visible, nothing runs.
+- **Reduced motion:** effects draw only when something changes, such as the pointer moving or an image loading, and at most once per frame.
+- **Prop changes:** update the running effect. Nothing is recompiled, and images aren't reloaded unless `src` changed.
+
+## Resolution
+
+Effects render at the screen's pixel density, capped at 2x, and no side renders larger than 4096 device pixels. A full-screen effect on a 4K display is the most expensive case.
+
+## Cost per effect
+
+Each visible effect costs one full-screen shader pass and one canvas copy per frame. Dozens of small effects run comfortably on a laptop. On low-end phones, prefer fewer, smaller effects, and lower `speed` or hold `ShaderGradient` still with `speed={0}` where motion isn't needed.
+
+## Known limit
+
+If the browser loses the shared WebGL context, for example after a GPU driver reset, effects stop updating until the page reloads. Recovering automatically isn't implemented yet.

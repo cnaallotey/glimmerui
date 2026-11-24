@@ -1,0 +1,57 @@
+---
+title: CursorTrail
+description: A glowing trail that follows the mouse across the whole page.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { CursorTrailDemo } from "@/components/demos/CursorTrailDemo";
+
+A glowing ribbon that follows the mouse anywhere on the page, thinning and changing color toward its end. It draws in a full-screen layer above the page that ignores the pointer, so everything underneath still works.
+
+<CursorTrailDemo client:visible />
+
+## Usage
+
+Render it once, anywhere, for example in your app's root layout. It doesn't need a size or children.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { CursorTrail } from "@glimmerui/react";
+
+    export default function Layout({ children }) {
+      return (
+        <>
+          {children}
+          <CursorTrail color="#e0457b" tail="#f9b44c" />
+        </>
+      );
+    }
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <template>
+      <slot />
+      <CursorTrail color="#e0457b" tail="#f9b44c" />
+    </template>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#e0457b"` | Color at the head of the trail, as a hex value. |
+| `tail` | `string` | `"#f9b44c"` | Color at the end of the trail, as a hex value. |
+| `width` | `number` | `10` | Width of the trail at its head, in CSS pixels. |
+| `length` | `number` | `20` | How long the trail is, from 4 to 40 segments. |
+| `zIndex` | `number` | `9999` | Stacking order of the trail's layer. |
+
+## Behavior
+
+- The trail fades out once the mouse has been still for a moment, and then stops drawing entirely, so an idle page costs nothing.
+- It follows a mouse or pen, not touch.
+- It's pure decoration, so it stays off when the user prefers reduced motion, and without WebGL.
+- Because it covers the whole screen, it's the most expensive component per frame while moving. Use one per page.

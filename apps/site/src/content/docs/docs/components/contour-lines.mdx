@@ -1,0 +1,52 @@
+---
+title: ContourLines
+description: A slowly shifting topographic map; the pointer raises a hill that the lines ring around.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ContourLinesDemo } from "@/components/demos/ContourLinesDemo";
+
+Contour lines of a slowly shifting terrain, like a topographic map, with every fifth line drawn heavier. Hovering raises a hill under the pointer, so the lines ring around it and take on an accent color.
+
+<ContourLinesDemo client:visible />
+
+## Usage
+
+The lines draw on a transparent background, so set the element's own background with CSS.
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ContourLines } from "@glimmerui/react";
+
+    <ContourLines density={12} style={{ background: "#fafafa", height: 400 }}>
+      <h2>Find your route</h2>
+    </ContourLines>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <ContourLines :density="12" style="background: #fafafa; height: 400px">
+      <h2>Find your route</h2>
+    </ContourLines>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#8b8a94"` | Line color, as a hex value. |
+| `accent` | `string` | `"#e0457b"` | Color lines take on near the pointer, as a hex value. |
+| `density` | `number` | `12` | Roughly how many lines cross the element from top to bottom. |
+| `width` | `number` | `1` | Line width, in CSS pixels. Every fifth line is drawn heavier. |
+| `speed` | `number` | `1` | How fast the terrain shifts. `0` holds it still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+
+## Behavior
+
+- Lines keep the same width in pixels however steep the terrain gets.
+- Without WebGL, the element gets CSS rings in the line color.
+- The canvas is hidden from assistive technology. Children stay accessible.

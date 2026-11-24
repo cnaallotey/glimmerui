@@ -1,0 +1,45 @@
+---
+title: Nuxt
+description: The Glimmer UI Nuxt module.
+---
+
+`@glimmerui/nuxt` registers the components for auto-import and renders them in the browser only, since WebGL doesn't exist on the server.
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ["@glimmerui/nuxt"],
+});
+```
+
+Then use the components anywhere, with no imports and no `<ClientOnly>`:
+
+```vue
+<template>
+  <ShaderGradient class="hero">
+    <h1>Hello</h1>
+  </ShaderGradient>
+  <TiltCard src="/cover.jpg" alt="Album cover" class="cover" />
+</template>
+```
+
+Props, attributes and listeners work the same as in [Vue](/docs/vue/).
+
+## Options
+
+| Option | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `prefix` | `string` | `""` | Prefix for the component names. `"Gl"` gives `<GlShaderGradient>`, `<GlImageDistortion>` and `<GlTiltCard>`. |
+
+```ts
+export default defineNuxtConfig({
+  modules: ["@glimmerui/nuxt"],
+  glimmerui: { prefix: "Gl" },
+});
+```
+
+## Content rendered on the server
+
+Because the components render only in the browser, the server sends nothing in their place, including any slot content such as a heading inside `ShaderGradient`. If that content matters for search engines or must appear before JavaScript runs, put it next to the component rather than inside it, and position it over the effect with CSS.
+
+Reserve the component's size with CSS (a height or `aspect-ratio` on its class) so the page doesn't shift when it appears.

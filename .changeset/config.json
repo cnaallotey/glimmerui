@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "baseBranch": "main",
+  "access": "public",
+  "fixed": [["@glimmerui/*"]],
+  "linked": [],
+  "ignore": [],
+  "privatePackages": false,
+  "updateInternalDependencies": "patch",
+  "format": "auto",
+  "commit": false,
+  "changelog": "@changesets/cli/changelog"
+}
