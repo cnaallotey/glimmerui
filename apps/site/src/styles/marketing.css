@@ -378,6 +378,38 @@
   color: var(--gl-tone);
 }
 
+/* Chrome ring around the hero badge and button */
+
+.mk-chrome {
+  --chrome-width: 1.5px;
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+  padding: var(--chrome-width);
+  border-radius: calc(6px + var(--chrome-width));
+  isolation: isolate;
+}
+.mk-chrome--button {
+  --chrome-width: 2px;
+}
+/* The effect sits behind the element, which covers all but its edge. */
+.mk-chrome-fx {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.mk-chrome > :not(.mk-chrome-fx) {
+  border-color: transparent;
+}
+.mk-chrome:has(> .mk-badge) {
+  margin-bottom: 1.5rem;
+}
+.mk-chrome > .mk-badge {
+  margin-bottom: 0;
+}
+
 /* Stack picker */
 
 /* Every stack's code is on the page; only the picked stack's shows. */

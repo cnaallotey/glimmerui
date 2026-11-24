@@ -1,0 +1,172 @@
+---
+// Social cards, one per page, 1200 x 630. They're only built while
+// scripts/og.mjs renders them into public/og; a normal build skips them.
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
+import "../../styles/tokens.css";
+import { getCollection } from "astro:content";
+import logo from "../../assets/logo.svg?raw";
+import { OgVisual } from "../../components/og/OgVisual";
+import { ogSlug } from "../../lib/og";
+
+interface Card {
+  kind: string;
+  title: string;
+  description: string;
+  component?: string;
+}
+
+export async function getStaticPaths() {
+  if (!process.env.OG_CARDS) return [];
+  const cards: { params: { slug: string }; props: Card }[] = [
+    {
+      params: { slug: "index" },
+      props: {
+        kind: "WebGL components",
+        title: "Thirty shader effects for React, Vue and Nuxt",
+        description: "Backgrounds, image effects and cards, each one a component you drop into a page.",
+      },
+    },
+  ];
+  for (const entry of await getCollection("docs")) {
+    const parts = entry.id.split("/");
+    const section = parts[1];
+    cards.push({
+      params: { slug: ogSlug(entry.id) },
+      props: {
+        kind: section === "components" ? "Component" : section === "guides" ? "Guide" : "Docs",
+        title: entry.data.title,
+        description: entry.data.description ?? "",
+        component: section === "components" ? parts[2] : undefined,
+      },
+    });
+  }
+  return cards;
+}
+
+const { kind, title, description, component } = Astro.props as Card;
+// These look like themselves at rest, not while hovered.
+const still = component === "ink-smoke" || component === "duotone-image";
+const size = title.length > 34 ? "long" : title.length > 11 ? "mid" : "short";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main class="og" data-still={still ? "" : undefined}>
+      <div class="og-text">
+        <div class="og-brand"><Fragment set:html={logo} /><span>Glimmer UI</span></div>
+        <span class="og-kind">{kind}</span>
+        <h1 class={`og-title og-title--${size}`}>{title}</h1>
+        <p class="og-desc">{description}</p>
+      </div>
+      <OgVisual client:load component={component} />
+    </main>
+    <script>
+      // Hover the effect, so cards show it working rather than at rest.
+      const visual = document.querySelector<HTMLElement>(".og-visual");
+      const box = visual!.getBoundingClientRect();
+      let step = 0;
+      setInterval(() => {
+        if (document.querySelector("astro-island[ssr], [data-still]")) return;
+        const angle = step++ * 0.12;
+        const clientX = box.left + box.width * (0.6 + 0.16 * Math.cos(angle));
+        const clientY = box.top + box.height * (0.42 + 0.16 * Math.sin(angle));
+        const target = document.elementFromPoint(clientX, clientY) ?? visual!;
+        const init = { bubbles: true, pointerType: "mouse", clientX, clientY };
+        if (step === 1) target.dispatchEvent(new PointerEvent("pointerover", init));
+        target.dispatchEvent(new PointerEvent("pointermove", init));
+      }, 40);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  html,
+  body {
+    width: 1200px;
+    height: 630px;
+    margin: 0;
+    overflow: hidden;
+    background: var(--gl-paper);
+  }
+  .og {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 460px;
+    gap: 56px;
+    box-sizing: border-box;
+    height: 630px;
+    padding: 64px;
+    font-family: var(--gl-sans);
+    color: var(--gl-ink);
+  }
+  .og-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .og-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .og-brand svg {
+    width: 44px;
+    height: 44px;
+  }
+  .og-kind {
+    margin-top: auto;
+    font-family: var(--gl-mono);
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gl-tone);
+  }
+  .og-title {
+    margin: 14px 0 0;
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  .og-title--short {
+    font-size: 88px;
+  }
+  .og-title--mid {
+    font-size: 62px;
+  }
+  .og-title--long {
+    font-size: 54px;
+  }
+  .og-desc {
+    display: -webkit-box;
+    margin: 22px 0 0;
+    overflow: hidden;
+    font-size: 26px;
+    line-height: 1.32;
+    color: var(--gl-ink-soft);
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .og-visual {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100%;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--gl-line);
+    border-radius: 28px;
+    background: var(--gl-soft);
+    box-shadow: 0 1px 0 rgba(14, 13, 18, 0.04), 0 24px 48px -24px rgba(14, 13, 18, 0.25);
+  }
+  .og-visual--night {
+    background: var(--gl-night);
+  }
+</style>

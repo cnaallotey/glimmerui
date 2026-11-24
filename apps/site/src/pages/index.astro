@@ -42,6 +42,26 @@ import logo from "../assets/logo.svg?raw";
 import { nightTheme } from "../styles/code-theme";
 import { withBase } from "../lib/url";
 import { stackLogo, stacks } from "../lib/stacks";
+import { OG_HEIGHT, OG_WIDTH, ogImageUrl } from "../lib/og";
+
+const title = "Glimmer UI: WebGL shader components for React, Vue and Nuxt";
+const description =
+  "Thirty WebGL components for React, Vue and Nuxt: shader backgrounds, image effects and tilting cards. One shared WebGL context, CSS fallbacks, reduced motion built in.";
+const canonical = new URL(withBase("/"), Astro.site).href;
+const image = ogImageUrl("index", Astro.site);
+// Structured data, so search engines know this is a code library.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  name: "Glimmer UI",
+  description,
+  url: canonical,
+  image,
+  codeRepository: "https://github.com/cnaallotey/glimmerui",
+  programmingLanguage: ["TypeScript", "GLSL"],
+  runtimePlatform: ["React", "Vue", "Nuxt"],
+  license: "https://opensource.org/licenses/MIT",
+};
 
 // Small line icons, drawn on a 20px grid in the current text color.
 const icon = {
@@ -163,12 +183,28 @@ const footerLinks = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Glimmer UI</title>
-    <meta
-      name="description"
-      content="Thirty WebGL components for React, Vue and Nuxt: shader backgrounds, image effects and tilting cards."
-    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
+    <meta name="theme-color" content="#fafafa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Glimmer UI" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content={String(OG_WIDTH)} />
+    <meta property="og:image:height" content={String(OG_HEIGHT)} />
+    <meta property="og:image:alt" content="Glimmer UI: thirty shader effects for React, Vue and Nuxt" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <script is:inline define:vars={{ ids: stacks.map((st) => st.id) }}>
       // Apply the visitor's stack before the first paint, so code never flickers.
       try {
@@ -201,7 +237,9 @@ const footerLinks = [
     <main id="main" class="mk-page">
       <section class="mk-section mk-hero" aria-labelledby="hero-title">
         <div class="mk-wrap">
-          <span class="mk-badge"><Fragment set:html={svg(icon.spark)} />WebGL components</span>
+          <span class="mk-chrome" data-chrome data-glimmer="">
+            <span class="mk-badge"><Fragment set:html={svg(icon.spark)} />WebGL components</span>
+          </span>
           <h1 id="hero-title" class="mk-display">
             Thirty shader effects for React, Vue and Nuxt.{" "}
             <span class="mk-tone">Each one is a component you drop into a page.</span>
@@ -224,9 +262,11 @@ const footerLinks = [
             </div>
           </fieldset>
           <div class="mk-actions">
-            {stacks.map((st) => (
-              <a class="mk-btn mk-btn--dark" data-for={st.id} href={withBase(st.guide)}>Get started with {st.name}</a>
-            ))}
+            <span class="mk-chrome mk-chrome--button" data-chrome data-glimmer="">
+              {stacks.map((st) => (
+                <a class="mk-btn mk-btn--dark" data-for={st.id} href={withBase(st.guide)}>Get started with {st.name}</a>
+              ))}
+            </span>
             <a class="mk-btn" href={withBase("/docs/")}>Read the docs</a>
             <div class="mk-install">
               {stacks.map((st) => <code data-for={st.id}>{st.install}</code>)}
@@ -748,6 +788,9 @@ const footerLinks = [
 
     <script>
       import { stacks } from "../lib/stacks";
+      import { mountChrome } from "../lib/chrome";
+
+      mountChrome();
 
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 

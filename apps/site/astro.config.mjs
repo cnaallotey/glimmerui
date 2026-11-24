@@ -18,6 +18,8 @@ export default defineConfig({
       description: "WebGL components for React, Vue and Nuxt.",
       logo: { src: "./src/assets/logo.svg" },
       favicon: "/favicon.svg",
+      // Social cards, a home screen icon and fuller titles: src/routeData.ts.
+      routeMiddleware: "./src/routeData.ts",
       customCss: [
         "@fontsource-variable/geist",
         "@fontsource-variable/geist-mono",
