@@ -1,6 +1,6 @@
 {
   "name": "@glimmerui/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Framework agnostic WebGL effects driven by Motion",
   "license": "MIT",
   "repository": {

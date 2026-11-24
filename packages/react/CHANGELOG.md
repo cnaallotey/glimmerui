@@ -1,5 +1,12 @@
 # @glimmerui/react
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [4c7e44b]
+  - @glimmerui/core@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
