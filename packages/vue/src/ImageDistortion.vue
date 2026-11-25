@@ -7,6 +7,8 @@ const props = defineProps<ImageDistortionOptions & { alt: string }>();
 const { host, controller } = useController(createImageDistortion, () => ({
   src: props.src,
   strength: props.strength,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

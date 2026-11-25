@@ -35,23 +35,42 @@ Shows one image at rest. On hover, a second image spreads out from the pointer t
     />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ImageReveal } from "@glimmerui/svelte";
+    </script>
+
+    <ImageReveal
+      src="/room-before.jpg"
+      revealSrc="/room-after.jpg"
+      alt="The living room before and after the renovation"
+      class="h-96"
+    />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image shown at rest. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
-| `revealSrc` | `string` | required | Image revealed on hover. Same rules as `src`. |
+| `src` | `string` | required | Image or video shown at rest. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
+| `revealSrc` | `string` | required | Image or video to reveal. Same rules as `src`. |
 | `alt` | `string` | required | Describes both images for screen readers, since sighted users can see either. |
+| `scroll` | `boolean` | `false` | Reveals as the element scrolls through the screen, instead of on hover. |
+| `progress` | `number` | none | Sets the reveal yourself, from 0 to 1. Replaces both hover and scroll. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 
 - The reveal starts where the pointer enters and follows it while spreading.
 - On touch screens, a tap toggles between the two images.
+- With `scroll`, the reveal starts once the element is well into view and finishes before it starts to leave, following the scroll in both directions. See [Scroll](/docs/guides/scroll/).
 - Both images are cropped to cover the element, like `object-fit: cover`. They don't need the same size or shape.
 - The second image only takes part once it has loaded, so the reveal never shows a blank.
-- With reduced motion, the images swap without the spreading animation.
+- With reduced motion, hovering swaps the images without the spreading animation. `scroll` and `progress` still move it, since they follow the user.
 - Without WebGL, the element shows the first image and swaps to the second on hover.

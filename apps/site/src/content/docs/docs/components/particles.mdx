@@ -31,6 +31,17 @@ The particles draw on a transparent background, so set the element's own backgro
     </Particles>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Particles } from "@glimmerui/svelte";
+    </script>
+
+    <Particles count={3000} color="#8b8a94" style="background: #fafafa; height: 400px">
+      <h2>Join the waitlist</h2>
+    </Particles>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -44,7 +55,7 @@ The particles draw on a transparent background, so set the element's own backgro
 | `radius` | `number` | `160` | How far the pointer's pull reaches, in CSS pixels. |
 | `speed` | `number` | `1` | How fast the particles drift. `0` holds them still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

@@ -1,27 +1,28 @@
-import { Mesh, Program, Texture, Triangle } from "ogl";
+import { Mesh, Program, Triangle } from "ogl";
 import { motionValue } from "motion";
+import { createMediaFallback, createMediaTexture, type MediaOptions, type MediaTexture } from "./media";
+import { playProgress, trackScroll } from "./scroll";
 import { gradientVertex, revealFragment } from "./shaders";
-import {
-  animateTo,
-  bindValue,
-  createImageLoader,
-  createStage,
-  disposeResources,
-  paintImage,
-  supportsWebGL,
-} from "./stage";
+import { animateTo, bindValue, createStage, disposeResources, supportsWebGL } from "./stage";
 
-export interface ImageRevealOptions {
-  /** Image shown at rest. Must be same origin or served with CORS headers. */
+export interface ImageRevealOptions extends MediaOptions {
+  /** Image or video shown at rest. Must be same origin or served with CORS headers. */
   src: string;
-  /** Image revealed on hover. Must be same origin or served with CORS headers. */
+  /** Image or video that gets revealed. Must be same origin or served with CORS headers. */
   revealSrc: string;
+  /** Reveal as the element scrolls through the screen, instead of on hover. */
+  scroll?: boolean;
+  /** Set the reveal yourself, from 0 to 1. Replaces both hover and scroll. */
+  progress?: number;
 }
 
 export interface ImageRevealController {
   /** Pointer position in 0 to 1 space, origin at the bottom left. The reveal spreads from here. */
   setPointer(x: number, y: number): void;
-  /** Animate the reveal from 0 (first image) to 1 (second image). */
+  /**
+   * Animate the reveal from 0 (first image) to 1 (second image). Ignored while
+   * scroll or progress drives it.
+   */
   setHover(value: number): void;
   /**
    * Apply new options in place. A new source keeps showing the current image
@@ -35,50 +36,93 @@ export function createImageReveal(
   container: HTMLElement,
   options: ImageRevealOptions
 ): ImageRevealController {
-  // Fallback: swap the plain images on hover.
+  let current = options;
+  let hovered = 0;
+  let stopScroll: (() => void) | undefined;
+
+  /** Starts or stops following the scroll, to match the options. */
+  const followScroll = (apply: (progress: number) => void) => {
+    const wanted = !!current.scroll && current.progress === undefined;
+    if (wanted === !!stopScroll) return;
+    if (stopScroll) {
+      stopScroll();
+      stopScroll = undefined;
+    } else {
+      stopScroll = trackScroll(container, (p) => apply(playProgress(p)));
+    }
+  };
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+
+  // Fallback: swap between the plain images.
   if (!supportsWebGL()) {
-    let current = options;
-    let revealed = false;
-    const paint = () => paintImage(container, revealed ? current.revealSrc : current.src);
-    paint();
+    const fallback = createMediaFallback(container);
+    let amount = 0;
+    const paint = () => fallback.show(amount > 0.5 ? current.revealSrc : current.src, current);
+    const set = (value: number) => {
+      amount = value;
+      paint();
+    };
+    const apply = () => {
+      followScroll(set);
+      if (current.progress !== undefined) set(clamp(current.progress));
+      else if (current.scroll) paint();
+      else set(hovered);
+    };
+    apply();
     return {
       setPointer() {},
       setHover(value) {
-        revealed = value > 0.5;
-        paint();
+        hovered = value;
+        apply();
       },
       update(next) {
         current = next;
-        paint();
+        apply();
       },
       destroy() {
-        container.style.background = "";
+        stopScroll?.();
+        fallback.destroy();
       },
     };
   }
 
   let program!: Program;
   let mesh!: Mesh;
+  let mediaA!: MediaTexture;
+  let mediaB!: MediaTexture;
 
   const stage = createStage(container, {
     onResize(w, h) {
       program.uniforms.uRes.value = [w, h];
     },
     onFrame(seconds) {
+      mediaA.update();
+      mediaB.update();
       program.uniforms.uTime.value = seconds;
       stage.renderer.render({ scene: mesh });
+    },
+    onActive(active) {
+      mediaA.setActive(active);
+      mediaB.setActive(active);
     },
   });
   const gl = stage.gl;
 
-  const textureA = new Texture(gl, { generateMipmaps: false });
-  const textureB = new Texture(gl, { generateMipmaps: false });
+  mediaA = createMediaTexture(stage, (aspect) => {
+    program.uniforms.uAspectA.value = aspect;
+    animateTo(stage, loadedA, 1, { duration: 0.6 });
+  });
+  // The second image only takes part once it has loaded, so the reveal never shows a blank.
+  mediaB = createMediaTexture(stage, (aspect) => {
+    program.uniforms.uAspectB.value = aspect;
+    program.uniforms.uLoadedB.value = 1;
+  });
   program = new Program(gl, {
     vertex: gradientVertex,
     fragment: revealFragment,
     uniforms: {
-      uTexA: { value: textureA },
-      uTexB: { value: textureB },
+      uTexA: { value: mediaA.texture },
+      uTexB: { value: mediaB.texture },
       uAspectA: { value: 1 },
       uAspectB: { value: 1 },
       uLoadedA: { value: 0 },
@@ -101,25 +145,25 @@ export function createImageReveal(
   bindValue(stage, progress, (v) => (program.uniforms.uProgress.value = v));
   bindValue(stage, loadedA, (v) => (program.uniforms.uLoadedA.value = v));
 
-  const imagesA = createImageLoader((img) => {
-    textureA.image = img;
-    textureA.needsUpdate = true;
-    program.uniforms.uAspectA.value = img.naturalWidth / img.naturalHeight;
-    animateTo(stage, loadedA, 1, { duration: 0.6 });
-    stage.invalidate();
-  });
-  // The second image only takes part once it has loaded, so the reveal never shows a blank.
-  const imagesB = createImageLoader((img) => {
-    textureB.image = img;
-    textureB.needsUpdate = true;
-    program.uniforms.uAspectB.value = img.naturalWidth / img.naturalHeight;
-    program.uniforms.uLoadedB.value = 1;
-    stage.invalidate();
-  });
-  imagesA.load(options.src);
-  imagesB.load(options.revealSrc);
+  const load = () => {
+    mediaA.load(current.src, current);
+    mediaB.load(current.revealSrc, current);
+  };
+  load();
 
   stage.start();
+
+  // Follows its driver directly: progress and scroll already move smoothly.
+  const set = (value: number) => {
+    progress.stop();
+    progress.set(value);
+  };
+  const apply = () => {
+    followScroll(set);
+    if (current.progress !== undefined) set(clamp(current.progress));
+    else if (!current.scroll) animateTo(stage, progress, hovered, { duration: 0.9, ease: "easeInOut" });
+  };
+  apply();
 
   return {
     setPointer(x, y) {
@@ -128,19 +172,22 @@ export function createImageReveal(
       animateTo(stage, py, y, spring);
     },
     setHover(value) {
-      animateTo(stage, progress, value, { duration: 0.9, ease: "easeInOut" });
+      hovered = value;
+      if (current.progress === undefined && !current.scroll) apply();
     },
     update(next) {
-      imagesA.load(next.src);
-      imagesB.load(next.revealSrc);
+      current = next;
+      load();
+      apply();
       stage.invalidate();
     },
     destroy() {
-      imagesA.cancel();
-      imagesB.cancel();
+      stopScroll?.();
+      mediaA.destroy();
+      mediaB.destroy();
       [px, py, progress, loadedA].forEach((mv) => mv.destroy());
-      disposeResources(gl, { program, texture: textureA, geometry });
-      disposeResources(gl, { texture: textureB });
+      disposeResources(gl, { program, texture: mediaA.texture, geometry });
+      disposeResources(gl, { texture: mediaB.texture });
       stage.destroy();
     },
   };

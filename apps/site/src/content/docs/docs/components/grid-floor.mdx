@@ -29,6 +29,17 @@ A glowing grid floor stretches to the horizon in perspective and rolls toward yo
     </GridFloor>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { GridFloor } from "@glimmerui/svelte";
+    </script>
+
+    <GridFloor color="#e0457b" glow="#f9b44c" class="h-96">
+      <h1>Night drive</h1>
+    </GridFloor>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ A glowing grid floor stretches to the horizon in perspective and rolls toward yo
 | `background` | `string` | `"#0e0d12"` | Sky and floor color, as a hex value. |
 | `speed` | `number` | `1` | How fast the grid rolls toward you. `0` holds it still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

@@ -1,30 +1,25 @@
-import { useState } from "react";
 import { ShaderGradient } from "@glimmerui/react";
-import { Range } from "./Range";
+import { colors, range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  colors("colors", ["#3b1d8f", "#e0457b", "#f9b44c"]),
+  range("speed", 1, 0, 3, 0.1),
+];
+const presets = {
+  Sunset: {},
+  Lagoon: { colors: ["#0f766e", "#22d3ee", "#a7f3d0"] },
+  Ember: { colors: ["#7c2d12", "#f97316", "#fde68a"] },
+  Graphite: { colors: ["#121117", "#9ea0a8", "#f4f4f6"], speed: 0.6 },
+};
 
 export function ShaderGradientDemo() {
-  const [colors, setColors] = useState<[string, string, string]>([
-    "#3b1d8f",
-    "#e0457b",
-    "#f9b44c",
-  ]);
-  const [speed, setSpeed] = useState(1);
-
-  const setColor = (i: number, value: string) =>
-    setColors((c) => c.map((v, j) => (j === i ? value : v)) as [string, string, string]);
-
   return (
-    <div className="demo not-content">
-      <ShaderGradient className="demo-stage" colors={colors} speed={speed} />
-      <div className="demo-controls">
-        {colors.map((color, i) => (
-          <label key={i}>
-            Color {i + 1}
-            <input type="color" value={color} onChange={(e) => setColor(i, e.target.value)} />
-          </label>
-        ))}
-        <Range label="speed" value={speed} min={0} max={3} step={0.1} onChange={setSpeed} />
-      </div>
-    </div>
+    <Demo
+      name="ShaderGradient"
+      controls={controls}
+      presets={presets}
+      render={(p) => <ShaderGradient className="demo-stage" {...p} />}
+    />
   );
 }

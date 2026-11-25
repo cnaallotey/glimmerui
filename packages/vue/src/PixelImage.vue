@@ -8,6 +8,8 @@ const { host, controller } = useController(createPixelImage, () => ({
   src: props.src,
   block: props.block,
   radius: props.radius,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

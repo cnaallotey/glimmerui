@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import {
   AsciiImage,
   Aurora,
+  BorderBeam,
   Caustics,
   ContourLines,
   DitherImage,
@@ -14,13 +15,19 @@ import {
   HoloCard,
   ImageDistortion,
   ImageReveal,
+  ImageTransition,
   InkSmoke,
   KaleidoscopeImage,
   LensImage,
+  LightRays,
   LiquidMetal,
   MeshGradient,
   Particles,
   PixelImage,
+  Plasma,
+  RainImage,
+  RippleImage,
+  ScrollImage,
   ShaderButton,
   ShaderGradient,
   ShaderText,
@@ -80,6 +87,24 @@ export function OgVisual({ component }: { component?: string }) {
         return [<ShaderButton style={{ fontSize: "30px", padding: "24px 44px" }}>Start free trial</ShaderButton>, "night"];
       case "shader-text":
         return [<ShaderText text="Glimmer" style={{ fontSize: "96px", fontWeight: 600, letterSpacing: "-0.04em" }} />, "night"];
+      case "image-transition":
+        return [
+          <ImageTransition images={[{ src: spheres, alt: "" }, { src: warm, alt: "" }]} effect="ripple" progress={0.48} style={fill} />,
+          "light",
+        ];
+      case "scroll-image": return [<ScrollImage src={grid} alt="" style={fill} />, "light"];
+      case "ripple-image": return [<RippleImage src={spheres} alt="" style={fill} />, "light"];
+      case "rain-image": return [<RainImage src={warm} alt="" style={fill} />, "light"];
+      case "light-rays": return [<LightRays style={fill} />, "night"];
+      case "plasma": return [<Plasma style={fill} />, "night"];
+      case "border-beam":
+        return [
+          <BorderBeam radius={20} length={0.45} border={2.5} style={{ width: "78%", padding: "36px", color: "#a3a1ad", fontSize: "26px" }}>
+            <strong style={{ display: "block", fontSize: "34px", marginBottom: "10px", color: "#e9e8ee" }}>Deploying</strong>
+            Building your site.
+          </BorderBeam>,
+          "night",
+        ];
       default:
         return [<ShaderGradient style={fill} colors={["#121117", "#9ea0a8", "#f4f4f6"]} speed={0.7} />, "light"];
     }

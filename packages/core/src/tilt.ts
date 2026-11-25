@@ -1,18 +1,17 @@
-import { Mesh, Program, Texture, Triangle } from "ogl";
+import { Mesh, Program, Triangle } from "ogl";
 import { motionValue } from "motion";
+import { createMediaFallback, createMediaTexture, type MediaOptions, type MediaTexture } from "./media";
 import { gradientVertex, tiltFragment } from "./shaders";
 import {
   animateTo,
   bindValue,
-  createImageLoader,
   createStage,
   disposeResources,
-  paintImage,
   supportsWebGL,
 } from "./stage";
 
-export interface TiltCardOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
+export interface TiltCardOptions extends MediaOptions {
+  /** Image or video URL. Must be same origin or served with CORS headers. */
   src: string;
   /** Maximum tilt in radians. Defaults to 0.4. */
   maxTilt?: number;
@@ -62,8 +61,10 @@ export function createTiltEffect<O extends TiltCardOptions>(
   let maxTilt = options.maxTilt ?? 0.4;
 
   if (!supportsWebGL()) {
+    const fallback = createMediaFallback(container);
     const paint = (next: O) => {
-      paintImage(container, next.src);
+      fallback.show(next.src, next);
+      container.style.overflow = "hidden";
       container.style.borderRadius = `${next.radius ?? 20}px`;
     };
     paint(options);
@@ -72,7 +73,8 @@ export function createTiltEffect<O extends TiltCardOptions>(
       setHover() {},
       update: paint,
       destroy() {
-        container.style.background = "";
+        fallback.destroy();
+        container.style.overflow = "";
         container.style.borderRadius = "";
       },
     };
@@ -80,23 +82,31 @@ export function createTiltEffect<O extends TiltCardOptions>(
 
   let program!: Program;
   let mesh!: Mesh;
+  let media!: MediaTexture;
 
   const stage = createStage(container, {
     onResize(w, h) {
       program.uniforms.uRes.value = [w, h];
     },
     onFrame() {
+      media.update();
       stage.renderer.render({ scene: mesh });
+    },
+    onActive(active) {
+      media.setActive(active);
     },
   });
   const gl = stage.gl;
 
-  const texture = new Texture(gl, { generateMipmaps: false });
+  media = createMediaTexture(stage, (aspect) => {
+    program.uniforms.uImgAspect.value = aspect;
+    animateTo(stage, loaded, 1, { duration: 0.6 });
+  });
   program = new Program(gl, {
     vertex: gradientVertex,
     fragment,
     uniforms: {
-      uTex: { value: texture },
+      uTex: { value: media.texture },
       uRes: { value: [1, 1] },
       uImgAspect: { value: 1 },
       uRot: { value: [0, 0] },
@@ -128,14 +138,7 @@ export function createTiltEffect<O extends TiltCardOptions>(
   bindValue(stage, hover, (v) => (program.uniforms.uHover.value = v));
   bindValue(stage, loaded, (v) => (program.uniforms.uLoaded.value = v));
 
-  const images = createImageLoader((img) => {
-    texture.image = img;
-    texture.needsUpdate = true;
-    program.uniforms.uImgAspect.value = img.naturalWidth / img.naturalHeight;
-    animateTo(stage, loaded, 1, { duration: 0.6 });
-    stage.invalidate();
-  });
-  images.load(options.src);
+  media.load(options.src, options);
 
   stage.start();
 
@@ -158,13 +161,13 @@ export function createTiltEffect<O extends TiltCardOptions>(
       for (const [name, value] of Object.entries(extraUniforms(next))) {
         program.uniforms[name].value = value;
       }
-      images.load(next.src);
+      media.load(next.src, next);
       stage.invalidate();
     },
     destroy() {
-      images.cancel();
+      media.destroy();
       [rx, ry, px, py, hover, loaded].forEach((mv) => mv.destroy());
-      disposeResources(gl, { program, texture, geometry });
+      disposeResources(gl, { program, texture: media.texture, geometry });
       stage.destroy();
     },
   };

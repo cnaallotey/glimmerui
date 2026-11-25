@@ -11,6 +11,8 @@ const { host, controller } = useController(createAsciiImage, () => ({
   background: props.background,
   colored: props.colored,
   radius: props.radius,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

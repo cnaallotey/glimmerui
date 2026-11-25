@@ -8,6 +8,8 @@ const { host, controller } = useController(createKaleidoscopeImage, () => ({
   src: props.src,
   segments: props.segments,
   speed: props.speed,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

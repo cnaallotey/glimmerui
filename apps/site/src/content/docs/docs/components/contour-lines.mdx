@@ -31,6 +31,17 @@ The lines draw on a transparent background, so set the element's own background 
     </ContourLines>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ContourLines } from "@glimmerui/svelte";
+    </script>
+
+    <ContourLines density={12} style="background: #fafafa; height: 400px">
+      <h2>Find your route</h2>
+    </ContourLines>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -43,7 +54,7 @@ The lines draw on a transparent background, so set the element's own background 
 | `width` | `number` | `1` | Line width, in CSS pixels. Every fifth line is drawn heavier. |
 | `speed` | `number` | `1` | How fast the terrain shifts. `0` holds it still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

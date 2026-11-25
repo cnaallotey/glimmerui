@@ -1,10 +1,8 @@
 import { Color } from "ogl";
-import { createImageEffect, type ImageEffectController } from "./imageEffect";
+import { createImageEffect, type ImageEffectBaseOptions, type ImageEffectController } from "./imageEffect";
 import { coverChunk } from "./shaders";
 
-export interface DitherImageOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
-  src: string;
+export interface DitherImageOptions extends ImageEffectBaseOptions {
   /** Size of each dither dot, in CSS pixels. Defaults to 2. */
   pixel?: number;
   /** Dark color, as a hex value. */

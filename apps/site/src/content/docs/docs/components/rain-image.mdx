@@ -1,0 +1,72 @@
+---
+title: RainImage
+description: An image behind a rainy window, which the pointer wipes dry.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RainImageDemo } from "@/components/demos/RainImageDemo";
+
+The image seen through a wet, steamed-up window. Beads swell and dry up, drops slide down in fits and starts and leave clear trails, and each one bends the view behind it like a lens. The pointer wipes the glass dry.
+
+<RainImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { RainImage } from "@glimmerui/react";
+
+    <RainImage
+      src="/city.jpg"
+      alt="The city at night from the 14th floor"
+      className="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <RainImage
+      src="/city.jpg"
+      alt="The city at night from the 14th floor"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { RainImage } from "@glimmerui/svelte";
+    </script>
+
+    <RainImage
+      src="/city.jpg"
+      alt="The city at night from the 14th floor"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `amount` | `number` | `0.6` | How heavy the rain is, from 0 to 1. |
+| `speed` | `number` | `1` | How fast drops fall. `0` holds them still. |
+| `fog` | `number` | `0.7` | How steamed up the glass is, from 0 to 1. |
+| `tint` | `string` | `"#aeb6c2"` | Color of the fog, as a hex value. |
+| `radius` | `number` | `130` | Radius of the dry area around the pointer, in CSS pixels. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- Drops are the same size in CSS pixels at any element size, so a larger element shows more of them.
+- On touch screens, a tap wipes the glass around the tapped point and another tap brings the rain back.
+- With reduced motion, the rain holds still. The pointer still wipes the glass.
+- Without WebGL, the element shows the plain image or video.

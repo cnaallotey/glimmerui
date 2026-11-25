@@ -1,0 +1,63 @@
+---
+title: LightRays
+description: Shafts of light that fall from the top edge and lean toward the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { LightRaysDemo } from "@/components/demos/LightRaysDemo";
+
+Shafts of light falling from a point above the element, widening, parting and closing as they drift. Hovering leans the light toward the pointer. Good behind a hero headline or an empty state.
+
+<LightRaysDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { LightRays } from "@glimmerui/react";
+
+    <LightRays color="#ffbe78" background="#0c0d14" className="h-96">
+      <h1>Golden hour</h1>
+    </LightRays>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <LightRays color="#ffbe78" background="#0c0d14" class="h-96">
+      <h1>Golden hour</h1>
+    </LightRays>
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { LightRays } from "@glimmerui/svelte";
+    </script>
+
+    <LightRays color="#ffbe78" background="#0c0d14" class="h-96">
+      <h1>Golden hour</h1>
+    </LightRays>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#ffbe78"` | Color of the light, as a hex value. |
+| `background` | `string` | `"#0c0d14"` | Color behind the light, as a hex value. Dark colors work best. |
+| `origin` | `number` | `0.5` | Where the light comes from along the top edge, from 0 (left) to 1 (right). |
+| `spread` | `number` | `1` | How wide the rays fan out, from 0.2 to 2. |
+| `intensity` | `number` | `1` | Brightness of the light. |
+| `speed` | `number` | `1` | How fast the shafts drift. `0` holds them still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- The light swings toward the pointer slowly, over about a second, and back when the pointer leaves.
+- A fine grain hides banding in the long gradients.
+- Without WebGL, the element gets a CSS radial gradient from `color` to `background`.
+- The canvas is hidden from assistive technology. Children stay accessible.

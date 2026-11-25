@@ -29,6 +29,17 @@ A flight through deep space: stars come out of the distance, grow and streak pas
     </Starfield>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Starfield } from "@glimmerui/svelte";
+    </script>
+
+    <Starfield background="#05040a" class="h-96">
+      <h1>Launch day</h1>
+    </Starfield>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ A flight through deep space: stars come out of the distance, grow and streak pas
 | `density` | `number` | `1` | How many stars, as a multiplier. |
 | `speed` | `number` | `1` | Flight speed. Hovering doubles it. `0` holds the stars still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

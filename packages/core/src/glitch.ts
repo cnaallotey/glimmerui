@@ -1,9 +1,7 @@
-import { createImageEffect, type ImageEffectController } from "./imageEffect";
+import { createImageEffect, type ImageEffectBaseOptions, type ImageEffectController } from "./imageEffect";
 import { coverChunk, noiseChunk } from "./shaders";
 
-export interface GlitchImageOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
-  src: string;
+export interface GlitchImageOptions extends ImageEffectBaseOptions {
   /** How hard the image glitches on hover, from 0 to 2. 1 is the default. */
   strength?: number;
 }

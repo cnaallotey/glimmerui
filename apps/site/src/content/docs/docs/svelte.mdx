@@ -1,0 +1,55 @@
+---
+title: Svelte
+description: Using Glimmer UI components in Svelte and SvelteKit.
+---
+
+```svelte
+<script>
+  import { ShaderGradient, ImageDistortion, TiltCard } from "@glimmerui/svelte";
+</script>
+```
+
+The components need Svelte 5. They render a `div` with the effect behind any children you pass.
+
+## Attributes, listeners and the element
+
+Attributes you don't declare as props, such as `class`, `style`, `id`, `data-*` and event listeners, go to the root element. Your pointer listeners run first, then the component's own. Pass `style` as a string; it's added after the component's `position: relative` (and `overflow: hidden` on every component except the tilting cards).
+
+`bind:ref` gives you the root element.
+
+```svelte
+<script>
+  import { TiltCard } from "@glimmerui/svelte";
+
+  let card = $state();
+</script>
+
+<TiltCard
+  bind:ref={card}
+  src="/cover.jpg"
+  alt="Album cover"
+  class="cover"
+  onpointermove={(e) => console.log(e.clientX)}
+/>
+```
+
+A class from the component's own `<style>` block doesn't reach a child component in Svelte. Use a global class, or a utility class.
+
+## Updating props
+
+Changing a prop updates the running effect without rebuilding it or reloading images:
+
+```svelte
+<script>
+  import { ShaderGradient } from "@glimmerui/svelte";
+
+  let speed = $state(1);
+</script>
+
+<ShaderGradient {speed} style="height: 240px" />
+<input type="range" min="0" max="3" step="0.1" bind:value={speed} />
+```
+
+## SvelteKit
+
+The components render their element on the server and start the effect once the page runs in the browser, so they work in any route without `browser` checks. See [Server rendering](/docs/guides/server-rendering/).

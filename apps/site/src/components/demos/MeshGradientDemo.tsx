@@ -1,26 +1,25 @@
-import { useState } from "react";
 import { MeshGradient } from "@glimmerui/react";
-import { ColorInput } from "./ColorInput";
-import { Range } from "./Range";
+import { colors, range } from "./controls";
+import { Demo } from "./Demo";
 
-type Palette = [string, string, string, string];
+const controls = [
+  colors("colors", ["#3b1d8f", "#e0457b", "#f9b44c", "#22d3ee"]),
+  range("grain", 0.5, 0, 1, 0.05),
+  range("speed", 1, 0, 3, 0.1),
+];
+const presets = {
+  Festival: {},
+  Meadow: { colors: ["#14532d", "#65a30d", "#fde047", "#38bdf8"] },
+  Dusk: { colors: ["#1e1b4b", "#7c3aed", "#fb7185", "#fed7aa"], speed: 0.6 },
+};
 
 export function MeshGradientDemo() {
-  const [colors, setColors] = useState<Palette>(["#3b1d8f", "#e0457b", "#f9b44c", "#22d3ee"]);
-  const [grain, setGrain] = useState(0.5);
-  const [speed, setSpeed] = useState(1);
-  const setColor = (i: number, value: string) =>
-    setColors((c) => c.map((v, j) => (j === i ? value : v)) as Palette);
   return (
-    <div className="demo not-content">
-      <MeshGradient className="demo-stage" colors={colors} grain={grain} speed={speed} />
-      <div className="demo-controls">
-        {colors.map((color, i) => (
-          <ColorInput key={i} label={`Color ${i + 1}`} value={color} onChange={(v) => setColor(i, v)} />
-        ))}
-        <Range label="grain" value={grain} min={0} max={1} step={0.05} onChange={setGrain} />
-        <Range label="speed" value={speed} min={0} max={3} step={0.1} onChange={setSpeed} />
-      </div>
-    </div>
+    <Demo
+      name="MeshGradient"
+      controls={controls}
+      presets={presets}
+      render={(p) => <MeshGradient className="demo-stage" {...p} />}
+    />
   );
 }

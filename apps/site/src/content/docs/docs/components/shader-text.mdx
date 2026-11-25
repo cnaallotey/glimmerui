@@ -31,6 +31,17 @@ Fills text with three colors flowing through each other, with a highlight that f
     </h1>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ShaderText } from "@glimmerui/svelte";
+    </script>
+
+    <h1 class="text-7xl font-semibold">
+      <ShaderText text="Ship faster" />
+    </h1>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -41,7 +52,7 @@ Fills text with three colors flowing through each other, with a highlight that f
 | `colors` | `[string, string, string]` | `["#3b1d8f", "#e0457b", "#f9b44c"]` | Three hex colors that flow through the letters. |
 | `speed` | `number` | `1` | How fast the colors flow. `0` holds them still. |
 
-The component also takes any `span` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `span` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

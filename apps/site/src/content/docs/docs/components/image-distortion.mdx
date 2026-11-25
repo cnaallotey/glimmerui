@@ -25,17 +25,28 @@ Shows an image that fills its element. On hover, ripples spread out from the poi
     <ImageDistortion src="/team.jpg" alt="The team at the summer offsite" class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ImageDistortion } from "@glimmerui/svelte";
+    </script>
+
+    <ImageDistortion src="/team.jpg" alt="The team at the summer offsite" class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `strength` | `number` | `1` | Strength of the ripple and color split. `0` turns the effect off. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

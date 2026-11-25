@@ -29,6 +29,17 @@ An animated gradient of three colors. Moving the pointer over it pulls the gradi
     </ShaderGradient>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ShaderGradient } from "@glimmerui/svelte";
+    </script>
+
+    <ShaderGradient colors={["#3b1d8f", "#e0457b", "#f9b44c"]} speed={1} class="h-80">
+      <h1>Hello</h1>
+    </ShaderGradient>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -39,7 +50,7 @@ An animated gradient of three colors. Moving the pointer over it pulls the gradi
 | `speed` | `number` | `1` | How fast the gradient moves. `0` holds it still. |
 | `intensity` | `number` | `0` | How strongly the pointer pulls the gradient before the first hover, from 0 to 1. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

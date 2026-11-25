@@ -1,9 +1,9 @@
 ---
 title: Core API
-description: Use the effects from @glimmerui/core directly, without React or Vue.
+description: Use the effects from @glimmerui/core directly, without React, Vue or Svelte.
 ---
 
-`@glimmerui/core` holds the effects with no framework code. The React and Vue components are thin wrappers around it. Use it directly for another framework, or for plain JavaScript.
+`@glimmerui/core` holds the effects with no framework code. The React, Vue and Svelte components are thin wrappers around it. Use it directly for another framework, or for plain JavaScript.
 
 ```bash
 npm install @glimmerui/core
@@ -41,7 +41,7 @@ The element needs a size, and should have `position: relative` if you place othe
 | `createShaderGradient(el, options?)` | `colors`, `speed`, `intensity`. See [ShaderGradient](/docs/components/shader-gradient/#props). |
 | `createImageDistortion(el, options)` | `src`, `strength`. See [ImageDistortion](/docs/components/image-distortion/#props). |
 | `createTiltCard(el, options)` | `src`, `maxTilt`, `radius`, `glare`. See [TiltCard](/docs/components/tilt-card/#props). |
-| `createImageReveal(el, options)` | `src`, `revealSrc`. See [ImageReveal](/docs/components/image-reveal/#props). |
+| `createImageReveal(el, options)` | `src`, `revealSrc`, `scroll`, `progress`. See [ImageReveal](/docs/components/image-reveal/#props). |
 | `createLensImage(el, options)` | `src`, `zoom`, `size`, `fringe`. See [LensImage](/docs/components/lens-image/#props). |
 | `createAurora(el, options?)` | `colors`, `background`, `speed`, `intensity`. See [Aurora](/docs/components/aurora/#props). |
 | `createDotGrid(el, options?)` | `color`, `accent`, `spacing`, `size`, `radius`. See [DotGrid](/docs/components/dot-grid/#props). |
@@ -68,6 +68,17 @@ The element needs a size, and should have `position: relative` if you place othe
 | `createShaderButton(el, options?)` | `colors`, `speed`. See [ShaderButton](/docs/components/shader-button/#props). |
 | `createShaderText(el, options, textElement?)` | `text`, `colors`, `speed`. Pass the element holding the real text as `textElement`, and the effect draws its letters in that element's font and position. See [ShaderText](/docs/components/shader-text/#props). |
 | `createCursorTrail(el, options?)` | `color`, `tail`, `width`, `length`. `el` should be a fixed, full-viewport element that ignores the pointer; the trail listens to the window itself. See [CursorTrail](/docs/components/cursor-trail/#props). |
+| `createImageTransition(el, options)` | `images` (an array of URLs), `index`, `effect`, `duration`, `scroll`, `progress`. See [ImageTransition](/docs/components/image-transition/#props). |
+| `createScrollImage(el, options)` | `src`, `strength`, `split`. See [ScrollImage](/docs/components/scroll-image/#props). |
+| `createRippleImage(el, options)` | `src`, `strength`, `speed`. See [RippleImage](/docs/components/ripple-image/#props). |
+| `createRainImage(el, options)` | `src`, `amount`, `speed`, `fog`, `tint`, `radius`. See [RainImage](/docs/components/rain-image/#props). |
+| `createLightRays(el, options?)` | `color`, `background`, `origin`, `spread`, `intensity`, `speed`. See [LightRays](/docs/components/light-rays/#props). |
+| `createPlasma(el, options?)` | `colors`, `background`, `scale`, `intensity`, `speed`. See [Plasma](/docs/components/plasma/#props). |
+| `createBorderBeam(el, options?)` | `color`, `tail`, `background`, `radius`, `border`, `length`, `beams`, `speed`. See [BorderBeam](/docs/components/border-beam/#props). |
+
+Every function that takes `src` or `images` also takes `video` and `paused`. See [Images and video](/docs/guides/images/#video).
+
+`trackScroll(el, onProgress, options?)` measures scroll progress. See [Scroll](/docs/guides/scroll/#without-a-framework).
 
 ## Controller methods
 
@@ -76,10 +87,11 @@ The element needs a size, and should have `position: relative` if you place othe
 | `setPointer(x, y)` | all | Moves the pointer, smoothed with a spring. `x` and `y` run from 0 to 1, with the origin at the **bottom left**. |
 | `setIntensity(value)` | `ShaderGradient`, `Aurora` | Animates the pointer's pull to a value from 0 to 1. |
 | `setHover(value)` | every component except `ShaderGradient` and `Aurora` | Animates the hover amount from 0 to 1: the ripple, glare, reveal, lens, pointer blob, or the dots' and particles' reaction. |
+| `drop(x, y)` | `RippleImage` | Drops a ring at a point. |
 | `update(options)` | all | Applies new options to the running effect. Pass the full options object: any option you leave out goes back to its default. |
 | `destroy()` | all | Stops the effect, frees its GPU resources and removes its canvas. |
 
-`CursorTrail`'s controller has only `update` and `destroy`, since it follows the window's pointer by itself.
+`ScrollImage` and `ImageTransition` ignore `setPointer` and `setHover`. `CursorTrail`'s controller has only `update` and `destroy`, since it follows the window's pointer by itself.
 
 Without WebGL, the functions apply the CSS fallback to the element and return a controller whose pointer methods do nothing.
 
@@ -120,7 +132,7 @@ The returned controller has `setPointer`, `setHover`, `update` and `destroy`, li
 
 ## Your own image effects
 
-`createImageEffect(el, options, spec)` does the same for effects on an image. It loads `options.src`, fades it in, and handles the pointer, hover, resizing and the plain-image fallback. Your shader gets `uTex`, `uImgAspect`, `uLoaded`, `uTime`, `uRes`, `uPointer` and `uHover`. To crop the image like `object-fit: cover`, paste the `coverChunk` string from `@glimmerui/core` into your shader and call `coverUv(vUv, uRes.x / uRes.y, uImgAspect)`. `noiseChunk` adds `hash`, `hash2`, `noise`, `fbm` and `gridPoint` the same way. If you hash grid points yourself, write `hash(gridPoint(i + offset))`, so neighboring cells agree on the points they share.
+`createImageEffect(el, options, spec)` does the same for effects on an image. It loads `options.src`, an image or a video, fades it in, and handles the pointer, hover, resizing and the plain-image fallback. Your shader gets `uTex`, `uImgAspect`, `uLoaded`, `uTime`, `uRes`, `uPointer` and `uHover`. To crop the image like `object-fit: cover`, paste the `coverChunk` string from `@glimmerui/core` into your shader and call `coverUv(vUv, uRes.x / uRes.y, uImgAspect)`. `noiseChunk` adds `hash`, `hash2`, `noise`, `fbm` and `gridPoint` the same way. If you hash grid points yourself, write `hash(gridPoint(i + offset))`, so neighboring cells agree on the points they share.
 
 ```ts
 import { createImageEffect } from "@glimmerui/core";
@@ -142,7 +154,7 @@ const sepia = createImageEffect(el, { src: "/photo.jpg" }, {
 });
 ```
 
-Image effects can also create extra GPU resources once with a `setup(gl, options)` hook that returns more uniforms, such as a texture. Textures returned from `setup` are freed when the effect is destroyed. `AsciiImage` uses this for its texture of characters.
+Image effects can also create extra GPU resources once with a `setup(gl, options)` hook that returns more uniforms, such as a texture. Textures returned from `setup` are freed when the effect is destroyed. `AsciiImage` uses this for its texture of characters. A `frame(seconds, uniforms)` hook runs before every frame, for effects that keep state. `RippleImage` and `ScrollImage` use it.
 
 ## Effects on the tilt card
 

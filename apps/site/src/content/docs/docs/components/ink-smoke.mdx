@@ -29,6 +29,17 @@ A plume of smoke rises from the bottom of the element, widening and curling as i
     </InkSmoke>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { InkSmoke } from "@glimmerui/svelte";
+    </script>
+
+    <InkSmoke color="#e9e8ee" background="#0e0d12" class="h-96">
+      <h1>Incense &amp; Co.</h1>
+    </InkSmoke>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -39,7 +50,7 @@ A plume of smoke rises from the bottom of the element, widening and curling as i
 | `background` | `string` | `"#0e0d12"` | Color behind the smoke, as a hex value. |
 | `speed` | `number` | `1` | How fast the smoke rises. `0` holds it still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

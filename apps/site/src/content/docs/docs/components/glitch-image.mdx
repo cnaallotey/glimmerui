@@ -25,17 +25,28 @@ Shows an image that looks normal at rest. On hover it glitches: horizontal bands
     <GlitchImage src="/album.jpg" alt="Album artwork for Static" class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { GlitchImage } from "@glimmerui/svelte";
+    </script>
+
+    <GlitchImage src="/album.jpg" alt="Album artwork for Static" class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `strength` | `number` | `1` | How hard the image glitches, from 0 to 2. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

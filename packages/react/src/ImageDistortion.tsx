@@ -11,10 +11,14 @@ export interface ImageDistortionProps
 
 export const ImageDistortion = forwardRef<HTMLDivElement, ImageDistortionProps>(
   function ImageDistortion(
-    { src, strength, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
+    { src, strength, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
     ref
   ) {
-    const { host, ctrl } = useController(createImageDistortion, { src, strength }, [src, strength]);
+    const { host, ctrl } = useController(
+    createImageDistortion,
+    { src, strength, video, paused },
+    [src, strength, video, paused]
+  );
 
     return (
       <div

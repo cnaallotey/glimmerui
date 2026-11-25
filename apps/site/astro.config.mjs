@@ -15,7 +15,7 @@ export default defineConfig({
     react(),
     starlight({
       title: "Glimmer UI",
-      description: "WebGL components for React, Vue and Nuxt.",
+      description: "WebGL components for React, Vue, Nuxt and Svelte.",
       logo: { src: "./src/assets/logo.svg" },
       favicon: "/favicon.svg",
       // Social cards, a home screen icon and fuller titles: src/routeData.ts.
@@ -38,6 +38,7 @@ export default defineConfig({
             { label: "React", slug: "docs/react" },
             { label: "Vue", slug: "docs/vue" },
             { label: "Nuxt", slug: "docs/nuxt" },
+            { label: "Svelte", slug: "docs/svelte" },
           ],
         },
         {
@@ -73,6 +74,13 @@ export default defineConfig({
             { label: "ShaderButton", slug: "docs/components/shader-button" },
             { label: "ShaderText", slug: "docs/components/shader-text" },
             { label: "CursorTrail", slug: "docs/components/cursor-trail" },
+            { label: "ImageTransition", slug: "docs/components/image-transition" },
+            { label: "ScrollImage", slug: "docs/components/scroll-image" },
+            { label: "RippleImage", slug: "docs/components/ripple-image" },
+            { label: "RainImage", slug: "docs/components/rain-image" },
+            { label: "LightRays", slug: "docs/components/light-rays" },
+            { label: "Plasma", slug: "docs/components/plasma" },
+            { label: "BorderBeam", slug: "docs/components/border-beam" },
           ],
         },
         {
@@ -81,7 +89,8 @@ export default defineConfig({
             { label: "Accessibility", slug: "docs/guides/accessibility" },
             { label: "Performance", slug: "docs/guides/performance" },
             { label: "Server rendering", slug: "docs/guides/server-rendering" },
-            { label: "Images and CORS", slug: "docs/guides/images" },
+            { label: "Scroll", slug: "docs/guides/scroll" },
+            { label: "Images and video", slug: "docs/guides/images" },
             { label: "Core API", slug: "docs/guides/core-api" },
           ],
         },

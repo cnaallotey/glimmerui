@@ -1,10 +1,8 @@
 import { Color } from "ogl";
-import { createImageEffect, type ImageEffectController } from "./imageEffect";
+import { createImageEffect, type ImageEffectBaseOptions, type ImageEffectController } from "./imageEffect";
 import { coverChunk, noiseChunk } from "./shaders";
 
-export interface FogImageOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
-  src: string;
+export interface FogImageOptions extends ImageEffectBaseOptions {
   /** How frosted the glass is, from 0 to 1. Defaults to 1. */
   frost?: number;
   /** Color of the fog, as a hex value. */

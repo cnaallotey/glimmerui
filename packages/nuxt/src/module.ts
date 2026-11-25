@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { addComponent, defineNuxtModule } from "@nuxt/kit";
+import { addComponent, addImports, defineNuxtModule } from "@nuxt/kit";
 import type { NuxtModule } from "@nuxt/schema";
 
 export interface ModuleOptions {
@@ -38,6 +38,13 @@ const components = [
   "ShaderButton",
   "ShaderText",
   "CursorTrail",
+  "ImageTransition",
+  "ScrollImage",
+  "RippleImage",
+  "RainImage",
+  "LightRays",
+  "Plasma",
+  "BorderBeam",
 ] as const;
 
 // Annotated so the published types reference @nuxt/schema by name.
@@ -60,6 +67,7 @@ const glimmerModule: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>
         mode: "client",
       });
     }
+    addImports({ name: "useScrollProgress", from: filePath });
   },
 });
 

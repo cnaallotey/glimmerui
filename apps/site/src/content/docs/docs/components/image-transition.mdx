@@ -1,0 +1,97 @@
+---
+title: ImageTransition
+description: Moves between images with a shader transition, by index or by scrolling.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ImageTransitionDemo } from "@/components/demos/ImageTransitionDemo";
+
+Shows one image of a set and plays a shader transition to another when `index` changes. It can also follow the scroll, or a number you control. Good for slideshows, product colors and scroll stories.
+
+<ImageTransitionDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { useState } from "react";
+    import { ImageTransition } from "@glimmerui/react";
+
+    const images = [
+      { src: "/coat-sand.jpg", alt: "The coat in sand" },
+      { src: "/coat-navy.jpg", alt: "The coat in navy" },
+    ];
+
+    export function Coat() {
+      const [index, setIndex] = useState(0);
+      return (
+        <>
+          <ImageTransition images={images} index={index} effect="wipe" className="h-96" />
+          <button onClick={() => setIndex(1 - index)}>Change color</button>
+        </>
+      );
+    }
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <script setup>
+    import { ref } from "vue";
+    import { ImageTransition } from "@glimmerui/vue";
+
+    const images = [
+      { src: "/coat-sand.jpg", alt: "The coat in sand" },
+      { src: "/coat-navy.jpg", alt: "The coat in navy" },
+    ];
+    const index = ref(0);
+    </script>
+
+    <template>
+      <ImageTransition :images="images" :index="index" effect="wipe" class="h-96" />
+      <button @click="index = 1 - index">Change color</button>
+    </template>
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ImageTransition } from "@glimmerui/svelte";
+
+      const images = [
+        { src: "/coat-sand.jpg", alt: "The coat in sand" },
+        { src: "/coat-navy.jpg", alt: "The coat in navy" },
+      ];
+      let index = $state(0);
+    </script>
+
+    <ImageTransition {images} {index} effect="wipe" class="h-96" />
+    <button onclick={() => (index = 1 - index)}>Change color</button>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `images` | `{ src: string; alt: string }[]` | required | The images or videos to move through, each with its description. Sources must be same origin or served with CORS headers. |
+| `index` | `number` | `0` | Which image shows. Changing it plays the transition. |
+| `effect` | `string` | `"dissolve"` | The transition: `"dissolve"`, `"wipe"`, `"blocks"`, `"ripple"` or `"zoom"`. |
+| `duration` | `number` | `1.2` | Length of a transition, in seconds. |
+| `scroll` | `boolean` | `false` | Moves through the images as the element scrolls through the screen, instead of by `index`. |
+| `progress` | `number` | none | Sets the position yourself: `0` is the first image, `1` the second, and `0.5` halfway between. Replaces both `index` and `scroll`. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- Going from one index to another plays a single transition, even past several images. Going back plays directional effects in reverse.
+- A new index that arrives during a transition plays as soon as it ends. Only the latest one counts.
+- Every image loads up front, so transitions never wait on the network.
+- The label for screen readers is the description of the image on show or, with `scroll`, of all of them.
+- Only videos that are on show play.
+- With reduced motion, a new index swaps the image at once. `scroll` and `progress` still move it, since they follow the user.
+- Without WebGL, the element shows the plain image and swaps without a transition.

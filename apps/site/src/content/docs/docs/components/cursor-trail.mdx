@@ -37,6 +37,18 @@ Render it once, anywhere, for example in your app's root layout. It doesn't need
     </template>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <!-- +layout.svelte -->
+    <script>
+      import { CursorTrail } from "@glimmerui/svelte";
+      let { children } = $props();
+    </script>
+
+    {@render children()}
+    <CursorTrail color="#e0457b" tail="#f9b44c" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props

@@ -1,7 +1,9 @@
+import { useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   AsciiImage,
   Aurora,
+  BorderBeam,
   Caustics,
   ContourLines,
   CursorTrail,
@@ -15,13 +17,19 @@ import {
   HoloCard,
   ImageDistortion,
   ImageReveal,
+  ImageTransition,
   InkSmoke,
   KaleidoscopeImage,
   LensImage,
+  LightRays,
   LiquidMetal,
   MeshGradient,
   Particles,
   PixelImage,
+  Plasma,
+  RainImage,
+  RippleImage,
+  ScrollImage,
   ShaderButton,
   ShaderGradient,
   ShaderText,
@@ -30,6 +38,7 @@ import {
   Starfield,
   TiltCard,
   Voronoi,
+  useScrollProgress,
 } from "@glimmerui/react";
 
 // ?stress=24 renders many effects at once to prove they share one WebGL context.
@@ -52,6 +61,39 @@ function Stress({ count }) {
         />
       ))}
     </div>
+  );
+}
+
+const slides = [
+  { src: "/demo.png", alt: "Cool test pattern" },
+  { src: "/demo-spheres.png", alt: "Spheres" },
+  { src: "/demo-alt.png", alt: "Warm test pattern" },
+];
+
+function Slides({ effect }) {
+  const [index, setIndex] = useState(0);
+  return (
+    <ImageTransition className="card" images={slides} index={index} effect={effect}>
+      <button type="button" onClick={() => setIndex((index + 1) % slides.length)}>
+        {effect}: next
+      </button>
+    </ImageTransition>
+  );
+}
+
+function ScrollStory() {
+  const ref = useRef(null);
+  const progress = useScrollProgress(ref, { range: "within" });
+  return (
+    <section ref={ref} style={{ height: "300vh" }}>
+      <ImageTransition
+        className="card"
+        style={{ position: "sticky", top: 0 }}
+        images={slides}
+        effect="wipe"
+        progress={progress * (slides.length - 1)}
+      />
+    </section>
   );
 }
 
@@ -103,6 +145,24 @@ createRoot(document.getElementById("root")).render(
       <div className="card" style={{ background: "#0e0d12" }}><ShaderButton>ShaderButton</ShaderButton></div>
       <div className="card" style={{ background: "#0e0d12" }}><h1><ShaderText text="ShaderText" /></h1></div>
       <CursorTrail />
+      <LightRays className="card"><h1>LightRays</h1></LightRays>
+      <Plasma className="card"><h1>Plasma</h1></Plasma>
+      <BorderBeam className="card" radius={24} style={{ borderRadius: 24 }}><h1>BorderBeam</h1></BorderBeam>
+      <RainImage className="card" src="/demo-alt.png" alt="Pattern behind a rainy window" />
+      <RippleImage className="card" src="/demo-spheres.png" alt="Spheres under water" />
+      <ScrollImage className="card" src="/demo.png" alt="Test pattern that bends while scrolling" />
+      <Slides effect="dissolve" />
+      <Slides effect="wipe" />
+      <Slides effect="blocks" />
+      <Slides effect="ripple" />
+      <Slides effect="zoom" />
+      <ImageTransition className="card" images={slides} scroll effect="ripple" />
+      <ImageReveal className="card" src="/demo.png" revealSrc="/demo-alt.png" scroll alt="Reveals on scroll" />
+      <HalftoneImage className="card" src="/demo-video.mp4" alt="Halftone video" />
+      <AsciiImage className="card" src="/demo-video.mp4" colored alt="Video in text" />
+      <TiltCard className="card" src="/demo-video.mp4" alt="Tilting video" />
+      <RainImage className="card" src="/demo-video.mp4" paused alt="Paused video" />
+      <ScrollStory />
     </>
   )
 );

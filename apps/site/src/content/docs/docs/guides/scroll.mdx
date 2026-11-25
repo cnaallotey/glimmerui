@@ -1,0 +1,117 @@
+---
+title: Scroll
+description: Drive effects from scrolling, with a prop or with the scroll progress helpers.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+## With a prop
+
+`ImageReveal` and `ImageTransition` take `scroll`. They play as they scroll through the screen: nothing happens until the element is well into view, and they finish before it starts to leave. Scrolling back plays them backwards.
+
+```tsx
+<ImageReveal scroll src="/before.jpg" revealSrc="/after.jpg" alt="The room before and after" />
+```
+
+`ScrollImage` reacts to how fast the page scrolls, with no setup.
+
+## With your own progress
+
+For anything else, measure the progress and pass it to a prop. `progress` on `ImageReveal` and `ImageTransition` is made for this, and so is any number: an intensity, a radius, a speed.
+
+This pins an image to the screen while a tall section scrolls past it:
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { useRef } from "react";
+    import { ImageTransition, useScrollProgress } from "@glimmerui/react";
+
+    export function Story({ images }) {
+      const section = useRef(null);
+      const progress = useScrollProgress(section, { range: "within" });
+      return (
+        <section ref={section} style={{ height: "400vh" }}>
+          <ImageTransition
+            images={images}
+            progress={progress * (images.length - 1)}
+            style={{ position: "sticky", top: 0, height: "100vh" }}
+          />
+        </section>
+      );
+    }
+    ```
+    `useScrollProgress` runs in the browser, so use it in a client component.
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <script setup>
+    import { ref } from "vue";
+    import { ImageTransition, useScrollProgress } from "@glimmerui/vue";
+
+    const props = defineProps(["images"]);
+    const section = ref(null);
+    const progress = useScrollProgress(section, { range: "within" });
+    </script>
+
+    <template>
+      <section ref="section" style="height: 400vh">
+        <ImageTransition
+          :images="images"
+          :progress="progress * (images.length - 1)"
+          style="position: sticky; top: 0; height: 100vh"
+        />
+      </section>
+    </template>
+    ```
+    The Nuxt module imports `useScrollProgress` for you.
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ImageTransition, scrollProgress } from "@glimmerui/svelte";
+
+      let { images } = $props();
+      let progress = $state(0);
+    </script>
+
+    <section
+      use:scrollProgress={{ range: "within", onprogress: (p) => (progress = p) }}
+      style="height: 400vh"
+    >
+      <ImageTransition
+        {images}
+        progress={progress * (images.length - 1)}
+        style="position: sticky; top: 0; height: 100vh"
+      />
+    </section>
+    ```
+  </TabItem>
+</Tabs>
+
+A sticky element needs every ancestor up to the scrolling one to have visible overflow.
+
+## Ranges
+
+| `range` | 0 is | 1 is |
+| --- | --- | --- |
+| `"through"` (default) | the element's top edge enters at the bottom of the screen | its bottom edge has left at the top |
+| `"within"` | its top reaches the top of the screen | its bottom reaches the bottom of the screen |
+
+Use `"within"` for an element taller than the screen, and `"through"` for anything else.
+
+## Without a framework
+
+`trackScroll(element, onProgress, options?)` from `@glimmerui/core` is what the helpers use. It calls `onProgress` at once and on every change, and returns a function that stops it.
+
+```ts
+import { createImageReveal, trackScroll } from "@glimmerui/core";
+
+const options = { src: "/before.jpg", revealSrc: "/after.jpg" };
+const reveal = createImageReveal(el, options);
+const stop = trackScroll(el, (progress) => reveal.update({ ...options, progress }));
+```
+
+## Reduced motion
+
+Scroll-driven effects still follow the scroll when the user prefers reduced motion, since the page moves only as they move it. `ScrollImage` is the exception: it stays flat.

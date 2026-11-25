@@ -1,27 +1,26 @@
-import { useState } from "react";
-import { withBase } from "@/lib/url";
 import { LensImage } from "@glimmerui/react";
-import { Range } from "./Range";
+import { range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  range("zoom", 1.75, 1, 4, 0.25),
+  range("size", 96, 40, 200, 4),
+  range("fringe", 1, 0, 1, 0.05),
+];
+const presets = {
+  Magnifier: {},
+  Loupe: { zoom: 3.5, size: 64 },
+  Fisheye: { zoom: 2.25, size: 190, fringe: 0.3 },
+};
 
 export function LensImageDemo() {
-  const [zoom, setZoom] = useState(1.75);
-  const [size, setSize] = useState(96);
-  const [fringe, setFringe] = useState(1);
   return (
-    <div className="demo not-content">
-      <LensImage
-        className="demo-stage"
-        src={withBase("/demo-alt.png")}
-        alt="A warm dotted test pattern with a violet disc"
-        zoom={zoom}
-        size={size}
-        fringe={fringe}
-      />
-      <div className="demo-controls">
-        <Range label="zoom" value={zoom} min={1} max={4} step={0.25} onChange={setZoom} />
-        <Range label="size" value={size} min={40} max={200} step={4} onChange={setSize} />
-        <Range label="fringe" value={fringe} min={0} max={1} step={0.05} onChange={setFringe} />
-      </div>
-    </div>
+    <Demo
+      name="LensImage"
+      controls={controls}
+      presets={presets}
+      image={{ src: "/demo-alt.png", alt: "A warm dotted test pattern with a violet disc" }}
+      render={(p) => <LensImage className="demo-stage" {...p} />}
+    />
   );
 }

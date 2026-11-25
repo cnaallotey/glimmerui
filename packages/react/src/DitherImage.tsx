@@ -8,10 +8,14 @@ export interface DitherImageProps extends DitherImageOptions, HTMLAttributes<HTM
 }
 
 export const DitherImage = forwardRef<HTMLDivElement, DitherImageProps>(function DitherImage(
-  { src, pixel, ink, paper, radius, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, pixel, ink, paper, radius, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createDitherImage, { src, pixel, ink, paper, radius }, [src, pixel, ink, paper, radius]);
+  const { host, ctrl } = useController(
+    createDitherImage,
+    { src, pixel, ink, paper, radius, video, paused },
+    [src, pixel, ink, paper, radius, video, paused]
+  );
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);
 

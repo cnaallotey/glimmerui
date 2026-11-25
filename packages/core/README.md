@@ -1,6 +1,6 @@
 # @glimmerui/core
 
-Framework-agnostic WebGL effects for Glimmer UI, built on OGL and driven by Motion. Use `@glimmerui/react`, `@glimmerui/vue` or `@glimmerui/nuxt` unless you are writing your own wrapper.
+Framework-agnostic WebGL effects for Glimmer UI, built on OGL and driven by Motion. Use `@glimmerui/react`, `@glimmerui/vue`, `@glimmerui/nuxt` or `@glimmerui/svelte` unless you are writing your own wrapper.
 
 ```ts
 import { createTiltCard } from "@glimmerui/core";

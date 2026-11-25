@@ -8,10 +8,14 @@ export interface HalftoneImageProps extends HalftoneImageOptions, HTMLAttributes
 }
 
 export const HalftoneImage = forwardRef<HTMLDivElement, HalftoneImageProps>(function HalftoneImage(
-  { src, cell, ink, paper, radius, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, cell, ink, paper, radius, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createHalftoneImage, { src, cell, ink, paper, radius }, [src, cell, ink, paper, radius]);
+  const { host, ctrl } = useController(
+    createHalftoneImage,
+    { src, cell, ink, paper, radius, video, paused },
+    [src, cell, ink, paper, radius, video, paused]
+  );
 
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);

@@ -9,6 +9,8 @@ const { host, controller } = useController(createTiltCard, () => ({
   maxTilt: props.maxTilt,
   radius: props.radius,
   glare: props.glare,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

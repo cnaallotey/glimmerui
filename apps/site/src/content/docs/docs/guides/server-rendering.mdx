@@ -1,6 +1,6 @@
 ---
 title: Server rendering
-description: Using Glimmer UI with Next.js, Nuxt, Astro and other server-rendered pages.
+description: Using Glimmer UI with Next.js, Nuxt, SvelteKit, Astro and other server-rendered pages.
 ---
 
 WebGL only exists in the browser. The components handle that for you: on the server they render their element (or, in Nuxt, nothing), and the effect starts once the page runs in the browser.
@@ -13,9 +13,13 @@ WebGL only exists in the browser. The components handle that for you: on the ser
 
 Use [the Nuxt module](/docs/nuxt/). It renders the components in the browser only, so slot content inside them isn't in the server HTML.
 
+## SvelteKit
+
+`@glimmerui/svelte` renders its elements and their children on the server and starts the effects in the browser.
+
 ## Astro
 
-Render the React or Vue components as islands. `client:visible` waits until the effect scrolls into view:
+Render the React, Vue or Svelte components as islands. `client:visible` waits until the effect scrolls into view:
 
 ```astro
 ---

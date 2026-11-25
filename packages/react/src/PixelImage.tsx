@@ -8,10 +8,14 @@ export interface PixelImageProps extends PixelImageOptions, HTMLAttributes<HTMLD
 }
 
 export const PixelImage = forwardRef<HTMLDivElement, PixelImageProps>(function PixelImage(
-  { src, block, radius, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, block, radius, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createPixelImage, { src, block, radius }, [src, block, radius]);
+  const { host, ctrl } = useController(
+    createPixelImage,
+    { src, block, radius, video, paused },
+    [src, block, radius, video, paused]
+  );
 
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);

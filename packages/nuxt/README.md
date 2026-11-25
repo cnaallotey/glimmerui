@@ -1,6 +1,6 @@
 # @glimmerui/nuxt
 
-Nuxt module for Glimmer UI. Auto-imports all thirty components (`ShaderGradient`, `ImageDistortion`, `TiltCard`, `ImageReveal`, `LensImage`, `Aurora`, `DotGrid`, `LiquidMetal`, `Particles`, `HalftoneImage`, `PixelImage`, `MeshGradient`, `Silk`, `Caustics`, `ContourLines`, `Starfield`, `Voronoi`, `GridFloor`, `InkSmoke`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage`, `KaleidoscopeImage`, `HoloCard`, `SpotlightCard`, `ShaderButton`, `ShaderText` and `CursorTrail`) and renders them on the client only, because WebGL only exists in the browser.
+Nuxt module for Glimmer UI. Auto-imports all 37 components (`ShaderGradient`, `ImageDistortion`, `TiltCard`, `ImageReveal`, `LensImage`, `Aurora`, `DotGrid`, `LiquidMetal`, `Particles`, `HalftoneImage`, `PixelImage`, `MeshGradient`, `Silk`, `Caustics`, `ContourLines`, `Starfield`, `Voronoi`, `GridFloor`, `InkSmoke`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage`, `KaleidoscopeImage`, `HoloCard`, `SpotlightCard`, `ShaderButton`, `ShaderText`, `CursorTrail`, `ImageTransition`, `ScrollImage`, `RippleImage`, `RainImage`, `LightRays`, `Plasma` and `BorderBeam`) and renders them on the client only, because WebGL only exists in the browser.
 
 ```bash
 npm install @glimmerui/nuxt
@@ -19,3 +19,5 @@ export default defineNuxtConfig({
   <TiltCard src="/photo.jpg" alt="Team photo" class="h-80" />
 </template>
 ```
+
+It also auto-imports `useScrollProgress`.

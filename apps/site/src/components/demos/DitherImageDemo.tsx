@@ -1,31 +1,27 @@
-import { useState } from "react";
-import { withBase } from "@/lib/url";
 import { DitherImage } from "@glimmerui/react";
-import { ColorInput } from "./ColorInput";
-import { Range } from "./Range";
+import { color, range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  range("pixel", 2, 1, 8, 1),
+  color("ink", "#0e0d12"),
+  color("paper", "#fafafa"),
+  range("radius", 140, 40, 320, 10),
+];
+const presets = {
+  Mono: {},
+  Handheld: { pixel: 4, ink: "#0f380f", paper: "#9bbc0f" },
+  Blueprint: { pixel: 3, ink: "#dbeafe", paper: "#1e3a8a" },
+};
 
 export function DitherImageDemo() {
-  const [pixel, setPixel] = useState(2);
-  const [ink, setInk] = useState("#0e0d12");
-  const [paper, setPaper] = useState("#fafafa");
-  const [radius, setRadius] = useState(140);
   return (
-    <div className="demo not-content">
-      <DitherImage
-        className="demo-stage"
-        src={withBase("/demo-spheres.png")}
-        alt="Four glossy colored spheres on a studio floor"
-        pixel={pixel}
-        ink={ink}
-        paper={paper}
-        radius={radius}
-      />
-      <div className="demo-controls">
-        <Range label="pixel" value={pixel} min={1} max={8} step={1} onChange={setPixel} />
-        <ColorInput label="ink" value={ink} onChange={setInk} />
-        <ColorInput label="paper" value={paper} onChange={setPaper} />
-        <Range label="radius" value={radius} min={40} max={320} step={10} onChange={setRadius} />
-      </div>
-    </div>
+    <Demo
+      name="DitherImage"
+      controls={controls}
+      presets={presets}
+      image={{ src: "/demo-spheres.png", alt: "Four glossy colored spheres on a studio floor" }}
+      render={(p) => <DitherImage className="demo-stage" {...p} />}
+    />
   );
 }

@@ -1,21 +1,24 @@
-import { useState } from "react";
-import { withBase } from "@/lib/url";
 import { GlitchImage } from "@glimmerui/react";
-import { Range } from "./Range";
+import { range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  range("strength", 1, 0, 2, 0.1),
+];
+const presets = {
+  Standard: {},
+  Nudge: { strength: 0.4 },
+  Broken: { strength: 2 },
+};
 
 export function GlitchImageDemo() {
-  const [strength, setStrength] = useState(1);
   return (
-    <div className="demo not-content">
-      <GlitchImage
-        className="demo-stage"
-        src={withBase("/demo-spheres.png")}
-        alt="Four glossy colored spheres on a studio floor"
-        strength={strength}
-      />
-      <div className="demo-controls">
-        <Range label="strength" value={strength} min={0} max={2} step={0.1} onChange={setStrength} />
-      </div>
-    </div>
+    <Demo
+      name="GlitchImage"
+      controls={controls}
+      presets={presets}
+      image={{ src: "/demo-spheres.png", alt: "Four glossy colored spheres on a studio floor" }}
+      render={(p) => <GlitchImage className="demo-stage" {...p} />}
+    />
   );
 }

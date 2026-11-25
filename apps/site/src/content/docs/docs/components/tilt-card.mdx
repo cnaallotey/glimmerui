@@ -25,19 +25,30 @@ An image card that tilts toward the pointer in real 3D perspective, with a glare
     <TiltCard src="/cover.jpg" alt="Album cover" :max-tilt="0.3" :radius="16" class="h-80" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { TiltCard } from "@glimmerui/svelte";
+    </script>
+
+    <TiltCard src="/cover.jpg" alt="Album cover" maxTilt={0.3} radius={16} class="h-80" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `maxTilt` | `number` | `0.4` | Largest tilt, in radians. `0.4` is about 23 degrees. |
 | `radius` | `number` | `20` | Corner radius in CSS pixels. |
 | `glare` | `number` | `1` | Strength of the glare, from 0 to 1. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

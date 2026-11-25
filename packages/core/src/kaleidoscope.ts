@@ -1,9 +1,7 @@
-import { createImageEffect, type ImageEffectController } from "./imageEffect";
+import { createImageEffect, type ImageEffectBaseOptions, type ImageEffectController } from "./imageEffect";
 import { coverChunk } from "./shaders";
 
-export interface KaleidoscopeImageOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
-  src: string;
+export interface KaleidoscopeImageOptions extends ImageEffectBaseOptions {
   /** Number of mirrored segments around the center. Defaults to 8. */
   segments?: number;
   /** How fast the pattern turns on its own. 1 is the default; 0 holds it still. */

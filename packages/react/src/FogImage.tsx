@@ -8,10 +8,14 @@ export interface FogImageProps extends FogImageOptions, HTMLAttributes<HTMLDivEl
 }
 
 export const FogImage = forwardRef<HTMLDivElement, FogImageProps>(function FogImage(
-  { src, frost, tint, radius, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, frost, tint, radius, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createFogImage, { src, frost, tint, radius }, [src, frost, tint, radius]);
+  const { host, ctrl } = useController(
+    createFogImage,
+    { src, frost, tint, radius, video, paused },
+    [src, frost, tint, radius, video, paused]
+  );
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);
 

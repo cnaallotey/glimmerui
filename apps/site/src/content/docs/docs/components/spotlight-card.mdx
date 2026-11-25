@@ -33,6 +33,18 @@ Give the element the same `border-radius` as the `radius` prop, and its own padd
     </SpotlightCard>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { SpotlightCard } from "@glimmerui/svelte";
+    </script>
+
+    <SpotlightCard radius={16} style="border-radius: 16px; padding: 28px">
+      <h3>Pro plan</h3>
+      <p>Unlimited projects and priority support.</p>
+    </SpotlightCard>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -44,7 +56,7 @@ Give the element the same `border-radius` as the `radius` prop, and its own padd
 | `radius` | `number` | `16` | Corner radius in CSS pixels. Match it with the element's `border-radius`. |
 | `border` | `number` | `1.5` | Border width in CSS pixels. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

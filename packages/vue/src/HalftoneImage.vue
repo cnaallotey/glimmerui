@@ -10,6 +10,8 @@ const { host, controller } = useController(createHalftoneImage, () => ({
   ink: props.ink,
   paper: props.paper,
   radius: props.radius,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

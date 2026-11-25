@@ -1,10 +1,8 @@
 import { Color } from "ogl";
-import { createImageEffect, type ImageEffectController } from "./imageEffect";
+import { createImageEffect, type ImageEffectBaseOptions, type ImageEffectController } from "./imageEffect";
 import { coverChunk } from "./shaders";
 
-export interface DuotoneImageOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
-  src: string;
+export interface DuotoneImageOptions extends ImageEffectBaseOptions {
   /** Color for the image's shadows, as a hex value. */
   dark?: string;
   /** Color for the image's highlights, as a hex value. */

@@ -25,19 +25,30 @@ Shows an image that fills its element. On hover, a round lens opens under the po
     <LensImage src="/map.jpg" alt="Trail map of the national park" :zoom="2" class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { LensImage } from "@glimmerui/svelte";
+    </script>
+
+    <LensImage src="/map.jpg" alt="Trail map of the national park" zoom={2} class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `zoom` | `number` | `1.75` | Magnification at the center of the lens. Values below 1 are treated as 1. |
 | `size` | `number` | `96` | Lens radius, in CSS pixels. |
 | `fringe` | `number` | `1` | Strength of the color fringing toward the rim, from 0 to 1. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

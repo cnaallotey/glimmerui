@@ -7,6 +7,7 @@ import { Code } from "astro:components";
 import {
   AsciiImage,
   Aurora,
+  BorderBeam,
   Caustics,
   ContourLines,
   DitherImage,
@@ -22,10 +23,15 @@ import {
   InkSmoke,
   KaleidoscopeImage,
   LensImage,
+  LightRays,
   LiquidMetal,
   MeshGradient,
   Particles,
   PixelImage,
+  Plasma,
+  RainImage,
+  RippleImage,
+  ScrollImage,
   ShaderButton,
   ShaderGradient,
   ShaderText,
@@ -37,6 +43,7 @@ import {
 } from "@glimmerui/react";
 import { SwatchGrid } from "../components/marketing/SwatchGrid";
 import PanelCaption from "../components/marketing/PanelCaption.astro";
+import { TransitionPanel } from "../components/marketing/TransitionPanel";
 import { TrailToggle } from "../components/marketing/TrailToggle";
 import logo from "../assets/logo.svg?raw";
 import { nightTheme } from "../styles/code-theme";
@@ -44,9 +51,9 @@ import { withBase } from "../lib/url";
 import { stackLogo, stacks } from "../lib/stacks";
 import { OG_HEIGHT, OG_WIDTH, ogImageUrl } from "../lib/og";
 
-const title = "Glimmer UI: WebGL shader components for React, Vue and Nuxt";
+const title = "Glimmer UI: WebGL shader components for React, Vue, Nuxt and Svelte";
 const description =
-  "Thirty WebGL components for React, Vue and Nuxt: shader backgrounds, image effects and tilting cards. One shared WebGL context, CSS fallbacks, reduced motion built in.";
+  "37 WebGL components for React, Vue, Nuxt and Svelte: shader backgrounds, image and video effects, scroll transitions. CSS fallbacks and reduced motion built in.";
 const canonical = new URL(withBase("/"), Astro.site).href;
 const image = ogImageUrl("index", Astro.site);
 // Structured data, so search engines know this is a code library.
@@ -59,7 +66,7 @@ const jsonLd = {
   image,
   codeRepository: "https://github.com/cnaallotey/glimmerui",
   programmingLanguage: ["TypeScript", "GLSL"],
-  runtimePlatform: ["React", "Vue", "Nuxt"],
+  runtimePlatform: ["React", "Vue", "Nuxt", "Svelte"],
   license: "https://opensource.org/licenses/MIT",
 };
 
@@ -102,6 +109,15 @@ const icon = {
   button: `<rect x="2.5" y="6" width="15" height="8" rx="4"/><path d="M7 10h6"/>`,
   text: `<path d="M4 5h12M10 5v11M7 16h6"/>`,
   trail: `<path d="M3 16c3-1 4-5 7-7s5-2 7-5"/><circle cx="17" cy="4" r="1.5"/>`,
+  transition: `<rect x="3" y="5" width="9" height="10" rx="1.5"/><path d="M14.5 5.5A1.5 1.5 0 0 1 17 6.5v7a1.5 1.5 0 0 1-2.5 1"/><path d="m7 8 2 2-2 2"/>`,
+  scroll: `<path d="M3 5c3 2.5 11 2.5 14 0M3 15c3 2.5 11 2.5 14 0M3 5v10M17 5v10M10 9.5v3M8.5 11l1.5 1.5 1.5-1.5"/>`,
+  drops: `<circle cx="10" cy="10" r="1"/><circle cx="10" cy="10" r="4"/><circle cx="10" cy="10" r="7"/>`,
+  rain: `<path d="M7 3.5c1.6 2.2 2.4 3.6 2.4 4.8a2.4 2.4 0 0 1-4.8 0C4.6 7.1 5.4 5.7 7 3.5zM14 9c1.3 1.8 2 3 2 4a2 2 0 0 1-4 0c0-1 .7-2.2 2-4z"/>`,
+  rays: `<path d="M10 3v14M8 3 4.5 16M12 3l3.5 13M6 3 2.5 12M14 3l3.5 9"/>`,
+  plasma: `<path d="M3 13c2-1 2-5 4-5s1 5 3.5 5 1.5-7 3.5-7 1.5 3 3 2.5"/>`,
+  beam: `<rect x="3" y="4.5" width="14" height="11" rx="3"/><path d="M6 4.5h6" stroke-width="3"/>`,
+  film: `<rect x="3" y="4.5" width="14" height="11" rx="2"/><path d="m8.5 7.5 4 2.5-4 2.5z"/>`,
+  sliders: `<path d="M4 6h12M4 10h12M4 14h12"/><circle cx="7" cy="6" r="1.5"/><circle cx="13" cy="10" r="1.5"/><circle cx="9" cy="14" r="1.5"/>`,
   access: `<circle cx="10" cy="4.5" r="1.5"/><path d="M4 7.5 10 9l6-1.5M10 9v3.5M7 17l3-4.5 3 4.5"/>`,
 };
 
@@ -139,6 +155,13 @@ const components = [
   { id: "shader-button", name: "ShaderButton", icon: icon.button, lead: "A button with a live color fill.", rest: "It brightens on hover and on keyboard focus." },
   { id: "shader-text", name: "ShaderText", icon: icon.text, lead: "Text filled with flowing color.", rest: "It stays real text: selectable and read aloud." },
   { id: "cursor-trail", name: "CursorTrail", icon: icon.trail, lead: "A glowing trail behind the cursor.", rest: "It fades and stops drawing when the mouse rests." },
+  { id: "image-transition", name: "ImageTransition", icon: icon.transition, lead: "Shader transitions between images.", rest: "Five of them, driven by an index, the scroll or your own number." },
+  { id: "scroll-image", name: "ScrollImage", icon: icon.scroll, lead: "An image that bends as the page scrolls.", rest: "The faster it goes, the more it bends and splits its colors." },
+  { id: "ripple-image", name: "RippleImage", icon: icon.drops, lead: "An image under still water.", rest: "The pointer leaves a wake, and a click drops a stone." },
+  { id: "rain-image", name: "RainImage", icon: icon.rain, lead: "An image behind a rainy window.", rest: "Drops bend the view, and the pointer wipes the glass dry." },
+  { id: "light-rays", name: "LightRays", icon: icon.rays, lead: "Shafts of light from the top edge.", rest: "They drift on their own and lean toward the pointer." },
+  { id: "plasma", name: "Plasma", icon: icon.plasma, lead: "Glowing strands of energy.", rest: "They flare, fade and bend toward the pointer." },
+  { id: "border-beam", name: "BorderBeam", icon: icon.beam, lead: "A beam of light around a card's border.", rest: "It keeps its pace through the corners and speeds up on hover." },
 ];
 
 const behaviours = [
@@ -148,6 +171,9 @@ const behaviours = [
   { icon: icon.update, title: "Updates in place", text: "Changing a prop updates the running effect. Nothing is torn down or reloaded." },
   { icon: icon.server, title: "Works with server rendering", text: "", server: true },
   { icon: icon.access, title: "Accessible by default", text: "Image effects read as images, and canvases are hidden from screen readers." },
+  { icon: icon.film, title: "Takes video too", text: "Every image effect plays a video, only while it's on screen." },
+  { icon: icon.motion, title: "Follows the scroll", text: "Transitions run from the scroll position, with a prop or a hook." },
+  { icon: icon.sliders, title: "Tuned in the docs", text: "Change any prop live, start from a preset, and copy the code." },
 ];
 
 const footerLinks = [
@@ -159,6 +185,7 @@ const footerLinks = [
       ["React", "/docs/react/"],
       ["Vue", "/docs/vue/"],
       ["Nuxt", "/docs/nuxt/"],
+      ["Svelte", "/docs/svelte/"],
     ],
   },
   {
@@ -171,7 +198,8 @@ const footerLinks = [
       ["Accessibility", "/docs/guides/accessibility/"],
       ["Performance", "/docs/guides/performance/"],
       ["Server rendering", "/docs/guides/server-rendering/"],
-      ["Images and CORS", "/docs/guides/images/"],
+      ["Scroll", "/docs/guides/scroll/"],
+      ["Images and video", "/docs/guides/images/"],
       ["Core API", "/docs/guides/core-api/"],
     ],
   },
@@ -199,7 +227,7 @@ const footerLinks = [
     <meta property="og:image" content={image} />
     <meta property="og:image:width" content={String(OG_WIDTH)} />
     <meta property="og:image:height" content={String(OG_HEIGHT)} />
-    <meta property="og:image:alt" content="Glimmer UI: thirty shader effects for React, Vue and Nuxt" />
+    <meta property="og:image:alt" content="Glimmer UI: thirty-seven shader effects for React, Vue, Nuxt and Svelte" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -241,7 +269,7 @@ const footerLinks = [
             <span class="mk-badge"><Fragment set:html={svg(icon.spark)} />WebGL components</span>
           </span>
           <h1 id="hero-title" class="mk-display">
-            Thirty shader effects for React, Vue and Nuxt.{" "}
+            Thirty-seven shader effects for React, Vue, Nuxt and Svelte.{" "}
             <span class="mk-tone">Each one is a component you drop into a page.</span>
           </h1>
           <fieldset id="stack" class="mk-stack">
@@ -320,7 +348,7 @@ const footerLinks = [
         <div class="mk-wrap mk-intro">
           <span class="mk-badge"><Fragment set:html={svg(icon.context)} />Components</span>
           <h2 id="components-title" class="mk-heading">
-            Thirty effects, one shared WebGL context.{" "}
+            Thirty-seven effects, one shared WebGL context.{" "}
             <span class="mk-tone">Every one is an ordinary component with props.</span>
           </h2>
         </div>
@@ -638,6 +666,76 @@ const footerLinks = [
               </div>
               <PanelCaption c={components[29]} svg={svg} />
             </article>
+
+            <article id="c-image-transition" class="mk-panel" data-panel="image-transition">
+              <div class="mk-panel-stage">
+                <TransitionPanel client:visible />
+              </div>
+              <PanelCaption c={components[30]} svg={svg} />
+            </article>
+
+            <article id="c-scroll-image" class="mk-panel" data-panel="scroll-image">
+              <div class="mk-panel-stage">
+                <ScrollImage
+                  client:visible
+                  className="mk-panel-media"
+                  src={withBase("/demo.png")}
+                  alt="A grid-and-rings pattern that bends while the page scrolls"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[31]} svg={svg} />
+            </article>
+
+            <article id="c-ripple-image" class="mk-panel" data-panel="ripple-image">
+              <div class="mk-panel-stage">
+                <RippleImage
+                  client:visible
+                  className="mk-panel-media"
+                  src={withBase("/demo-spheres.png")}
+                  alt="Glossy colored spheres under rippling water"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[32]} svg={svg} />
+            </article>
+
+            <article id="c-rain-image" class="mk-panel" data-panel="rain-image">
+              <div class="mk-panel-stage">
+                <RainImage
+                  client:visible
+                  className="mk-panel-media"
+                  src={withBase("/demo-video.mp4")}
+                  alt="Colored spheres circling each other behind a rainy window"
+                  data-glimmer=""
+                />
+              </div>
+              <PanelCaption c={components[33]} svg={svg} />
+            </article>
+
+            <article id="c-light-rays" class="mk-panel" data-panel="light-rays">
+              <div class="mk-panel-stage">
+                <LightRays client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[34]} svg={svg} />
+            </article>
+
+            <article id="c-plasma" class="mk-panel" data-panel="plasma">
+              <div class="mk-panel-stage">
+                <Plasma client:visible className="mk-panel-media" data-glimmer="" />
+              </div>
+              <PanelCaption c={components[35]} svg={svg} />
+            </article>
+
+            <article id="c-border-beam" class="mk-panel" data-panel="border-beam">
+              <div class="mk-panel-stage mk-panel-stage--center mk-panel-stage--night">
+                <BorderBeam client:visible className="mk-demo-card" radius={16} data-glimmer="">
+                  <strong>Deploying</strong>
+                  <span>Building your site. This usually takes under a minute.</span>
+                </BorderBeam>
+              </div>
+              <PanelCaption c={components[36]} svg={svg} />
+            </article>
           </div>
         </div>
       </section>
@@ -696,12 +794,12 @@ const footerLinks = [
               <dd>WebGL context for every effect on a page</dd>
             </div>
             <div class="mk-cell">
-              <dt><span data-count="30">30</span></dt>
+              <dt><span data-count="37">37</span></dt>
               <dd>components, each with a CSS fallback</dd>
             </div>
             <div class="mk-cell">
-              <dt><span data-count="3">3</span></dt>
-              <dd>frameworks: React, Vue and Nuxt</dd>
+              <dt><span data-count="4">4</span></dt>
+              <dd>frameworks: React, Vue, Nuxt and Svelte</dd>
             </div>
             <div class="mk-cell">
               <dt><span data-effect-count>44</span></dt>
@@ -762,7 +860,7 @@ const footerLinks = [
             <Fragment set:html={logo} />
             <span>Glimmer UI</span>
           </a>
-          <p>WebGL components for React, Vue and Nuxt. MIT licensed.</p>
+          <p>WebGL components for React, Vue, Nuxt and Svelte. MIT licensed.</p>
         </div>
         {
           footerLinks.map((group) => (
@@ -811,7 +909,7 @@ const footerLinks = [
           showStack(radio.value);
           try {
             localStorage.setItem("glimmer-stack", radio.value);
-            // Docs pages open their React and Vue tabs on the matching one.
+            // Docs pages open their framework tabs on the matching one.
             const tab = docsTabs[radio.value];
             if (tab) localStorage.setItem("starlight-synced-tabs__framework", tab);
           } catch {}

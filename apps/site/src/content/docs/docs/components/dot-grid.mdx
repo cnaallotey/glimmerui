@@ -31,6 +31,17 @@ The dots draw on a transparent background, so set the element's own background w
     </DotGrid>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { DotGrid } from "@glimmerui/svelte";
+    </script>
+
+    <DotGrid color="#8f8bab" accent="#e0457b" style="background: #f1f3f7; height: 400px">
+      <h2>Sign up for the beta</h2>
+    </DotGrid>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -43,7 +54,7 @@ The dots draw on a transparent background, so set the element's own background w
 | `size` | `number` | `1.5` | Dot radius, in CSS pixels. Dots near the pointer grow to about 3 times this. |
 | `radius` | `number` | `140` | How far the pointer's influence reaches, in CSS pixels. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

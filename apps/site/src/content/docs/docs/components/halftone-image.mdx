@@ -25,20 +25,31 @@ Draws an image the way a newspaper prints it: one dot per cell on a 45 degree gr
     <HalftoneImage src="/portrait.jpg" alt="Portrait of the founder" :cell="6" class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { HalftoneImage } from "@glimmerui/svelte";
+    </script>
+
+    <HalftoneImage src="/portrait.jpg" alt="Portrait of the founder" cell={6} class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `cell` | `number` | `8` | Distance between dot centers, in CSS pixels. Smaller cells keep more detail. |
 | `ink` | `string` | `"#0e0d12"` | Dot color, as a hex value. |
 | `paper` | `string` | `"#fafafa"` | Color behind the dots, as a hex value. |
 | `radius` | `number` | `140` | Radius of the full-color area around the pointer, in CSS pixels. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

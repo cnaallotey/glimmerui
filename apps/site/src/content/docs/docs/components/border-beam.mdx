@@ -1,0 +1,68 @@
+---
+title: BorderBeam
+description: A card with a beam of light running around its border.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { BorderBeamDemo } from "@/components/demos/BorderBeamDemo";
+
+A card with a beam of light that runs around its border and glows on the fill beside it. Hovering speeds it up. Good for a card that's working on something, or one you want noticed.
+
+<BorderBeamDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { BorderBeam } from "@glimmerui/react";
+
+    <BorderBeam radius={16} style={{ borderRadius: 16, padding: 28 }}>
+      <h3>Deploying</h3>
+      <p>Building your site.</p>
+    </BorderBeam>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <BorderBeam :radius="16" style="border-radius: 16px; padding: 28px">
+      <h3>Deploying</h3>
+      <p>Building your site.</p>
+    </BorderBeam>
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { BorderBeam } from "@glimmerui/svelte";
+    </script>
+
+    <BorderBeam radius={16} style="border-radius: 16px; padding: 28px">
+      <h3>Deploying</h3>
+      <p>Building your site.</p>
+    </BorderBeam>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `color` | `string` | `"#f9b44c"` | Color at the head of the beam, as a hex value. |
+| `tail` | `string` | `"#e0457b"` | Color the beam fades through behind its head, as a hex value. |
+| `background` | `string` | `"#16151c"` | Card fill color, as a hex value. |
+| `radius` | `number` | `16` | Corner radius in CSS pixels. Match it with the element's own `border-radius`. |
+| `border` | `number` | `1.5` | Border width in CSS pixels. |
+| `length` | `number` | `0.3` | Length of the beam as a share of the way around, from 0.05 to 1. |
+| `beams` | `number` | `1` | How many beams share the border, from 1 to 4. |
+| `speed` | `number` | `1` | How fast the beams run. At `1` a lap takes six seconds. Negative goes the other way. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- The beam keeps the same pace along the sides and around the corners.
+- With reduced motion, the beam stays where it is.
+- Without WebGL, the card is a plain box in the `background` color.
+- The canvas is hidden from assistive technology. Children stay accessible.

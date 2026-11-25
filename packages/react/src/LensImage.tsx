@@ -8,15 +8,14 @@ export interface LensImageProps extends LensImageOptions, HTMLAttributes<HTMLDiv
 }
 
 export const LensImage = forwardRef<HTMLDivElement, LensImageProps>(function LensImage(
-  { src, zoom, size, fringe, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
+  { src, zoom, size, fringe, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createLensImage, { src, zoom, size, fringe }, [
-    src,
-    zoom,
-    size,
-    fringe,
-  ]);
+  const { host, ctrl } = useController(
+    createLensImage,
+    { src, zoom, size, fringe, video, paused },
+    [src, zoom, size, fringe, video, paused]
+  );
 
   return (
     <div

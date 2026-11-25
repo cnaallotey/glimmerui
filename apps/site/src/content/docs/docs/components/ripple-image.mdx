@@ -1,0 +1,70 @@
+---
+title: RippleImage
+description: An image under still water that ripples where the pointer moves or presses.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { RippleImageDemo } from "@/components/demos/RippleImageDemo";
+
+The image under shallow, still water. Moving the pointer leaves a wake of small rings, and a click or tap drops a bigger one. Rings spread, cross and die away.
+
+<RippleImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { RippleImage } from "@glimmerui/react";
+
+    <RippleImage
+      src="/pond.jpg"
+      alt="Pebbles at the bottom of a pond"
+      className="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <RippleImage
+      src="/pond.jpg"
+      alt="Pebbles at the bottom of a pond"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { RippleImage } from "@glimmerui/svelte";
+    </script>
+
+    <RippleImage
+      src="/pond.jpg"
+      alt="Pebbles at the bottom of a pond"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `strength` | `number` | `1` | Height of the ripples, from 0 to 2. |
+| `speed` | `number` | `1` | How fast rings spread. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- Up to 14 rings spread at once. A new one replaces the oldest.
+- On touch screens, a tap drops a ring and dragging leaves a wake.
+- With reduced motion, the water stays still.
+- The core controller also has `drop(x, y)`, to drop a ring from your own code.
+- Without WebGL, the element shows the plain image or video.

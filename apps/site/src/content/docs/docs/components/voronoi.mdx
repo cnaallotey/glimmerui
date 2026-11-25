@@ -29,6 +29,17 @@ A stained-glass window of drifting cells, each tinted from your three colors and
     </Voronoi>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Voronoi } from "@glimmerui/svelte";
+    </script>
+
+    <Voronoi colors={["#3b1d8f", "#e0457b", "#f9b44c"]} scale={6} class="h-96">
+      <h1>Open studio</h1>
+    </Voronoi>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ A stained-glass window of drifting cells, each tinted from your three colors and
 | `scale` | `number` | `6` | Roughly how many cells fit across the element's height. |
 | `speed` | `number` | `1` | How fast the cells drift. `0` holds them still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

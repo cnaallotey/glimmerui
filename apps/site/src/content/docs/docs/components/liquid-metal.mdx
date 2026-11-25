@@ -29,6 +29,17 @@ Blobs of liquid chrome drift on slow looping paths, merging when they meet and p
     </LiquidMetal>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { LiquidMetal } from "@glimmerui/svelte";
+    </script>
+
+    <LiquidMetal count={6} background="#0e0d12" class="h-96">
+      <h1>Built to last</h1>
+    </LiquidMetal>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ Blobs of liquid chrome drift on slow looping paths, merging when they meet and p
 | `background` | `string` | `"#0e0d12"` | Color behind the blobs, as a hex value. |
 | `speed` | `number` | `1` | How fast the blobs drift. `0` holds them still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

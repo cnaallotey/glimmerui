@@ -184,6 +184,11 @@ export interface StageOptions {
   onResize?(width: number, height: number, scale: number): void;
   /** Called every frame with elapsed seconds. Must call renderer.render itself. */
   onFrame(seconds: number): void;
+  /**
+   * Called on start, and whenever the effect starts or stops animating because
+   * it left the screen or the user's motion preference changed.
+   */
+  onActive?(active: boolean): void;
 }
 
 export function createStage(container: HTMLElement, options: StageOptions): Stage {
@@ -223,9 +228,18 @@ export function createStage(container: HTMLElement, options: StageOptions): Stag
     frame.render(drawQueuedFrame);
   };
 
+  let active: boolean | undefined;
+  const reportActive = () => {
+    const next = entry.visible && !entry.reduceMotion;
+    if (next === active) return;
+    active = next;
+    options.onActive?.(next);
+  };
+
   const motionQuery = typeof matchMedia === "function" ? matchMedia(REDUCED_MOTION) : null;
   const onMotionPreference = () => {
     entry.reduceMotion = !!motionQuery?.matches;
+    reportActive();
     if (entry.reduceMotion) invalidate();
     else wake();
   };
@@ -262,9 +276,11 @@ export function createStage(container: HTMLElement, options: StageOptions): Stag
       resize();
       intersection = new IntersectionObserver(([e]) => {
         entry.visible = e.isIntersecting;
+        reportActive();
         if (entry.visible) wake();
       });
       intersection.observe(container);
+      reportActive();
       motionQuery?.addEventListener("change", onMotionPreference);
     },
     destroy() {
@@ -323,42 +339,12 @@ export function bindValue(
   });
 }
 
-/** Loads images for a texture, ignoring results that arrive after a newer request. */
-export function createImageLoader(onLoad: (img: HTMLImageElement) => void) {
-  let src: string | undefined;
-  let pending: HTMLImageElement | null = null;
-  return {
-    load(url: string) {
-      if (url === src) return;
-      src = url;
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      pending = img;
-      img.onload = () => {
-        if (pending !== img) return;
-        pending = null;
-        onLoad(img);
-      };
-      img.src = url;
-    },
-    cancel() {
-      if (pending) pending.onload = null;
-      pending = null;
-    },
-  };
-}
-
 /**
  * A CSS url() for an image source. Escapes quotes, backslashes and newlines so
  * a source can't break out of the declaration.
  */
 export function cssUrl(src: string): string {
   return `url("${src.replace(/["\\\n\r]/g, (c) => (c === "\n" || c === "\r" ? " " : `\\${c}`))}")`;
-}
-
-/** CSS fallback for image effects: the image covering the element. */
-export function paintImage(container: HTMLElement, src: string) {
-  container.style.background = `center / cover no-repeat ${cssUrl(src)}`;
 }
 
 /** Free GPU objects an effect created on the shared context. */

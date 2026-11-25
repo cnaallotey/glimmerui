@@ -9,6 +9,8 @@ const { host, controller } = useController(createFogImage, () => ({
   frost: props.frost,
   tint: props.tint,
   radius: props.radius,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

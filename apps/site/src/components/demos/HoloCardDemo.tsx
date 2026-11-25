@@ -1,29 +1,30 @@
-import { useState } from "react";
-import { withBase } from "@/lib/url";
 import { HoloCard } from "@glimmerui/react";
-import { Range } from "./Range";
+import { range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  range("foil", 0.8, 0, 1, 0.05),
+  range("maxTilt", 0.4, 0, 0.8, 0.05),
+  range("radius", 20, 0, 48, 1),
+];
+const presets = {
+  Standard: {},
+  Faint: { foil: 0.3 },
+  Rare: { foil: 1, maxTilt: 0.6 },
+};
 
 export function HoloCardDemo() {
-  const [foil, setFoil] = useState(0.8);
-  const [maxTilt, setMaxTilt] = useState(0.4);
-  const [radius, setRadius] = useState(20);
   return (
-    <div className="demo not-content">
-      <div className="demo-stage demo-stage--card">
-        <HoloCard
-          src={withBase("/demo-spheres.png")}
-          alt="Four glossy colored spheres on a holographic card"
-          foil={foil}
-          maxTilt={maxTilt}
-          radius={radius}
-          style={{ width: "min(100%, 30rem)", aspectRatio: "3 / 2" }}
-        />
-      </div>
-      <div className="demo-controls">
-        <Range label="foil" value={foil} min={0} max={1} step={0.05} onChange={setFoil} />
-        <Range label="maxTilt" value={maxTilt} min={0} max={0.8} step={0.05} onChange={setMaxTilt} />
-        <Range label="radius" value={radius} min={0} max={48} step={1} onChange={setRadius} />
-      </div>
-    </div>
+    <Demo
+      name="HoloCard"
+      controls={controls}
+      presets={presets}
+      image={{ src: "/demo-spheres.png", alt: "Four glossy colored spheres on a holographic card" }}
+      render={(p) => (
+        <div className="demo-stage demo-stage--card">
+          <HoloCard {...p} style={{ width: "min(100%, 30rem)", aspectRatio: "3 / 2" }} />
+        </div>
+      )}
+    />
   );
 }

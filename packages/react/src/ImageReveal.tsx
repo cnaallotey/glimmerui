@@ -13,6 +13,10 @@ export const ImageReveal = forwardRef<HTMLDivElement, ImageRevealProps>(function
   {
     src,
     revealSrc,
+    video,
+    paused,
+    scroll,
+    progress,
     alt,
     style,
     children,
@@ -24,7 +28,11 @@ export const ImageReveal = forwardRef<HTMLDivElement, ImageRevealProps>(function
   },
   ref
 ) {
-  const { host, ctrl } = useController(createImageReveal, { src, revealSrc }, [src, revealSrc]);
+  const { host, ctrl } = useController(
+    createImageReveal,
+    { src, revealSrc, video, paused, scroll, progress },
+    [src, revealSrc, video, paused, scroll, progress]
+  );
   // Touch has no hover, so a tap toggles the reveal instead.
   const tapped = useRef(false);
 

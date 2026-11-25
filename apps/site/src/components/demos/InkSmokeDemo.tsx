@@ -1,20 +1,25 @@
-import { useState } from "react";
 import { InkSmoke } from "@glimmerui/react";
-import { ColorInput } from "./ColorInput";
-import { Range } from "./Range";
+import { color, range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  color("color", "#e9e8ee"),
+  color("background", "#0e0d12"),
+  range("speed", 1, 0, 3, 0.1),
+];
+const presets = {
+  Chalk: {},
+  Ink: { color: "#0e0d12", background: "#f4f1ea" },
+  Incense: { color: "#f9b44c", background: "#1c0f0a", speed: 0.6 },
+};
 
 export function InkSmokeDemo() {
-  const [color, setColor] = useState("#e9e8ee");
-  const [background, setBackground] = useState("#0e0d12");
-  const [speed, setSpeed] = useState(1);
   return (
-    <div className="demo not-content">
-      <InkSmoke className="demo-stage" color={color} background={background} speed={speed} />
-      <div className="demo-controls">
-        <ColorInput label="color" value={color} onChange={setColor} />
-        <ColorInput label="background" value={background} onChange={setBackground} />
-        <Range label="speed" value={speed} min={0} max={3} step={0.1} onChange={setSpeed} />
-      </div>
-    </div>
+    <Demo
+      name="InkSmoke"
+      controls={controls}
+      presets={presets}
+      render={(p) => <InkSmoke className="demo-stage" {...p} />}
+    />
   );
 }

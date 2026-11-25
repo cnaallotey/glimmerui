@@ -1,10 +1,10 @@
 # Glimmer UI
 
-Open source WebGL UI components for React, Vue and Nuxt, animated with Motion.
+Open source WebGL UI components for React, Vue, Nuxt and Svelte, animated with Motion.
 
 ## How it works
 
-`@glimmerui/core` holds the WebGL effects (built on OGL) and is framework agnostic. Pointer and hover input is smoothed with Motion values and fed into shader uniforms. `@glimmerui/react` and `@glimmerui/vue` are thin wrappers, so both frameworks get the same effects from one codebase.
+`@glimmerui/core` holds the WebGL effects (built on OGL) and is framework agnostic. Pointer and hover input is smoothed with Motion values and fed into shader uniforms. `@glimmerui/react`, `@glimmerui/vue` and `@glimmerui/svelte` are thin wrappers, so every framework gets the same effects from one codebase.
 
 ## Components
 
@@ -40,6 +40,13 @@ Open source WebGL UI components for React, Vue and Nuxt, animated with Motion.
 | `ShaderButton` | A button with a live, flowing color fill |
 | `ShaderText` | Text filled with flowing color that stays real, selectable text |
 | `CursorTrail` | A glowing trail that follows the mouse across the page |
+| `ImageTransition` | Shader transitions between images, by index or by scrolling |
+| `ScrollImage` | An image that bends with the speed of the scroll |
+| `RippleImage` | An image under water that ripples where the pointer moves or presses |
+| `RainImage` | An image behind a rainy window that the pointer wipes dry |
+| `LightRays` | Shafts of light that lean toward the pointer |
+| `Plasma` | Glowing strands of energy that bend toward the pointer |
+| `BorderBeam` | A card with a beam of light running around its border |
 
 ## Packages
 
@@ -49,6 +56,7 @@ Open source WebGL UI components for React, Vue and Nuxt, animated with Motion.
 | `@glimmerui/react` | React components |
 | `@glimmerui/vue` | Vue components |
 | `@glimmerui/nuxt` | Nuxt module that auto-imports the Vue components, client only |
+| `@glimmerui/svelte` | Svelte 5 components |
 
 ## Install
 
@@ -56,6 +64,7 @@ Open source WebGL UI components for React, Vue and Nuxt, animated with Motion.
 npm install @glimmerui/react   # React
 npm install @glimmerui/vue     # Vue
 npm install @glimmerui/nuxt    # Nuxt
+npm install @glimmerui/svelte  # Svelte and SvelteKit
 ```
 
 ## Usage
@@ -98,15 +107,31 @@ export default defineNuxtConfig({
 });
 ```
 
-Every component passes other attributes (`id`, `style`, `data-*`, `aria-*`, event handlers) to its root element, and the React components forward `ref` to it. Hover effects respond to mouse and pen, not touch.
+Svelte 5:
 
-Image sources must be same origin or served with CORS headers, because WebGL cannot read cross origin pixels otherwise.
+```svelte
+<script>
+  import { ShaderGradient, ImageDistortion } from "@glimmerui/svelte";
+</script>
+
+<ShaderGradient colors={["#3b1d8f", "#e0457b", "#f9b44c"]} class="h-64">
+  <h1>Hello</h1>
+</ShaderGradient>
+
+<ImageDistortion src="/photo.jpg" alt="Team photo" class="h-80" />
+```
+
+Every component passes other attributes (`id`, `style`, `data-*`, `aria-*`, event handlers) to its root element, and the React components forward `ref` to it (`bind:ref` in Svelte). Hover effects respond to mouse and pen, not touch.
+
+Every image component also plays a video: pass its URL as `src`. `ImageReveal` and `ImageTransition` can follow the scroll, and `useScrollProgress` (React, Vue, Nuxt) or the `scrollProgress` action (Svelte) drives any other prop.
+
+Image and video sources must be same origin or served with CORS headers, because WebGL cannot read cross origin pixels otherwise.
 
 ## Principles
 
 1. Every component falls back to plain CSS when WebGL is unavailable.
 2. Animation pauses offscreen and respects `prefers-reduced-motion`. With reduced motion you get a still frame that updates only on input.
-3. The canvas lives in its own host element, so React and Vue never reconcile it.
+3. The canvas lives in its own host element, so no framework reconciles it.
 4. Shared plumbing (context, resize, visibility, cleanup) lives in one `createStage` helper, so a new effect only describes its scene.
 
 ## Development
@@ -121,19 +146,20 @@ pnpm typecheck
 pnpm --filter react-playground dev
 pnpm --filter vue-playground dev
 pnpm --filter nuxt-playground dev
+pnpm --filter svelte-playground dev
 
 # Marketing site and docs (Astro + Starlight), at http://localhost:4321/glimmerui/
 pnpm --filter site dev
 ```
 
-The site is live at https://cnaallotey.github.io/glimmerui/ and redeploys on every push to `main` that touches it (`.github/workflows/pages.yml`). It lives in `apps/site`, served under the `/glimmerui` base path: write internal links as `/docs/...` in Markdown, and wrap them with `withBase()` from `src/lib/url.ts` in `.astro` and `.tsx` files. The landing page is `src/pages/index.astro`, and the docs are MDX files in `src/content/docs/docs/`. Live demos in the docs are React islands in `src/components/demos/`.
+The site is live at https://cnaallotey.github.io/glimmerui/ and redeploys on every push to `main` that touches it (`.github/workflows/pages.yml`). It lives in `apps/site`, served under the `/glimmerui` base path: write internal links as `/docs/...` in Markdown, and wrap them with `withBase()` from `src/lib/url.ts` in `.astro` and `.tsx` files. The landing page is `src/pages/index.astro`, and the docs are MDX files in `src/content/docs/docs/`. Live demos in the docs are React islands in `src/components/demos/`: each lists its controls and presets, and `Demo.tsx` does the rest. After adding or renaming a page, run `pnpm --filter site og` to render its social card.
 
 ## Adding an effect
 
 1. Write the shader in `packages/core/src/shaders.ts`.
 2. Add a `create...` function in `packages/core/src` that builds a program and calls `createStage`. Drive inputs with `animateTo` and `bindValue` so reduced motion works, and give the controller an `update(options)` that changes uniforms in place instead of rebuilding.
 3. Export it from `packages/core/src/index.ts`.
-4. Add a thin wrapper in `packages/react` and `packages/vue` that creates the effect once and passes later prop changes to `update`, then a demo in each playground.
+4. Add a thin wrapper in `packages/react`, `packages/vue` and `packages/svelte` that creates the effect once and passes later prop changes to `update`, then a demo in each playground.
 
 ## Shared context
 
@@ -141,7 +167,7 @@ Browsers allow roughly 16 WebGL contexts per page. Glimmer uses one offscreen co
 
 ## Releasing
 
-Versions and changelogs are managed with [Changesets](https://changesets.dev). The four `@glimmerui/*` packages always share one version.
+Versions and changelogs are managed with [Changesets](https://changesets.dev). The five `@glimmerui/*` packages always share one version.
 
 1. In a pull request that changes a package, run `pnpm changeset` and describe the change.
 2. When it merges, the Release workflow opens or updates a "Version packages" pull request that bumps versions and writes the changelogs.

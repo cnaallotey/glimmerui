@@ -5,9 +5,9 @@ description: How Glimmer UI handles screen readers, reduced motion and touch.
 
 ## Screen readers
 
-- The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage` and `KaleidoscopeImage`) have `role="img"` and use your `alt` text as their label, so they read like an image. Write `alt` the way you would for an `<img>`. For `ImageReveal`, describe both images.
+- The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage`, `KaleidoscopeImage`, `ImageTransition`, `ScrollImage`, `RippleImage` and `RainImage`) have `role="img"` and use your `alt` text as their label, so they read like an image. Write `alt` the way you would for an `<img>`. For `ImageReveal`, describe both images. `ImageTransition` takes an `alt` for each image and uses the one on show.
 - The canvas inside every component is hidden from assistive technology.
-- The backgrounds (`ShaderGradient`, `Aurora`, `DotGrid`, `LiquidMetal`, `Particles`, `MeshGradient`, `Silk`, `Caustics`, `ContourLines`, `Starfield`, `Voronoi`, `GridFloor`, `InkSmoke` and `SpotlightCard`) are decorative, so they have no role. Their children are read normally.
+- The backgrounds (`ShaderGradient`, `Aurora`, `DotGrid`, `LiquidMetal`, `Particles`, `MeshGradient`, `Silk`, `Caustics`, `ContourLines`, `Starfield`, `Voronoi`, `GridFloor`, `InkSmoke`, `LightRays`, `Plasma`, `SpotlightCard` and `BorderBeam`) are decorative, so they have no role. Their children are read normally.
 
 Because the image components are images to assistive technology, anything you put inside them is treated as part of the image and isn't read out or reachable separately. Keep links, buttons and important text outside them, or use one of the backgrounds for content that sits over an effect.
 
@@ -23,15 +23,20 @@ When the user has turned on reduced motion in their system settings, every effec
 
 - holds a still frame instead of animating continuously,
 - still follows the pointer, but jumps to each new position instead of easing there,
-- skips the fade when an image loads.
+- skips the fade when an image loads,
+- holds a video on its first frame.
 
 The components watch the setting, so a change takes effect without a reload.
+
+## Video
+
+Videos loop, so give people a way to stop them: connect the `paused` prop to a button. See [Images and video](/docs/guides/images/#video).
 
 ## Touch
 
 Hover effects respond to a mouse or pen, not touch, the same as CSS `:hover`. On touch screens, `ImageDistortion` doesn't ripple, `TiltCard` shows no glare, `LensImage` shows no lens, and the backgrounds keep their pointer effect at its resting level.
 
-Most image components are the exceptions (all but `ImageDistortion`, `TiltCard`, `HoloCard` and `LensImage`), because what the pointer reveals is content: the second image, or the image itself. On touch screens a tap toggles the effect instead.
+Most image components are the exceptions (all but `ImageDistortion`, `TiltCard`, `HoloCard`, `LensImage`, `RippleImage`, `ScrollImage` and `ImageTransition`), because what the pointer reveals is content: the second image, or the image itself. On touch screens a tap toggles the effect instead. In `RippleImage`, a tap drops a ring.
 
 Don't rely on an effect to show information that touch users would otherwise miss.
 

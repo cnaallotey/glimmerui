@@ -9,6 +9,8 @@ const { host, controller } = useController(createLensImage, () => ({
   zoom: props.zoom,
   size: props.size,
   fringe: props.fringe,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

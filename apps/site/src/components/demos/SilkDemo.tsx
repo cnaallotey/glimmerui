@@ -1,22 +1,26 @@
-import { useState } from "react";
 import { Silk } from "@glimmerui/react";
-import { ColorInput } from "./ColorInput";
-import { Range } from "./Range";
+import { color, range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  color("color", "#3b1d8f"),
+  color("sheen", "#f4f4f6"),
+  range("folds", 1, 0.3, 3, 0.1),
+  range("speed", 1, 0, 3, 0.1),
+];
+const presets = {
+  Violet: {},
+  Emerald: { color: "#065f46", sheen: "#a7f3d0" },
+  Champagne: { color: "#a3795b", sheen: "#fff4e0", folds: 1.6 },
+};
 
 export function SilkDemo() {
-  const [color, setColor] = useState("#3b1d8f");
-  const [sheen, setSheen] = useState("#f4f4f6");
-  const [folds, setFolds] = useState(1);
-  const [speed, setSpeed] = useState(1);
   return (
-    <div className="demo not-content">
-      <Silk className="demo-stage" color={color} sheen={sheen} folds={folds} speed={speed} />
-      <div className="demo-controls">
-        <ColorInput label="color" value={color} onChange={setColor} />
-        <ColorInput label="sheen" value={sheen} onChange={setSheen} />
-        <Range label="folds" value={folds} min={0.3} max={3} step={0.1} onChange={setFolds} />
-        <Range label="speed" value={speed} min={0} max={3} step={0.1} onChange={setSpeed} />
-      </div>
-    </div>
+    <Demo
+      name="Silk"
+      controls={controls}
+      presets={presets}
+      render={(p) => <Silk className="demo-stage" {...p} />}
+    />
   );
 }

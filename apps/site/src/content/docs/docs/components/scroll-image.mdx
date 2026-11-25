@@ -1,0 +1,70 @@
+---
+title: ScrollImage
+description: An image that bends and splits color with the speed of the scroll.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { ScrollImageDemo } from "@/components/demos/ScrollImageDemo";
+
+An image that sags like a hanging sheet while the page scrolls, more the faster it goes, then settles with a small swing. Its color channels split along with it.
+
+<ScrollImageDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { ScrollImage } from "@glimmerui/react";
+
+    <ScrollImage
+      src="/lookbook-04.jpg"
+      alt="A model in a long linen coat"
+      className="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <ScrollImage
+      src="/lookbook-04.jpg"
+      alt="A model in a long linen coat"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ScrollImage } from "@glimmerui/svelte";
+    </script>
+
+    <ScrollImage
+      src="/lookbook-04.jpg"
+      alt="A model in a long linen coat"
+      class="h-96"
+    />
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
+| `alt` | `string` | required | Describes the image for screen readers. |
+| `strength` | `number` | `1` | How far scrolling bends the image, from 0 to 2. |
+| `split` | `number` | `1` | How far scrolling splits the color channels, from 0 to 2. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- It measures how fast the element moves on screen, so it also works inside scrolling containers and with smooth-scroll libraries.
+- The image is shown about 16% larger than its element, which leaves room for the bend.
+- It doesn't react to the pointer.
+- With reduced motion, the image doesn't bend.
+- Without WebGL, the element shows the plain image or video.

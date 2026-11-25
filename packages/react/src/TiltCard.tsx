@@ -8,15 +8,14 @@ export interface TiltCardProps extends TiltCardOptions, HTMLAttributes<HTMLDivEl
 }
 
 export const TiltCard = forwardRef<HTMLDivElement, TiltCardProps>(function TiltCard(
-  { src, maxTilt, radius, glare, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
+  { src, maxTilt, radius, glare, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createTiltCard, { src, maxTilt, radius, glare }, [
-    src,
-    maxTilt,
-    radius,
-    glare,
-  ]);
+  const { host, ctrl } = useController(
+    createTiltCard,
+    { src, maxTilt, radius, glare, video, paused },
+    [src, maxTilt, radius, glare, video, paused]
+  );
 
   return (
     <div

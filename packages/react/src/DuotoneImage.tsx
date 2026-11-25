@@ -8,10 +8,14 @@ export interface DuotoneImageProps extends DuotoneImageOptions, HTMLAttributes<H
 }
 
 export const DuotoneImage = forwardRef<HTMLDivElement, DuotoneImageProps>(function DuotoneImage(
-  { src, dark, light, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, dark, light, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createDuotoneImage, { src, dark, light }, [src, dark, light]);
+  const { host, ctrl } = useController(
+    createDuotoneImage,
+    { src, dark, light, video, paused },
+    [src, dark, light, video, paused]
+  );
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);
 

@@ -9,7 +9,7 @@ export const onRequest = defineRouteMiddleware((context) => {
   const { head } = route;
 
   if (route.id.startsWith("docs/components/")) {
-    const title = `${route.entry.data.title}: WebGL component for React, Vue and Nuxt | Glimmer UI`;
+    const title = `${route.entry.data.title}: WebGL component for React, Vue, Nuxt and Svelte | Glimmer UI`;
     for (const tag of head) {
       if (tag.tag === "title") tag.content = title;
       if (tag.tag === "meta" && tag.attrs?.property === "og:title") tag.attrs.content = title;

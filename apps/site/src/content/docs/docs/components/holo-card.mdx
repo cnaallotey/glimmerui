@@ -25,6 +25,15 @@ A [TiltCard](/docs/components/tilt-card/) with a holographic foil over the image
     <HoloCard src="/card-art.jpg" alt="Limited edition member card" :foil="0.8" class="h-80" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { HoloCard } from "@glimmerui/svelte";
+    </script>
+
+    <HoloCard src="/card-art.jpg" alt="Limited edition member card" foil={0.8} class="h-80" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -35,7 +44,7 @@ A [TiltCard](/docs/components/tilt-card/) with a holographic foil over the image
 | --- | --- | --- | --- |
 | `foil` | `number` | `0.8` | Strength of the holographic foil, from 0 to 1. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

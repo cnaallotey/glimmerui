@@ -25,21 +25,32 @@ Draws an image in text characters, like ASCII art: each cell shows one of ten ch
     <AsciiImage src="/portrait.jpg" alt="Portrait of the founder" :cell="10" colored class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { AsciiImage } from "@glimmerui/svelte";
+    </script>
+
+    <AsciiImage src="/portrait.jpg" alt="Portrait of the founder" cell={10} colored class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `cell` | `number` | `10` | Size of each character cell, in CSS pixels. |
 | `color` | `string` | `"#e9e8ee"` | Character color, as a hex value. |
 | `background` | `string` | `"#0e0d12"` | Background color, as a hex value. |
 | `colored` | `boolean` | `false` | Color each character with the image's own color there, instead of `color`, and tint each cell with a dim wash of that color. |
 | `radius` | `number` | `140` | Radius of the area around the pointer where the real image shows, in CSS pixels. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

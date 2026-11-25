@@ -1,0 +1,61 @@
+---
+title: Plasma
+description: Glowing strands of energy that arc across the element and bend toward the pointer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { PlasmaDemo } from "@/components/demos/PlasmaDemo";
+
+Strands of light that wander, flare and fade, each a hot core inside a wide glow. They bend toward the pointer and burn brighter near it.
+
+<PlasmaDemo client:visible />
+
+## Usage
+
+<Tabs syncKey="framework">
+  <TabItem label="React">
+    ```tsx
+    import { Plasma } from "@glimmerui/react";
+
+    <Plasma background="#0a0812" className="h-96">
+      <h1>High voltage</h1>
+    </Plasma>
+    ```
+  </TabItem>
+  <TabItem label="Vue">
+    ```vue
+    <Plasma background="#0a0812" class="h-96">
+      <h1>High voltage</h1>
+    </Plasma>
+    ```
+  </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Plasma } from "@glimmerui/svelte";
+    </script>
+
+    <Plasma background="#0a0812" class="h-96">
+      <h1>High voltage</h1>
+    </Plasma>
+    ```
+  </TabItem>
+</Tabs>
+
+## Props
+
+| Prop | Type | Default | What it does |
+| --- | --- | --- | --- |
+| `colors` | `[string, string, string]` | `["#3b1d8f", "#e0457b", "#ffe9c9"]` | Three hex colors: the outer glow, the strands, and their hot core. |
+| `background` | `string` | `"#0a0812"` | Color behind the strands, as a hex value. |
+| `scale` | `number` | `1` | How fine the strands are. Higher is busier. |
+| `intensity` | `number` | `1` | Brightness. |
+| `speed` | `number` | `1` | How fast the strands move. `0` holds them still. |
+
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
+
+## Behavior
+
+- The first color also tints the whole background a little.
+- Without WebGL, the element gets two soft CSS gradients of the first two colors over `background`.
+- The canvas is hidden from assistive technology. Children stay accessible.

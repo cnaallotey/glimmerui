@@ -29,6 +29,17 @@ Three curtains of light drift across a dark sky, each brightest along its lower 
     </Aurora>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Aurora } from "@glimmerui/svelte";
+    </script>
+
+    <Aurora colors={["#2dd4bf", "#a3e635", "#a855f7"]} background="#0b1026" class="h-96">
+      <h1>Night shift</h1>
+    </Aurora>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ Three curtains of light drift across a dark sky, each brightest along its lower 
 | `speed` | `number` | `1` | How fast the light moves. `0` holds it still. |
 | `intensity` | `number` | `0` | How strongly the pointer pulls the light before the first hover, from 0 to 1. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

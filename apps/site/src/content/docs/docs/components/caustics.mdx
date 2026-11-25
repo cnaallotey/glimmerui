@@ -29,6 +29,17 @@ The web of bright lines that sunlight makes on the bottom of a pool, shifting as
     </Caustics>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Caustics } from "@glimmerui/svelte";
+    </script>
+
+    <Caustics deep="#06283d" shallow="#1b8fa6" class="h-96">
+      <h1>Dive in</h1>
+    </Caustics>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ The web of bright lines that sunlight makes on the bottom of a pool, shifting as
 | `light` | `string` | `"#e6fbff"` | Color of the light lines, as a hex value. |
 | `speed` | `number` | `1` | How fast the water moves. `0` holds it still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

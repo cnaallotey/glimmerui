@@ -1,9 +1,9 @@
 ---
-title: Images and CORS
-description: Where ImageDistortion and TiltCard images can come from, and how they're shown.
+title: Images and video
+description: Where images and videos can come from, how they're shown, and how videos play.
 ---
 
-The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage` and `KaleidoscopeImage`) upload their images to the GPU. Browsers only allow that for images from your own site, or from another site that permits it with CORS headers.
+The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage`, `KaleidoscopeImage`, `ImageTransition`, `ScrollImage`, `RippleImage` and `RainImage`) upload their images and videos to the GPU. Browsers only allow that for files from your own site, or from another site that permits it with CORS headers.
 
 ## Same origin
 
@@ -21,12 +21,28 @@ Access-Control-Allow-Origin: *
 
 If the header is missing, the browser refuses the image and the effect stays on its dark loading color. Check the browser console for a CORS error.
 
+## Video
+
+Every image component also takes a video. Pass its URL as `src`:
+
+```tsx
+<HalftoneImage src="/clip.mp4" alt="Waves breaking on a beach" />
+```
+
+- Videos are recognized by their extension: `.mp4`, `.webm`, `.mov`, `.m4v` or `.ogv`. For any other URL, such as a blob or a CDN path without an extension, add the `video` prop.
+- They play muted and in a loop, without controls.
+- They only play while on screen, and stop on the first frame when the user prefers reduced motion.
+- `paused` holds a video on its current frame. Motion that lasts more than five seconds needs a way to pause it ([WCAG 2.2.2](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide)), so connect `paused` to a button.
+- Some phones don't autoplay video when saving power. The effect then shows the first frame, if the browser has loaded it.
+
+Keep clips short and small, around the size they're displayed at. H.264 in an `.mp4` plays everywhere.
+
 ## How images are shown
 
 - The image is cropped to cover the element (or the card, for `TiltCard`), like `object-fit: cover`.
 - It fades in once it has loaded.
 - Changing `src` keeps the current image until the new one has loaded, so there's no flash.
-- Without WebGL, the image is shown as a CSS `background-image`, which isn't affected by CORS.
+- Without WebGL, an image is shown as a CSS `background-image`, which isn't affected by CORS, and a video as a plain `<video>`.
 
 ## Size
 

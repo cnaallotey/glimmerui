@@ -7,6 +7,10 @@ const props = defineProps<ImageRevealOptions & { alt: string }>();
 const { host, controller } = useController(createImageReveal, () => ({
   src: props.src,
   revealSrc: props.revealSrc,
+  video: props.video,
+  paused: props.paused,
+  scroll: props.scroll,
+  progress: props.progress,
 }));
 
 // Touch has no hover, so a tap toggles the reveal instead.

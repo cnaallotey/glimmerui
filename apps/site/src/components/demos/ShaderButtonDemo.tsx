@@ -1,27 +1,35 @@
-import { useState } from "react";
 import { ShaderButton } from "@glimmerui/react";
-import { ColorInput } from "./ColorInput";
+import { useState } from "react";
+import { colors, range } from "./controls";
+import { Demo } from "./Demo";
 
-type Palette = [string, string, string];
+const controls = [
+  colors("colors", ["#3b1d8f", "#e0457b", "#f9b44c"]),
+  range("speed", 1, 0, 3, 0.1),
+];
+const presets = {
+  Sunset: {},
+  Lagoon: { colors: ["#0f766e", "#0891b2", "#22c55e"] },
+  Ink: { colors: ["#0e0d12", "#3f3d49", "#8b8a94"] },
+};
 
 export function ShaderButtonDemo() {
-  const [colors, setColors] = useState<Palette>(["#3b1d8f", "#e0457b", "#f9b44c"]);
   const [clicks, setClicks] = useState(0);
-  const setColor = (i: number, value: string) =>
-    setColors((c) => c.map((v, j) => (j === i ? value : v)) as Palette);
   return (
-    <div className="demo not-content">
-      <div className="demo-stage demo-stage--card" style={{ background: "#0e0d12", gap: "1rem" }}>
-        <ShaderButton colors={colors} onClick={() => setClicks((n) => n + 1)}>
-          {clicks === 0 ? "Get started" : `Clicked ${clicks} ${clicks === 1 ? "time" : "times"}`}
-        </ShaderButton>
-      </div>
-      <div className="demo-controls">
-        {colors.map((color, i) => (
-          <ColorInput key={i} label={`Color ${i + 1}`} value={color} onChange={(v) => setColor(i, v)} />
-        ))}
-        <span>Try it with the keyboard too: Tab to it, then Enter.</span>
-      </div>
-    </div>
+    <Demo
+      name="ShaderButton"
+      controls={controls}
+      presets={presets}
+      children="Get started"
+      sized={false}
+      hint="Try it with the keyboard too: Tab to it, then Enter."
+      render={(p) => (
+        <div className="demo-stage demo-stage--card" style={{ background: "#0e0d12" }}>
+          <ShaderButton {...p} onClick={() => setClicks((n) => n + 1)}>
+            {clicks === 0 ? "Get started" : `Clicked ${clicks} ${clicks === 1 ? "time" : "times"}`}
+          </ShaderButton>
+        </div>
+      )}
+    />
   );
 }

@@ -418,6 +418,7 @@
 :root[data-stack="next"] [data-for]:not([data-for~="next"]),
 :root[data-stack="vue"] [data-for]:not([data-for~="vue"]),
 :root[data-stack="nuxt"] [data-for]:not([data-for~="nuxt"]),
+:root[data-stack="svelte"] [data-for]:not([data-for~="svelte"]),
 :root[data-stack="astro"] [data-for]:not([data-for~="astro"]),
 :root[data-stack="js"] [data-for]:not([data-for~="js"]) {
   display: none !important;
@@ -444,8 +445,8 @@
 }
 .mk-stack-options {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  max-width: 46rem;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  max-width: 50rem;
   overflow: hidden;
   border: 1px solid var(--gl-line);
   border-radius: 10px;
@@ -938,7 +939,7 @@
   .mk-stack-option:nth-child(3n) {
     border-right: 0;
   }
-  .mk-stack-option:nth-child(-n + 3) {
+  .mk-stack-option:nth-child(-n + 6) {
     border-bottom: 1px solid var(--gl-line);
   }
   .mk-cells--4 {
@@ -947,4 +948,15 @@
   .mk-cells--4 > .mk-cell {
     border-right: 0;
   }
+}
+
+/* A button over a panel's picture. */
+.mk-panel-stage:has(.mk-panel-btn) {
+  position: relative;
+}
+.mk-panel-btn {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 50%;
+  translate: -50% 0;
 }

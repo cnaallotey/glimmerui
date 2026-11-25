@@ -8,16 +8,14 @@ export interface HoloCardProps extends HoloCardOptions, HTMLAttributes<HTMLDivEl
 }
 
 export const HoloCard = forwardRef<HTMLDivElement, HoloCardProps>(function HoloCard(
-  { src, maxTilt, radius, glare, foil, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
+  { src, maxTilt, radius, glare, foil, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createHoloCard, { src, maxTilt, radius, glare, foil }, [
-    src,
-    maxTilt,
-    radius,
-    glare,
-    foil,
-  ]);
+  const { host, ctrl } = useController(
+    createHoloCard,
+    { src, maxTilt, radius, glare, foil, video, paused },
+    [src, maxTilt, radius, glare, foil, video, paused]
+  );
 
   return (
     <div

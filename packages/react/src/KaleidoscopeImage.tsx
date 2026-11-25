@@ -8,10 +8,14 @@ export interface KaleidoscopeImageProps extends KaleidoscopeImageOptions, HTMLAt
 }
 
 export const KaleidoscopeImage = forwardRef<HTMLDivElement, KaleidoscopeImageProps>(function KaleidoscopeImage(
-  { src, segments, speed, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, segments, speed, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createKaleidoscopeImage, { src, segments, speed }, [src, segments, speed]);
+  const { host, ctrl } = useController(
+    createKaleidoscopeImage,
+    { src, segments, speed, video, paused },
+    [src, segments, speed, video, paused]
+  );
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);
 

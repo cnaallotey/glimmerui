@@ -1,22 +1,26 @@
-import { useState } from "react";
 import { Caustics } from "@glimmerui/react";
-import { ColorInput } from "./ColorInput";
-import { Range } from "./Range";
+import { color, range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  color("deep", "#06283d"),
+  color("shallow", "#1b8fa6"),
+  color("light", "#e6fbff"),
+  range("speed", 1, 0, 3, 0.1),
+];
+const presets = {
+  Pool: {},
+  Reef: { deep: "#042f2e", shallow: "#2dd4bf", light: "#f0fdfa" },
+  Sunset: { deep: "#3b0764", shallow: "#fb7185", light: "#fff7ed" },
+};
 
 export function CausticsDemo() {
-  const [deep, setDeep] = useState("#06283d");
-  const [shallow, setShallow] = useState("#1b8fa6");
-  const [light, setLight] = useState("#e6fbff");
-  const [speed, setSpeed] = useState(1);
   return (
-    <div className="demo not-content">
-      <Caustics className="demo-stage" deep={deep} shallow={shallow} light={light} speed={speed} />
-      <div className="demo-controls">
-        <ColorInput label="deep" value={deep} onChange={setDeep} />
-        <ColorInput label="shallow" value={shallow} onChange={setShallow} />
-        <ColorInput label="light" value={light} onChange={setLight} />
-        <Range label="speed" value={speed} min={0} max={3} step={0.1} onChange={setSpeed} />
-      </div>
-    </div>
+    <Demo
+      name="Caustics"
+      controls={controls}
+      presets={presets}
+      render={(p) => <Caustics className="demo-stage" {...p} />}
+    />
   );
 }

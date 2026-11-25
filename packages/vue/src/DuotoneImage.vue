@@ -8,6 +8,8 @@ const { host, controller } = useController(createDuotoneImage, () => ({
   src: props.src,
   dark: props.dark,
   light: props.light,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

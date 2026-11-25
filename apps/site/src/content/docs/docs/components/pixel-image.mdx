@@ -25,18 +25,29 @@ Shows an image as a mosaic of large blocks. Around the pointer the blocks get fi
     <PixelImage src="/level-1.png" alt="Title screen of the game" :block="32" class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { PixelImage } from "@glimmerui/svelte";
+    </script>
+
+    <PixelImage src="/level-1.png" alt="Title screen of the game" block={32} class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `block` | `number` | `32` | Block size away from the pointer, in CSS pixels. Powers of two (8, 16, 32, 64) give the neatest steps. |
 | `radius` | `number` | `180` | Radius of the sharp area around the pointer, in CSS pixels. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

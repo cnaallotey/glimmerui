@@ -1,3 +1,15 @@
+<script setup>
+const slides = [
+  { src: "/demo.png", alt: "Cool test pattern" },
+  { src: "/demo-spheres.png", alt: "Spheres" },
+  { src: "/demo-alt.png", alt: "Warm test pattern" },
+];
+const index = ref(0);
+const story = ref(null);
+// Auto-imported by @glimmerui/nuxt, like the components.
+const progress = useScrollProgress(story, { range: "within" });
+</script>
+
 <template>
   <!-- @glimmerui/nuxt auto-imports these and renders them on the client only. -->
   <ShaderGradient class="card">
@@ -43,4 +55,25 @@
   <div class="card" style="background: #0e0d12"><ShaderButton>ShaderButton</ShaderButton></div>
   <div class="card" style="background: #0e0d12"><h1><ShaderText text="ShaderText" /></h1></div>
   <CursorTrail />
+  <LightRays class="card"><h1>LightRays</h1></LightRays>
+  <Plasma class="card"><h1>Plasma</h1></Plasma>
+  <BorderBeam class="card" :radius="24" style="border-radius: 24px"><h1>BorderBeam</h1></BorderBeam>
+  <RainImage class="card" src="/demo-alt.png" alt="Pattern behind a rainy window" />
+  <RippleImage class="card" src="/demo-spheres.png" alt="Spheres under water" />
+  <ScrollImage class="card" src="/demo.png" alt="Test pattern that bends while scrolling" />
+  <ImageTransition class="card" :images="slides" :index="index" effect="blocks">
+    <button type="button" @click="index = (index + 1) % slides.length">Next</button>
+  </ImageTransition>
+  <ImageTransition class="card" :images="slides" scroll effect="ripple" />
+  <ImageReveal class="card" src="/demo.png" reveal-src="/demo-alt.png" scroll alt="Reveals on scroll" />
+  <HalftoneImage class="card" src="/demo-video.mp4" alt="Halftone video" />
+  <section ref="story" style="height: 300vh">
+    <ImageTransition
+      class="card"
+      style="position: sticky; top: 0"
+      :images="slides"
+      effect="wipe"
+      :progress="progress * (slides.length - 1)"
+    />
+  </section>
 </template>

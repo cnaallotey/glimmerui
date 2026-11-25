@@ -8,10 +8,14 @@ export interface AsciiImageProps extends AsciiImageOptions, HTMLAttributes<HTMLD
 }
 
 export const AsciiImage = forwardRef<HTMLDivElement, AsciiImageProps>(function AsciiImage(
-  { src, cell, color, background, colored, radius, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, cell, color, background, colored, radius, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createAsciiImage, { src, cell, color, background, colored, radius }, [src, cell, color, background, colored, radius]);
+  const { host, ctrl } = useController(
+    createAsciiImage,
+    { src, cell, color, background, colored, radius, video, paused },
+    [src, cell, color, background, colored, radius, video, paused]
+  );
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);
 

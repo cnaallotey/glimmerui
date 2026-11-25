@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Add Glimmer UI to a React, Vue or Nuxt project.
+description: Add Glimmer UI to a React, Vue, Nuxt or Svelte project.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components";
@@ -19,6 +19,12 @@ Install the package for your framework. Each one brings in `@glimmerui/core`, wh
     npm install @glimmerui/vue
     ```
     Needs Vue 3.4 or later.
+  </TabItem>
+  <TabItem label="Svelte">
+    ```bash
+    npm install @glimmerui/svelte
+    ```
+    Needs Svelte 5. Works in SvelteKit.
   </TabItem>
   <TabItem label="Nuxt">
     ```bash
@@ -66,6 +72,17 @@ Give the component a size. Effects fill their element, and an element with no he
     </template>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ShaderGradient } from "@glimmerui/svelte";
+    </script>
+
+    <ShaderGradient style="height: 320px">
+      <h1>Hello</h1>
+    </ShaderGradient>
+    ```
+  </TabItem>
   <TabItem label="Nuxt">
     ```vue
     <template>
@@ -78,6 +95,6 @@ Give the component a size. Effects fill their element, and an element with no he
   </TabItem>
 </Tabs>
 
-## Images
+## Images and video
 
-The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage` and `KaleidoscopeImage`) read image pixels on the GPU, so the image must come from your own site or be served with CORS headers. See [Images and CORS](/docs/guides/images/).
+The image components (`ImageDistortion`, `TiltCard`, `HoloCard`, `ImageReveal`, `LensImage`, `HalftoneImage`, `PixelImage`, `GlitchImage`, `DitherImage`, `AsciiImage`, `DuotoneImage`, `FogImage`, `KaleidoscopeImage`, `ImageTransition`, `ScrollImage`, `RippleImage` and `RainImage`) read pixels on the GPU, so the image or video must come from your own site or be served with CORS headers. See [Images and video](/docs/guides/images/).

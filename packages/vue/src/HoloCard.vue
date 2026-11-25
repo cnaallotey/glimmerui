@@ -10,6 +10,8 @@ const { host, controller } = useController(createHoloCard, () => ({
   radius: props.radius,
   glare: props.glare,
   foil: props.foil,
+  video: props.video,
+  paused: props.paused,
 }));
 
 function onEnter(e: PointerEvent) {

@@ -29,6 +29,17 @@ A sheet of satin ripples in slow, soft folds, lit from the upper left so a sheen
     </Silk>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { Silk } from "@glimmerui/svelte";
+    </script>
+
+    <Silk color="#3b1d8f" sheen="#f4f4f6" class="h-96">
+      <h1>The evening collection</h1>
+    </Silk>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -40,7 +51,7 @@ A sheet of satin ripples in slow, soft folds, lit from the upper left so a sheen
 | `folds` | `number` | `1` | How many folds cross the surface. Lower is broader and calmer. |
 | `speed` | `number` | `1` | How fast the fabric moves. `0` holds it still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

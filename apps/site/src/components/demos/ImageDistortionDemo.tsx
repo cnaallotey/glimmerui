@@ -1,21 +1,24 @@
-import { useState } from "react";
-import { withBase } from "@/lib/url";
 import { ImageDistortion } from "@glimmerui/react";
-import { Range } from "./Range";
+import { range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  range("strength", 1, 0, 2, 0.1),
+];
+const presets = {
+  Standard: {},
+  Subtle: { strength: 0.4 },
+  Strong: { strength: 2 },
+};
 
 export function ImageDistortionDemo() {
-  const [strength, setStrength] = useState(1);
   return (
-    <div className="demo not-content">
-      <ImageDistortion
-        className="demo-stage"
-        src={withBase("/demo.png")}
-        alt="Test pattern of a grid and rings"
-        strength={strength}
-      />
-      <div className="demo-controls">
-        <Range label="strength" value={strength} min={0} max={2} step={0.1} onChange={setStrength} />
-      </div>
-    </div>
+    <Demo
+      name="ImageDistortion"
+      controls={controls}
+      presets={presets}
+      image={{ src: "/demo.png", alt: "Test pattern of a grid and rings" }}
+      render={(p) => <ImageDistortion className="demo-stage" {...p} />}
+    />
   );
 }

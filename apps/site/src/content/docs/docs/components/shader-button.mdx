@@ -25,6 +25,15 @@ A real `<button>` filled with three colors flowing through each other. Hovering,
     <ShaderButton @click="startTrial">Start free trial</ShaderButton>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { ShaderButton } from "@glimmerui/svelte";
+    </script>
+
+    <ShaderButton onclick={() => startTrial()}>Start free trial</ShaderButton>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props

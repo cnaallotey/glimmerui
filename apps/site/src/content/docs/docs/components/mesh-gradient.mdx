@@ -29,6 +29,17 @@ Four colors, each anchored to a point that wanders slowly around its corner, ble
     </MeshGradient>
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { MeshGradient } from "@glimmerui/svelte";
+    </script>
+
+    <MeshGradient colors={["#3b1d8f", "#e0457b", "#f9b44c", "#22d3ee"]} class="h-96">
+      <h1>Summer sale</h1>
+    </MeshGradient>
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
@@ -39,7 +50,7 @@ Four colors, each anchored to a point that wanders slowly around its corner, ble
 | `grain` | `number` | `0.5` | Film grain strength, from 0 to 1. Grain hides banding in large, smooth areas. |
 | `speed` | `number` | `1` | How fast the colors wander. `0` holds them still. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

@@ -1,36 +1,27 @@
-import { useState } from "react";
-import { withBase } from "@/lib/url";
 import { HalftoneImage } from "@glimmerui/react";
-import { Range } from "./Range";
+import { color, range } from "./controls";
+import { Demo } from "./Demo";
+
+const controls = [
+  range("cell", 8, 4, 24, 1),
+  color("ink", "#0e0d12"),
+  color("paper", "#fafafa"),
+  range("radius", 140, 40, 320, 10),
+];
+const presets = {
+  Newsprint: {},
+  Riso: { cell: 10, ink: "#e0457b", paper: "#fff7ed" },
+  Poster: { cell: 20, ink: "#3b1d8f", paper: "#f9b44c" },
+};
 
 export function HalftoneImageDemo() {
-  const [cell, setCell] = useState(8);
-  const [ink, setInk] = useState("#0e0d12");
-  const [paper, setPaper] = useState("#fafafa");
-  const [radius, setRadius] = useState(140);
   return (
-    <div className="demo not-content">
-      <HalftoneImage
-        className="demo-stage"
-        src={withBase("/demo-spheres.png")}
-        alt="Four glossy colored spheres on a studio floor"
-        cell={cell}
-        ink={ink}
-        paper={paper}
-        radius={radius}
-      />
-      <div className="demo-controls">
-        <Range label="cell" value={cell} min={4} max={24} step={1} onChange={setCell} />
-        <label>
-          ink
-          <input type="color" value={ink} onChange={(e) => setInk(e.target.value)} />
-        </label>
-        <label>
-          paper
-          <input type="color" value={paper} onChange={(e) => setPaper(e.target.value)} />
-        </label>
-        <Range label="radius" value={radius} min={40} max={320} step={10} onChange={setRadius} />
-      </div>
-    </div>
+    <Demo
+      name="HalftoneImage"
+      controls={controls}
+      presets={presets}
+      image={{ src: "/demo-spheres.png", alt: "Four glossy colored spheres on a studio floor" }}
+      render={(p) => <HalftoneImage className="demo-stage" {...p} />}
+    />
   );
 }

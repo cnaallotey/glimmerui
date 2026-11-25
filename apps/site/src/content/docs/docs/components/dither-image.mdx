@@ -25,20 +25,31 @@ Draws an image in just two colors, like an early computer screen: every dot is i
     <DitherImage src="/office.jpg" alt="Our first office, 1987" :pixel="2" class="h-96" />
     ```
   </TabItem>
+  <TabItem label="Svelte">
+    ```svelte
+    <script>
+      import { DitherImage } from "@glimmerui/svelte";
+    </script>
+
+    <DitherImage src="/office.jpg" alt="Our first office, 1987" pixel={2} class="h-96" />
+    ```
+  </TabItem>
 </Tabs>
 
 ## Props
 
 | Prop | Type | Default | What it does |
 | --- | --- | --- | --- |
-| `src` | `string` | required | Image URL. Must be same origin or served with CORS headers. See [Images and CORS](/docs/guides/images/). |
+| `src` | `string` | required | Image or video URL. Must be same origin or served with CORS headers. See [Images and video](/docs/guides/images/). |
 | `alt` | `string` | required | Describes the image for screen readers. |
 | `pixel` | `number` | `2` | Size of each dither dot, in CSS pixels. |
 | `ink` | `string` | `"#0e0d12"` | Dark color, as a hex value. |
 | `paper` | `string` | `"#fafafa"` | Light color, as a hex value. |
 | `radius` | `number` | `140` | Radius of the full-color area around the pointer, in CSS pixels. |
+| `video` | `boolean` | `false` | Set it when `src` is a video whose URL doesn't end in a video extension. See [Images and video](/docs/guides/images/#video). |
+| `paused` | `boolean` | `false` | Holds a video on its current frame. |
 
-The component also takes any `div` attribute. See [React](/docs/react/) and [Vue](/docs/vue/).
+The component also takes any `div` attribute. See [React](/docs/react/), [Vue](/docs/vue/) and [Svelte](/docs/svelte/).
 
 ## Behavior
 

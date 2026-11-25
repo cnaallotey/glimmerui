@@ -13,6 +13,7 @@ The shared context is released one second after the last effect on the page unmo
 
 - **Offscreen:** an effect that has scrolled out of view stops drawing. When nothing is visible, nothing runs.
 - **Reduced motion:** effects draw only when something changes, such as the pointer moving or an image loading, and at most once per frame.
+- **Video:** a video plays only while its effect is on screen. Each new frame is uploaded to the GPU once.
 - **Prop changes:** update the running effect. Nothing is recompiled, and images aren't reloaded unless `src` changed.
 
 ## Resolution
@@ -22,6 +23,8 @@ Effects render at the screen's pixel density, capped at 2x, and no side renders 
 ## Cost per effect
 
 Each visible effect costs one full-screen shader pass and one canvas copy per frame. Dozens of small effects run comfortably on a laptop. On low-end phones, prefer fewer, smaller effects, and lower `speed` or hold `ShaderGradient` still with `speed={0}` where motion isn't needed.
+
+`RainImage`, `FogImage` and the `"zoom"` transition sample the image many times per pixel, so they cost several times as much as the others. Use them once or twice per screen. `ScrollImage` measures its position every frame, which is cheap unless the page changes layout constantly.
 
 ## Known limit
 

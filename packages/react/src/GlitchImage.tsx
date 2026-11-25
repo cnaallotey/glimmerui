@@ -8,10 +8,14 @@ export interface GlitchImageProps extends GlitchImageOptions, HTMLAttributes<HTM
 }
 
 export const GlitchImage = forwardRef<HTMLDivElement, GlitchImageProps>(function GlitchImage(
-  { src, strength, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
+  { src, strength, video, paused, alt, style, children, onPointerEnter, onPointerLeave, onPointerMove, onPointerDown, ...rest },
   ref
 ) {
-  const { host, ctrl } = useController(createGlitchImage, { src, strength }, [src, strength]);
+  const { host, ctrl } = useController(
+    createGlitchImage,
+    { src, strength, video, paused },
+    [src, strength, video, paused]
+  );
   // Touch has no hover, so a tap toggles the effect around the tapped point.
   const tapped = useRef(false);
 

@@ -1,10 +1,8 @@
 import { Color, Texture } from "ogl";
-import { createImageEffect, type ImageEffectController } from "./imageEffect";
+import { createImageEffect, type ImageEffectBaseOptions, type ImageEffectController } from "./imageEffect";
 import { coverChunk } from "./shaders";
 
-export interface AsciiImageOptions {
-  /** Image URL. Must be same origin or served with CORS headers. */
-  src: string;
+export interface AsciiImageOptions extends ImageEffectBaseOptions {
   /** Size of each character cell, in CSS pixels. Defaults to 10. */
   cell?: number;
   /** Character color, as a hex value. */
